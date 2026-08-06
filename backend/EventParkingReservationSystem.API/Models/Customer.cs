@@ -22,9 +22,11 @@ public class Customer
     [Required]
     public string PasswordHash { get; set; } = string.Empty;
 
+    public UserRole Role { get; set; } = UserRole.Customer;
+
     public CustomerStatus Status { get; set; } = CustomerStatus.Active;
 
-    public bool EmailVerified { get; set; }
+    public bool EmailVerified { get; set; } = false;
 
     public string? EmailVerificationTokenHash { get; set; }
 

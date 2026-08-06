@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DTOs\Customers\CustomerResponseDto.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="DTOs\Customers\CustomerResponseDto.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 

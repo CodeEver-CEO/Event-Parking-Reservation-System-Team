@@ -1,0 +1,22 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# .NET build files
+**/bin/
+**/obj/
+
+# Logs
+*.log
+
+# Environment and secrets
+.env
+appsettings.Local.json
+appsettings.Production.json
+
+# Operating system
+Thumbs.db
+.DS_Store

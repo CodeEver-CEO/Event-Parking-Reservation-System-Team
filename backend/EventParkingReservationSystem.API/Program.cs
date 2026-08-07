@@ -50,7 +50,7 @@ var jwtOptions =
     ?? throw new InvalidOperationException(
         "JWT configuration was not found.");
 
-// Converts the Base64 JWT secret into the original secure key bytes.
+// Converts the Base64 JWT secret into secure key bytes.
 byte[] jwtKeyBytes;
 
 try
@@ -90,7 +90,7 @@ builder.Services
                 ValidateAudience = true,
                 ValidAudience = jwtOptions.Audience,
 
-                // Confirms that the token has a valid signature.
+                // Confirms that the token signature is valid.
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey =
                     new SymmetricSecurityKey(jwtKeyBytes),
@@ -98,12 +98,12 @@ builder.Services
                 // Rejects expired access tokens.
                 ValidateLifetime = true,
 
-                // Removes the default additional token validity time.
+                // Removes the default additional token-validity period.
                 ClockSkew = TimeSpan.Zero
             };
     });
 
-// Registers authorization services for protected endpoints.
+// Registers authorization for protected API endpoints.
 builder.Services.AddAuthorization();
 
 // Registers repositories responsible for database operations.
@@ -113,8 +113,14 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 
-// Registers password hashing and JWT token generation services.
+// Registers the development email-verification service.
+builder.Services.AddScoped<IEmailService, EmailService>();
+
+// Registers password hashing and secure-token generation.
 builder.Services.AddScoped<PasswordHasher>();
+builder.Services.AddScoped<SecureTokenGenerator>();
+
+// Registers JWT access-token generation.
 builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
 // Registers API controllers and endpoint discovery.
@@ -145,7 +151,7 @@ builder.Services.AddSwaggerGen(options =>
             Description = "Enter the JWT access token only."
         });
 
-    // Sends the JWT token with protected Swagger requests.
+    // Sends the entered JWT token with protected API requests.
     options.AddSecurityRequirement(
         new OpenApiSecurityRequirement
         {

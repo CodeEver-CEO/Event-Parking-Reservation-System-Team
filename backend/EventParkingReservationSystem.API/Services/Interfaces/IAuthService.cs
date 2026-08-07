@@ -10,7 +10,15 @@ public interface IAuthService
     Task<ServiceResult<CustomerResponseDto>> RegisterAsync(
         RegisterRequestDto request);
 
-    // Authenticates a customer and creates a JWT response.
+    // Authenticates a customer and returns JWT login details.
     Task<ServiceResult<AuthResponseDto>> LoginAsync(
         LoginRequestDto request);
+
+    // Verifies a customer email using a secure token.
+    Task<ServiceResult<string>> VerifyEmailAsync(
+        VerifyEmailRequestDto request);
+
+    // Generates and sends a replacement verification token.
+    Task<ServiceResult<string>> ResendVerificationAsync(
+        ResendVerificationRequestDto request);
 }

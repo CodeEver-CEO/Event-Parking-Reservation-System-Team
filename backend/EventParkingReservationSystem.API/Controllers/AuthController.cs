@@ -66,4 +66,44 @@ public class AuthController : ControllerBase
 
         return Ok(result.Data);
     }
+    // Verifies the customer's email using the verification token.
+    [AllowAnonymous]
+    [HttpPost("verify-email")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> VerifyEmail(
+        [FromBody] VerifyEmailRequestDto request)
+    {
+        var result = await _authService.VerifyEmailAsync(request);
+
+        if (!result.Succeeded)
+        {
+            return BadRequest(new
+            {
+                message = result.Error
+            });
+        }
+
+        return Ok(new
+        {
+            message = result.Data
+        });
+    }
+
+    // Sends a new verification token to an unverified customer.
+    [AllowAnonymous]
+    [HttpPost("resend-verification")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> ResendVerification(
+        [FromBody] ResendVerificationRequestDto request)
+    {
+        var result =
+            await _authService.ResendVerificationAsync(request);
+
+        return Ok(new
+        {
+            message = result.Data
+        });
+    }
+
 }

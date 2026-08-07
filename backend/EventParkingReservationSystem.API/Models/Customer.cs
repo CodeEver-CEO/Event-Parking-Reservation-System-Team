@@ -26,7 +26,7 @@ public class Customer
 
     public CustomerStatus Status { get; set; } = CustomerStatus.Active;
 
-    public bool EmailVerified { get; set; } = false;
+    public bool EmailVerified { get; set; }
 
     public string? EmailVerificationTokenHash { get; set; }
 
@@ -39,4 +39,16 @@ public class Customer
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public DateTime? UpdatedAt { get; set; }
+
+    // Connects the customer to their booking history.
+    public ICollection<Booking> Bookings { get; set; } =
+        new List<Booking>();
+
+    // Connects the customer to their payment history.
+    public ICollection<Payment> Payments { get; set; } =
+        new List<Payment>();
+
+    // Connects the customer to their notifications.
+    public ICollection<Notification> Notifications { get; set; } =
+        new List<Notification>();
 }

@@ -1,6 +1,6 @@
-namespace EventParkingReservationSystem.API.DTOs.Customers;
+﻿namespace EventParkingReservationSystem.API.DTOs.Customers;
 
-public class CustomerResponseDto
+public sealed class CustomerResponseDto
 {
     public int Id { get; set; }
 

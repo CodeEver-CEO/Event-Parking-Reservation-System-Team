@@ -17,7 +17,7 @@ public class AuthController : ControllerBase
         _authService = authService;
     }
 
-    // Creates a new customer account.
+    // Creates a new customer account with a securely hashed password.
     [AllowAnonymous]
     [HttpPost("register")]
     [ProducesResponseType(
@@ -43,7 +43,7 @@ public class AuthController : ControllerBase
             result.Data);
     }
 
-    // Validates credentials and returns a JWT access token.
+    // Validates customer credentials and returns a signed JWT access token.
     [AllowAnonymous]
     [HttpPost("login")]
     [ProducesResponseType(
@@ -66,109 +66,4 @@ public class AuthController : ControllerBase
 
         return Ok(result.Data);
     }
-<<<<<<< Updated upstream
-    // Verifies the customer's email using the verification token.
-    [AllowAnonymous]
-    [HttpPost("verify-email")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-=======
-
-    // Verifies the customer's email using a secure token.
-    [AllowAnonymous]
-    [HttpPost("verify-email")]
-    [ProducesResponseType(
-        StatusCodes.Status200OK)]
-    [ProducesResponseType(
-        StatusCodes.Status400BadRequest)]
->>>>>>> Stashed changes
-    public async Task<IActionResult> VerifyEmail(
-        [FromBody] VerifyEmailRequestDto request)
-    {
-        var result = await _authService.VerifyEmailAsync(request);
-
-        if (!result.Succeeded)
-        {
-            return BadRequest(new
-            {
-                message = result.Error
-            });
-        }
-
-        return Ok(new
-        {
-            message = result.Data
-        });
-    }
-
-<<<<<<< Updated upstream
-    // Sends a new verification token to an unverified customer.
-    [AllowAnonymous]
-    [HttpPost("resend-verification")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-=======
-    // Sends a new email-verification token.
-    [AllowAnonymous]
-    [HttpPost("resend-verification")]
-    [ProducesResponseType(
-        StatusCodes.Status200OK)]
->>>>>>> Stashed changes
-    public async Task<IActionResult> ResendVerification(
-        [FromBody] ResendVerificationRequestDto request)
-    {
-        var result =
-            await _authService.ResendVerificationAsync(request);
-
-        return Ok(new
-        {
-            message = result.Data
-        });
-    }
-
-<<<<<<< Updated upstream
-=======
-    // Sends password-reset instructions without revealing account existence.
-    [AllowAnonymous]
-    [HttpPost("forgot-password")]
-    [ProducesResponseType(
-        StatusCodes.Status200OK)]
-    public async Task<IActionResult> ForgotPassword(
-        [FromBody] ForgotPasswordRequestDto request)
-    {
-        var result =
-            await _authService.ForgotPasswordAsync(request);
-
-        return Ok(new
-        {
-            message = result.Data
-        });
-    }
-
-    // Changes the password using a valid reset token.
-    [AllowAnonymous]
-    [HttpPost("reset-password")]
-    [ProducesResponseType(
-        StatusCodes.Status200OK)]
-    [ProducesResponseType(
-        StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> ResetPassword(
-        [FromBody] ResetPasswordRequestDto request)
-    {
-        var result =
-            await _authService.ResetPasswordAsync(request);
-
-        if (!result.Succeeded)
-        {
-            return BadRequest(new
-            {
-                message = result.Error
-            });
-        }
-
-        return Ok(new
-        {
-            message = result.Data
-        });
-    }
->>>>>>> Stashed changes
 }

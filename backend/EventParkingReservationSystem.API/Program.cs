@@ -12,7 +12,7 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Reads the SQL Server connection string.
+// Reads the SQL Server connection string from appsettings.json.
 var connectionString =
     builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException(
@@ -27,8 +27,10 @@ builder.Services
     .AddOptions<JwtOptions>()
     .Bind(builder.Configuration.GetSection(JwtOptions.SectionName))
     .Validate(
-        options => !string.IsNullOrWhiteSpace(options.Key),
-        "JWT key is required.")
+        options =>
+            !string.IsNullOrWhiteSpace(options.Key) &&
+            options.Key.Length >= 32,
+        "JWT key must contain at least 32 characters.")
     .Validate(
         options => !string.IsNullOrWhiteSpace(options.Issuer),
         "JWT issuer is required.")
@@ -40,7 +42,7 @@ builder.Services
         "JWT access token duration must be greater than zero.")
     .ValidateOnStart();
 
-// Loads the configured JWT settings.
+// Loads the configured JWT settings for token validation.
 var jwtOptions =
     builder.Configuration
         .GetSection(JwtOptions.SectionName)
@@ -48,17 +50,12 @@ var jwtOptions =
     ?? throw new InvalidOperationException(
         "JWT configuration was not found.");
 
-<<<<<<< Updated upstream
-// Converts the Base64 JWT secret into secure key bytes.
-=======
-// Converts the Base64 JWT key into secure key bytes.
->>>>>>> Stashed changes
+// Converts the Base64 JWT secret into the original secure key bytes.
 byte[] jwtKeyBytes;
 
 try
 {
-    jwtKeyBytes =
-        Convert.FromBase64String(jwtOptions.Key);
+    jwtKeyBytes = Convert.FromBase64String(jwtOptions.Key);
 }
 catch (FormatException exception)
 {
@@ -67,14 +64,7 @@ catch (FormatException exception)
         exception);
 }
 
-// Requires a minimum 256-bit JWT signing key.
-if (jwtKeyBytes.Length < 32)
-{
-    throw new InvalidOperationException(
-        "Jwt:Key must contain at least 32 bytes.");
-}
-
-// Configures JWT authentication.
+// Configures JWT authentication for incoming API requests.
 builder.Services
     .AddAuthentication(options =>
     {
@@ -92,95 +82,57 @@ builder.Services
         options.TokenValidationParameters =
             new TokenValidationParameters
             {
-                // Confirms that this API issued the token.
+                // Confirms that the token was issued by this API.
                 ValidateIssuer = true,
                 ValidIssuer = jwtOptions.Issuer,
 
-                // Confirms that the token is for the expected client.
+                // Confirms that the token belongs to the intended client.
                 ValidateAudience = true,
                 ValidAudience = jwtOptions.Audience,
 
-                // Confirms that the token signature is valid.
+                // Confirms that the token has a valid signature.
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey =
                     new SymmetricSecurityKey(jwtKeyBytes),
 
-                // Rejects expired tokens.
+                // Rejects expired access tokens.
                 ValidateLifetime = true,
 
-<<<<<<< Updated upstream
-                // Removes the default additional token-validity period.
-=======
-                // Removes the default token grace period.
->>>>>>> Stashed changes
+                // Removes the default additional token validity time.
                 ClockSkew = TimeSpan.Zero
             };
     });
 
-<<<<<<< Updated upstream
-// Registers authorization for protected API endpoints.
-=======
-// Registers authorization services.
->>>>>>> Stashed changes
+// Registers authorization services for protected endpoints.
 builder.Services.AddAuthorization();
 
-// Registers repositories.
-builder.Services.AddScoped<
-    ICustomerRepository,
-    CustomerRepository>();
+// Registers repositories responsible for database operations.
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
-// Registers business services.
-builder.Services.AddScoped<
-    IAuthService,
-    AuthService>();
+// Registers services containing application business rules.
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 
-<<<<<<< Updated upstream
-// Registers the development email-verification service.
-builder.Services.AddScoped<IEmailService, EmailService>();
-
-// Registers password hashing and secure-token generation.
+// Registers password hashing and JWT token generation services.
 builder.Services.AddScoped<PasswordHasher>();
-builder.Services.AddScoped<SecureTokenGenerator>();
-
-// Registers JWT access-token generation.
 builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
-=======
-builder.Services.AddScoped<
-    ICustomerService,
-    CustomerService>();
 
-builder.Services.AddScoped<
-    IEmailService,
-    EmailService>();
-
-// Registers security helper services.
-builder.Services.AddScoped<PasswordHasher>();
->>>>>>> Stashed changes
-
-builder.Services.AddSingleton<SecureTokenGenerator>();
-
-builder.Services.AddSingleton<
-    IJwtTokenGenerator,
-    JwtTokenGenerator>();
-
-// Registers controllers and API endpoint discovery.
+// Registers API controllers and endpoint discovery.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-// Configures Swagger and JWT authorization.
+// Configures Swagger documentation and JWT authentication.
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc(
-        "v1",
-        new OpenApiInfo
-        {
-            Title = "Event Parking Reservation System API",
-            Version = "v1",
-            Description =
-                "API for event booking and parking reservation management."
-        });
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Event Parking Reservation System API",
+        Version = "v1",
+        Description =
+            "API for event booking and parking reservation management."
+    });
 
-    // Adds the JWT Authorize button.
+    // Adds the JWT Authorize button to Swagger UI.
     options.AddSecurityDefinition(
         "Bearer",
         new OpenApiSecurityScheme
@@ -190,15 +142,10 @@ builder.Services.AddSwaggerGen(options =>
             Scheme = "bearer",
             BearerFormat = "JWT",
             In = ParameterLocation.Header,
-            Description =
-                "Enter the JWT access token only."
+            Description = "Enter the JWT access token only."
         });
 
-<<<<<<< Updated upstream
-    // Sends the entered JWT token with protected API requests.
-=======
-    // Sends the JWT with protected Swagger requests.
->>>>>>> Stashed changes
+    // Sends the JWT token with protected Swagger requests.
     options.AddSecurityRequirement(
         new OpenApiSecurityRequirement
         {
@@ -207,8 +154,7 @@ builder.Services.AddSwaggerGen(options =>
                 {
                     Reference = new OpenApiReference
                     {
-                        Type =
-                            ReferenceType.SecurityScheme,
+                        Type = ReferenceType.SecurityScheme,
                         Id = "Bearer"
                     }
                 },
@@ -219,7 +165,7 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// Enables Swagger in development.
+// Enables Swagger only in the development environment.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -228,8 +174,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Authentication must execute before authorization.
+// Authentication must run before authorization.
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();

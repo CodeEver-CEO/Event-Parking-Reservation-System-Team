@@ -15,6 +15,14 @@ public interface ICustomerRepository
 
     Task<bool> EmailExistsAsync(string email);
 
+    // Finds a customer using the email-verification token hash.
+    Task<Customer?> GetByEmailVerificationTokenHashAsync(
+        string tokenHash);
+
+    // Finds a customer using the password-reset token hash.
+    Task<Customer?> GetByPasswordResetTokenHashAsync(
+        string tokenHash);
+
     Task AddAsync(Customer customer);
 
     Task SaveChangesAsync();

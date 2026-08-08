@@ -1,3 +1,6 @@
+using System.Text.Json.Serialization;
+
+using EventParkingReservationSystem.API.BackgroundServices;
 using EventParkingReservationSystem.API.Configuration;
 using EventParkingReservationSystem.API.Data;
 using EventParkingReservationSystem.API.Helpers;
@@ -5,6 +8,7 @@ using EventParkingReservationSystem.API.Repositories.Implementations;
 using EventParkingReservationSystem.API.Repositories.Interfaces;
 using EventParkingReservationSystem.API.Services.Implementations;
 using EventParkingReservationSystem.API.Services.Interfaces;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -12,37 +16,40 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Reads the SQL Server connection string from appsettings.json.
+// Database
 var connectionString =
     builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException(
         "DefaultConnection was not found in appsettings.json.");
 
-// Registers Entity Framework Core with SQL Server.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// Reads and validates JWT settings during application startup.
+// JWT Configuration
 builder.Services
     .AddOptions<JwtOptions>()
-    .Bind(builder.Configuration.GetSection(JwtOptions.SectionName))
+    .Bind(
+        builder.Configuration.GetSection(
+            JwtOptions.SectionName))
     .Validate(
         options =>
             !string.IsNullOrWhiteSpace(options.Key) &&
             options.Key.Length >= 32,
         "JWT key must contain at least 32 characters.")
     .Validate(
-        options => !string.IsNullOrWhiteSpace(options.Issuer),
+        options =>
+            !string.IsNullOrWhiteSpace(options.Issuer),
         "JWT issuer is required.")
     .Validate(
-        options => !string.IsNullOrWhiteSpace(options.Audience),
+        options =>
+            !string.IsNullOrWhiteSpace(options.Audience),
         "JWT audience is required.")
     .Validate(
-        options => options.AccessTokenMinutes > 0,
+        options =>
+            options.AccessTokenMinutes > 0,
         "JWT access token duration must be greater than zero.")
     .ValidateOnStart();
 
-// Loads the configured JWT settings for token validation.
 var jwtOptions =
     builder.Configuration
         .GetSection(JwtOptions.SectionName)
@@ -50,12 +57,12 @@ var jwtOptions =
     ?? throw new InvalidOperationException(
         "JWT configuration was not found.");
 
-// Converts the Base64 JWT secret into the original secure key bytes.
 byte[] jwtKeyBytes;
 
 try
 {
-    jwtKeyBytes = Convert.FromBase64String(jwtOptions.Key);
+    jwtKeyBytes =
+        Convert.FromBase64String(jwtOptions.Key);
 }
 catch (FormatException exception)
 {
@@ -64,7 +71,7 @@ catch (FormatException exception)
         exception);
 }
 
-// Configures JWT authentication for incoming API requests.
+// Authentication
 builder.Services
     .AddAuthentication(options =>
     {
@@ -82,57 +89,106 @@ builder.Services
         options.TokenValidationParameters =
             new TokenValidationParameters
             {
-                // Confirms that the token was issued by this API.
                 ValidateIssuer = true,
                 ValidIssuer = jwtOptions.Issuer,
 
-                // Confirms that the token belongs to the intended client.
                 ValidateAudience = true,
                 ValidAudience = jwtOptions.Audience,
 
-                // Confirms that the token has a valid signature.
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey =
                     new SymmetricSecurityKey(jwtKeyBytes),
 
-                // Rejects expired access tokens.
                 ValidateLifetime = true,
 
-                // Removes the default additional token validity time.
                 ClockSkew = TimeSpan.Zero
             };
     });
 
-// Registers authorization services for protected endpoints.
 builder.Services.AddAuthorization();
 
-// Registers repositories responsible for database operations.
-builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+// Customer Repository
+builder.Services.AddScoped<
+    ICustomerRepository,
+    CustomerRepository>();
 
-// Registers services containing application business rules.
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<ICustomerService, CustomerService>();
+// Module 4 - Seat Reservation Repository
+builder.Services.AddScoped<
+    ISeatRepository,
+    SeatRepository>();
 
-// Registers password hashing and JWT token generation services.
-builder.Services.AddScoped<PasswordHasher>();
-builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+// Authentication Service
+builder.Services.AddScoped<
+    IAuthService,
+    AuthService>();
 
-// Registers API controllers and endpoint discovery.
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
+// Customer Service
+builder.Services.AddScoped<
+    ICustomerService,
+    CustomerService>();
 
-// Configures Swagger documentation and JWT authentication.
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new OpenApiInfo
+// Module 4 - Seat Reservation Service
+builder.Services.AddScoped<
+    ISeatService,
+    SeatService>();
+
+// Module 4 - Booking Expiry Service
+builder.Services.AddHostedService<
+    BookingExpiryService>();
+
+// Helpers
+builder.Services.AddScoped<
+    PasswordHasher>();
+
+builder.Services.AddSingleton<
+    IJwtTokenGenerator,
+    JwtTokenGenerator>();
+
+// Controllers
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(options =>
     {
-        Title = "Event Parking Reservation System API",
-        Version = "v1",
-        Description =
-            "API for event booking and parking reservation management."
+        options
+            .JsonSerializerOptions
+            .Converters
+            .Add(
+                new JsonStringEnumConverter());
     });
 
-    // Adds the JWT Authorize button to Swagger UI.
+builder.Services.AddEndpointsApiExplorer();
+
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        "FrontendPolicy",
+        policy =>
+        {
+            policy
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
+// Swagger
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc(
+        "v1",
+        new OpenApiInfo
+        {
+            Title =
+                "Event Parking Reservation System API",
+
+            Version =
+                "v1",
+
+            Description =
+                "API for event booking and parking reservation management."
+        });
+
     options.AddSecurityDefinition(
         "Bearer",
         new OpenApiSecurityScheme
@@ -145,18 +201,18 @@ builder.Services.AddSwaggerGen(options =>
             Description = "Enter the JWT access token only."
         });
 
-    // Sends the JWT token with protected Swagger requests.
     options.AddSecurityRequirement(
         new OpenApiSecurityRequirement
         {
             {
                 new OpenApiSecurityScheme
                 {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                    }
+                    Reference =
+                        new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
                 },
                 Array.Empty<string>()
             }
@@ -165,7 +221,7 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// Enables Swagger only in the development environment.
+// Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -174,7 +230,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Authentication must run before authorization.
+app.UseCors("FrontendPolicy");
+
 app.UseAuthentication();
 
 app.UseAuthorization();

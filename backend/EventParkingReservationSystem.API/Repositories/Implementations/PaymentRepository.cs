@@ -8,10 +8,10 @@ namespace EventParkingReservationSystem.API.Repositories.Implementations
 {
     public class PaymentRepository : IPaymentRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public PaymentRepository(
-            AppDbContext context)
+            ApplicationDbContext context)
         {
             _context = context;
         }

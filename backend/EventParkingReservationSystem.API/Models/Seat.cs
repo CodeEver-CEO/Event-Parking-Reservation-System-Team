@@ -5,6 +5,9 @@ namespace EventParkingReservationSystem.API.Models;
 
 public class Seat
 {
+    internal readonly decimal TicketPrice;
+    internal bool Available;
+
     public int Id { get; set; }
 
     public int EventId { get; set; }
@@ -36,4 +39,5 @@ public class Seat
     // Preserves the seat's booking allocation history.
     public ICollection<BookingSeat> BookingSeats { get; set; } =
         new List<BookingSeat>();
+    public bool IsAvailable { get; internal set; }
 }

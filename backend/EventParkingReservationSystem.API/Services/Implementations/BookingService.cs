@@ -13,7 +13,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
         private readonly IBookingRepository
             _bookingRepository;
 
-        private readonly AppDbContext
+        private readonly ApplicationDbContext
             _context;
 
         private readonly IConfiguration
@@ -21,7 +21,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
 
         public BookingService(
             IBookingRepository bookingRepository,
-            AppDbContext context,
+            ApplicationDbContext context,
             IConfiguration configuration)
         {
             _bookingRepository =
@@ -71,7 +71,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                 await _context.Seats
                     .Where(s =>
                         seatIds.Contains(
-                            s.SeatId) &&
+                            s.Id) &&
                         s.EventId ==
                             dto.EventId)
                     .ToListAsync();
@@ -83,7 +83,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
             }
 
             if (seats.Any(s =>
-                !s.IsAvailable))
+                !s.Available))
             {
                 throw new Exception(
                     "One or more selected seats are unavailable.");
@@ -96,7 +96,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                 parkingSlot =
                     await _context.ParkingSlots
                         .FirstOrDefaultAsync(p =>
-                            p.ParkingSlotId ==
+                            p.Id ==
                                 dto.ParkingSlotId.Value &&
                             p.EventId ==
                                 dto.EventId);
@@ -107,7 +107,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                         "Parking slot not found.");
                 }
 
-                if (parkingSlot.IsAvailable)
+                if (parkingSlot.Available)
                 {
                 }
                 else
@@ -139,7 +139,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                     Status =
                         BookingStatus.Pending,
 
-                    HoldExpiresAt =
+                    HoldExpiresAtUtc =
                         DateTime.UtcNow.AddMinutes(
                             holdMinutes),
 
@@ -163,7 +163,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
 
             foreach (var seat in seats)
             {
-                seat.IsAvailable = false;
+                seat.Available = false;
 
                 var bookingSeat =
                     new BookingSeat
@@ -172,9 +172,9 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                             booking.BookingId,
 
                         SeatId =
-                            seat.SeatId,
+                            seat.Id,
 
-                        TicketPrice =
+                        TicketPriceSnapshot =
                             seat.TicketPrice
                     };
 
@@ -184,7 +184,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
 
             if (parkingSlot != null)
             {
-                parkingSlot.IsAvailable =
+                parkingSlot.Available =
                     false;
             }
 
@@ -249,14 +249,10 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                 return null;
 
             var remaining =
-                booking.HoldExpiresAt -
+                booking.HoldExpiresAtUtc -
                 DateTime.UtcNow;
 
-            var seconds =
-                Math.Max(
-                    0,
-                    (int)remaining.TotalSeconds);
-
+          
             return new HoldStatusDto
             {
                 BookingId =
@@ -266,13 +262,9 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                     booking.Status.ToString(),
 
                 HoldExpiresAt =
-                    booking.HoldExpiresAt,
+                    (DateTime)booking.HoldExpiresAtUtc,
 
-                RemainingSeconds =
-                    seconds,
-
-                IsExpired =
-                    seconds <= 0
+               
             };
         }
 
@@ -309,7 +301,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
 
             if (booking.ParkingSlot != null)
             {
-                booking.ParkingSlot.IsAvailable =
+                booking.ParkingSlot.Available =
                     true;
             }
 
@@ -349,7 +341,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
 
                 if (booking.ParkingSlot != null)
                 {
-                    booking.ParkingSlot.IsAvailable =
+                    booking.ParkingSlot.Available =
                         true;
                 }
 
@@ -383,7 +375,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
         {
             var seatTotal =
                 booking.BookingSeats
-                    .Sum(x => x.TicketPrice);
+                    .Sum(x => x.TicketPriceSnapshot);
 
             return new BookingResponseDto
             {
@@ -406,7 +398,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                     booking.Status.ToString(),
 
                 HoldExpiresAt =
-                    booking.HoldExpiresAt,
+                    (DateTime)booking.HoldExpiresAtUtc,
 
                 Seats =
                     booking.BookingSeats

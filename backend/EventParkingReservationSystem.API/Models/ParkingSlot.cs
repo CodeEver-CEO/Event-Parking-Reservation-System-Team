@@ -5,6 +5,8 @@ namespace EventParkingReservationSystem.API.Models;
 
 public class ParkingSlot
 {
+ 
+
     public int Id { get; set; }
 
     public int EventId { get; set; }
@@ -30,4 +32,5 @@ public class ParkingSlot
     // Preserves the parking slot's reservation history.
     public ICollection<ParkingReservation> ParkingReservations
     { get; set; } = new List<ParkingReservation>();
+    public bool Available { get; internal set; }
 }

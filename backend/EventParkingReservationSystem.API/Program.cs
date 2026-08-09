@@ -48,11 +48,7 @@ var jwtOptions =
     ?? throw new InvalidOperationException(
         "JWT configuration was not found.");
 
-<<<<<<< Updated upstream
-// Converts the Base64 JWT secret into secure key bytes.
-=======
 // Converts the Base64 JWT key into secure key bytes.
->>>>>>> Stashed changes
 byte[] jwtKeyBytes;
 
 try
@@ -108,20 +104,12 @@ builder.Services
                 // Rejects expired tokens.
                 ValidateLifetime = true,
 
-<<<<<<< Updated upstream
-                // Removes the default additional token-validity period.
-=======
                 // Removes the default token grace period.
->>>>>>> Stashed changes
                 ClockSkew = TimeSpan.Zero
             };
     });
 
-<<<<<<< Updated upstream
-// Registers authorization for protected API endpoints.
-=======
 // Registers authorization services.
->>>>>>> Stashed changes
 builder.Services.AddAuthorization();
 
 // Registers repositories.
@@ -134,17 +122,7 @@ builder.Services.AddScoped<
     IAuthService,
     AuthService>();
 
-<<<<<<< Updated upstream
-// Registers the development email-verification service.
-builder.Services.AddScoped<IEmailService, EmailService>();
-
-// Registers password hashing and secure-token generation.
-builder.Services.AddScoped<PasswordHasher>();
-builder.Services.AddScoped<SecureTokenGenerator>();
-
-// Registers JWT access-token generation.
-builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
-=======
+// Registers business services.
 builder.Services.AddScoped<
     ICustomerService,
     CustomerService>();
@@ -155,7 +133,6 @@ builder.Services.AddScoped<
 
 // Registers security helper services.
 builder.Services.AddScoped<PasswordHasher>();
->>>>>>> Stashed changes
 
 builder.Services.AddSingleton<SecureTokenGenerator>();
 
@@ -194,11 +171,7 @@ builder.Services.AddSwaggerGen(options =>
                 "Enter the JWT access token only."
         });
 
-<<<<<<< Updated upstream
-    // Sends the entered JWT token with protected API requests.
-=======
     // Sends the JWT with protected Swagger requests.
->>>>>>> Stashed changes
     options.AddSecurityRequirement(
         new OpenApiSecurityRequirement
         {

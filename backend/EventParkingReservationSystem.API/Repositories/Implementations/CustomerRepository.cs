@@ -66,12 +66,9 @@ public class CustomerRepository : ICustomerRepository
     {
         await _context.SaveChangesAsync();
     }
-<<<<<<< Updated upstream
-    // Finds the customer linked to a secure verification-token hash.
-=======
 
     public async Task<Customer?> GetByPasswordResetTokenHashAsync(
-    string tokenHash)
+        string tokenHash)
     {
         return await _context.Customers
             .FirstOrDefaultAsync(customer =>
@@ -79,7 +76,6 @@ public class CustomerRepository : ICustomerRepository
     }
 
     // Finds a customer using the email-verification token hash.
->>>>>>> Stashed changes
     public async Task<Customer?> GetByEmailVerificationTokenHashAsync(
         string tokenHash)
     {

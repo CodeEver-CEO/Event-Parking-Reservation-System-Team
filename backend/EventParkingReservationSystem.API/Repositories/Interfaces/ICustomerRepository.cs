@@ -8,9 +8,6 @@ public interface ICustomerRepository
 
     Task<Customer?> GetByEmailAsync(string email);
 
-    Task<Customer?> GetByEmailVerificationTokenHashAsync(
-        string tokenHash);
-
     Task<IReadOnlyList<Customer>> SearchAsync(string? search);
 
     Task<bool> EmailExistsAsync(string email);

@@ -66,22 +66,11 @@ public class AuthController : ControllerBase
 
         return Ok(result.Data);
     }
-<<<<<<< Updated upstream
     // Verifies the customer's email using the verification token.
     [AllowAnonymous]
     [HttpPost("verify-email")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-=======
-
-    // Verifies the customer's email using a secure token.
-    [AllowAnonymous]
-    [HttpPost("verify-email")]
-    [ProducesResponseType(
-        StatusCodes.Status200OK)]
-    [ProducesResponseType(
-        StatusCodes.Status400BadRequest)]
->>>>>>> Stashed changes
     public async Task<IActionResult> VerifyEmail(
         [FromBody] VerifyEmailRequestDto request)
     {
@@ -101,18 +90,10 @@ public class AuthController : ControllerBase
         });
     }
 
-<<<<<<< Updated upstream
     // Sends a new verification token to an unverified customer.
     [AllowAnonymous]
     [HttpPost("resend-verification")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-=======
-    // Sends a new email-verification token.
-    [AllowAnonymous]
-    [HttpPost("resend-verification")]
-    [ProducesResponseType(
-        StatusCodes.Status200OK)]
->>>>>>> Stashed changes
     public async Task<IActionResult> ResendVerification(
         [FromBody] ResendVerificationRequestDto request)
     {
@@ -125,8 +106,6 @@ public class AuthController : ControllerBase
         });
     }
 
-<<<<<<< Updated upstream
-=======
     // Sends password-reset instructions without revealing account existence.
     [AllowAnonymous]
     [HttpPost("forgot-password")]
@@ -170,5 +149,4 @@ public class AuthController : ControllerBase
             message = result.Data
         });
     }
->>>>>>> Stashed changes
 }

@@ -1,9 +1,4 @@
-<<<<<<< Updated upstream
-﻿
 using EventParkingReservationSystem.API.Services.Interfaces;
-=======
-﻿using EventParkingReservationSystem.API.Services.Interfaces;
->>>>>>> Stashed changes
 
 namespace EventParkingReservationSystem.API.Services.Implementations;
 
@@ -21,11 +16,7 @@ public sealed class EmailService : IEmailService
         string recipientName,
         string verificationToken)
     {
-<<<<<<< Updated upstream
-        // Logs the token only for local development and testing.
-=======
         // Logs the verification token for development testing.
->>>>>>> Stashed changes
         _logger.LogInformation(
             """
             EMAIL VERIFICATION
@@ -39,9 +30,6 @@ public sealed class EmailService : IEmailService
 
         return Task.CompletedTask;
     }
-<<<<<<< Updated upstream
-}
-=======
 
     public Task SendPasswordResetEmailAsync(
         string recipientEmail,
@@ -63,4 +51,3 @@ public sealed class EmailService : IEmailService
         return Task.CompletedTask;
     }
 }
->>>>>>> Stashed changes

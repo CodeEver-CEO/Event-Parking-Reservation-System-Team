@@ -1,4 +1,20 @@
-﻿
+﻿using System.ComponentModel.DataAnnotations;
+using EventParkingReservationSystem.API.Enums;
+
+namespace EventParkingReservationSystem.API.Models;
+
+public class Payment
+{
+    public int Id { get; set; }
+
+    public int BookingId { get; set; }
+
+    public Booking Booking { get; set; } = null!;
+
+    public int CustomerId { get; set; }
+
+    public Customer Customer { get; set; } = null!;
+
 using EventParkingReservationSystem.API.Enums;
 
 namespace EventParkingReservationSystem.API.Models

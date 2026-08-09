@@ -1,0 +1,531 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Customer Dashboard | EventPark
+    </title>
+
+
+    <!-- Global CSS -->
+    <link
+        rel="stylesheet"
+        href="../../css/style.css"
+    >
+
+    <!-- Customer CSS -->
+    <link
+        rel="stylesheet"
+        href="../../css/customer.css"
+    >
+
+    <!-- Responsive CSS -->
+    <link
+        rel="stylesheet"
+        href="../../css/responsive.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- Navbar -->
+    <div id="navbarContainer"></div>
+
+
+
+    <!-- =====================================================
+         CUSTOMER DASHBOARD
+         ===================================================== -->
+
+    <main class="customer-main">
+
+        <div class="container">
+
+
+            <!-- =================================================
+                 PAGE HEADER
+                 ================================================= -->
+
+            <section class="customer-dashboard-header">
+
+                <div>
+
+                    <span class="customer-page-label">
+                        CUSTOMER DASHBOARD
+                    </span>
+
+                    <h1>
+                        Welcome,
+                        <span id="dashboardCustomerName">
+                            Customer
+                        </span>
+                    </h1>
+
+                    <p>
+                        View your upcoming bookings,
+                        parking reservations, payments
+                        and notifications.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="events.html"
+                    class="btn btn-primary"
+                >
+                    Browse Events
+                </a>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 DASHBOARD MESSAGE
+                 ================================================= -->
+
+            <div
+                id="dashboardMessage"
+                class="alert hidden"
+            >
+            </div>
+
+
+
+            <!-- =================================================
+                 LOADING
+                 ================================================= -->
+
+            <div
+                id="dashboardLoading"
+                class="dashboard-loading"
+            >
+
+                <div class="spinner"></div>
+
+                <p>
+                    Loading your dashboard...
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 DASHBOARD CONTENT
+                 ================================================= -->
+
+            <div
+                id="dashboardContent"
+                class="hidden"
+            >
+
+
+                <!-- =============================================
+                     SUMMARY CARDS
+                     ============================================= -->
+
+                <section class="customer-stats-grid">
+
+
+                    <!-- Upcoming Bookings -->
+
+                    <article class="customer-stat-card">
+
+                        <div class="customer-stat-icon booking-icon">
+                            🎟
+                        </div>
+
+                        <div>
+
+                            <span class="customer-stat-label">
+                                Upcoming Bookings
+                            </span>
+
+                            <strong
+                                id="upcomingBookingsCount"
+                                class="customer-stat-value"
+                            >
+                                0
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- Parking Reservations -->
+
+                    <article class="customer-stat-card">
+
+                        <div class="customer-stat-icon parking-icon">
+                            P
+                        </div>
+
+                        <div>
+
+                            <span class="customer-stat-label">
+                                Reserved Parking
+                            </span>
+
+                            <strong
+                                id="reservedParkingCount"
+                                class="customer-stat-value"
+                            >
+                                0
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- Recent Payments -->
+
+                    <article class="customer-stat-card">
+
+                        <div class="customer-stat-icon payment-icon">
+                            $
+                        </div>
+
+                        <div>
+
+                            <span class="customer-stat-label">
+                                Recent Payments
+                            </span>
+
+                            <strong
+                                id="recentPaymentsCount"
+                                class="customer-stat-value"
+                            >
+                                0
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <!-- Notifications -->
+
+                    <article class="customer-stat-card">
+
+                        <div class="customer-stat-icon notification-icon">
+                            🔔
+                        </div>
+
+                        <div>
+
+                            <span class="customer-stat-label">
+                                Unread Notifications
+                            </span>
+
+                            <strong
+                                id="unreadNotificationsCount"
+                                class="customer-stat-value"
+                            >
+                                0
+                            </strong>
+
+                        </div>
+
+                    </article>
+
+
+                </section>
+
+
+
+                <!-- =============================================
+                     DASHBOARD MAIN GRID
+                     ============================================= -->
+
+                <section class="dashboard-main-grid">
+
+
+                    <!-- =========================================
+                         UPCOMING BOOKINGS
+                         ========================================= -->
+
+                    <div class="dashboard-panel dashboard-large-panel">
+
+                        <div class="dashboard-panel-header">
+
+                            <div>
+
+                                <h2>
+                                    Upcoming Bookings
+                                </h2>
+
+                                <p>
+                                    Your latest upcoming
+                                    event reservations.
+                                </p>
+
+                            </div>
+
+
+                            <a
+                                href="my-bookings.html"
+                                class="dashboard-view-link"
+                            >
+                                View All
+                            </a>
+
+                        </div>
+
+
+                        <div
+                            id="upcomingBookingsContainer"
+                            class="dashboard-booking-list"
+                        >
+                        </div>
+
+
+                        <div
+                            id="noUpcomingBookings"
+                            class="dashboard-empty-state hidden"
+                        >
+
+                            <div class="empty-icon">
+                                🎟
+                            </div>
+
+                            <h3>
+                                No upcoming bookings
+                            </h3>
+
+                            <p>
+                                Browse available events
+                                and reserve your seats.
+                            </p>
+
+                            <a
+                                href="events.html"
+                                class="btn btn-primary"
+                            >
+                                Browse Events
+                            </a>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =========================================
+                         RESERVED PARKING
+                         ========================================= -->
+
+                    <div class="dashboard-panel">
+
+                        <div class="dashboard-panel-header">
+
+                            <div>
+
+                                <h2>
+                                    Reserved Parking
+                                </h2>
+
+                                <p>
+                                    Parking included with
+                                    upcoming bookings.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            id="parkingReservationsContainer"
+                            class="dashboard-simple-list"
+                        >
+                        </div>
+
+
+                        <div
+                            id="noParkingReservations"
+                            class="dashboard-empty-state compact hidden"
+                        >
+
+                            <div class="empty-icon">
+                                P
+                            </div>
+
+                            <p>
+                                No parking reservations.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =========================================
+                         RECENT PAYMENTS
+                         ========================================= -->
+
+                    <div class="dashboard-panel">
+
+                        <div class="dashboard-panel-header">
+
+                            <div>
+
+                                <h2>
+                                    Recent Payments
+                                </h2>
+
+                                <p>
+                                    Your latest completed
+                                    payments.
+                                </p>
+
+                            </div>
+
+
+                            <a
+                                href="payment-history.html"
+                                class="dashboard-view-link"
+                            >
+                                View All
+                            </a>
+
+                        </div>
+
+
+                        <div
+                            id="recentPaymentsContainer"
+                            class="dashboard-simple-list"
+                        >
+                        </div>
+
+
+                        <div
+                            id="noRecentPayments"
+                            class="dashboard-empty-state compact hidden"
+                        >
+
+                            <div class="empty-icon">
+                                $
+                            </div>
+
+                            <p>
+                                No payment history yet.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =========================================
+                         NOTIFICATIONS
+                         ========================================= -->
+
+                    <div class="dashboard-panel">
+
+                        <div class="dashboard-panel-header">
+
+                            <div>
+
+                                <h2>
+                                    Notifications
+                                </h2>
+
+                                <p>
+                                    Recent booking and
+                                    event updates.
+                                </p>
+
+                            </div>
+
+
+                            <a
+                                href="notifications.html"
+                                class="dashboard-view-link"
+                            >
+                                View All
+                            </a>
+
+                        </div>
+
+
+                        <div
+                            id="recentNotificationsContainer"
+                            class="dashboard-simple-list"
+                        >
+                        </div>
+
+
+                        <div
+                            id="noNotifications"
+                            class="dashboard-empty-state compact hidden"
+                        >
+
+                            <div class="empty-icon">
+                                🔔
+                            </div>
+
+                            <p>
+                                No notifications yet.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                </section>
+
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- Footer -->
+    <div id="footerContainer"></div>
+
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModalContainer"></div>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
+    <script src="../../js/config.js"></script>
+
+    <script src="../../js/api.js"></script>
+
+    <script src="../../js/common.js"></script>
+
+    <script src="../../js/customer/dashboard.js"></script>
+
+
+</body>
+
+</html>

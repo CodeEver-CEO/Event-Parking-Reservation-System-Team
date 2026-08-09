@@ -1,42 +1,51 @@
-﻿
+﻿using System.ComponentModel.DataAnnotations;
 using EventParkingReservationSystem.API.Enums;
 
+namespace EventParkingReservationSystem.API.Models;
 
-namespace EventParkingReservationSystem.API.Models
+public class Booking
 {
-    public class Booking
-    {
-        public int BookingId { get; set; }
+    public int Id { get; set; }
 
-        public string BookingNumber { get; set; } = string.Empty;
+    [Required]
+    [MaxLength(30)]
+    public string BookingNumber { get; set; } = string.Empty;
 
-        public int CustomerId { get; set; }
+    public int CustomerId { get; set; }
 
-        public int EventId { get; set; }
+    public Customer Customer { get; set; } = null!;
 
-        public BookingStatus Status { get; set; }
+    public int EventId { get; set; }
 
-        public DateTime HoldExpiresAt { get; set; }
+    public Event Event { get; set; } = null!;
 
-        public DateTime CreatedAt { get; set; }
+    public BookingStatus Status { get; set; } =
+        BookingStatus.Pending;
 
-        public DateTime? UpdatedAt { get; set; }
+    // Controls when an unpaid booking hold expires.
+    public DateTime? HoldExpiresAtUtc { get; set; }
 
-        // Optional parking
-        public int? ParkingSlotId { get; set; }
+    public decimal TotalAmount { get; set; }
 
-        public decimal ParkingFee { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        // Navigation properties
-        public Customer Customer { get; set; } = null!;
+    public DateTime? UpdatedAt { get; set; }
 
-        public Event Event { get; set; } = null!;
+    public DateTime? ConfirmedAtUtc { get; set; }
 
-        public ParkingSlot? ParkingSlot { get; set; }
+    public DateTime? CancelledAtUtc { get; set; }
 
-        public ICollection<BookingSeat> BookingSeats { get; set; }
-            = new List<BookingSeat>();
+    // A booking can contain multiple selected seats.
+    public ICollection<BookingSeat> BookingSeats { get; set; } =
+        new List<BookingSeat>();
 
-        public Payment? Payment { get; set; }
-    }
+    // Keeps parking reservation history for the booking.
+    public ICollection<ParkingReservation> ParkingReservations
+    { get; set; } = new List<ParkingReservation>();
+
+    // Each booking has one simulated payment record.
+    public Payment? Payment { get; set; }
+
+    public ICollection<Notification> Notifications { get; set; } =
+        new List<Notification>();
 }

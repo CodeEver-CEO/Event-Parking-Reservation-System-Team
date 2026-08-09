@@ -127,6 +127,11 @@ builder.Services.AddScoped<
     ICustomerService,
     CustomerService>();
 
+// Email Service (development logger implementation)
+builder.Services.AddScoped<
+    IEmailService,
+    EmailService>();
+
 // Module 4 - Seat Reservation Service
 builder.Services.AddScoped<
     ISeatService,
@@ -139,6 +144,9 @@ builder.Services.AddHostedService<
 // Helpers
 builder.Services.AddScoped<
     PasswordHasher>();
+
+builder.Services.AddSingleton<
+    SecureTokenGenerator>();
 
 builder.Services.AddSingleton<
     IJwtTokenGenerator,

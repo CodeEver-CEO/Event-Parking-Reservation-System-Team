@@ -1,34 +1,33 @@
-﻿using System.Security.Cryptography;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace EventParkingReservationSystem.API.Helpers;
 
 public sealed class SecureTokenGenerator
 {
-    // Generates a cryptographically secure token for verification links.
+    private const int TokenByteLength = 32;
+
+    // Generates a cryptographically secure, URL-safe token. The token is
+    // delivered inside verification and password-reset links, so it must not
+    // contain characters ('+', '/', '=') that change meaning in a URL.
     public string GenerateToken()
     {
-        byte[] bytes = new byte[32];
+        byte[] bytes = RandomNumberGenerator.GetBytes(TokenByteLength);
 
-        using var randomGenerator =
-            RandomNumberGenerator.Create();
-
-        randomGenerator.GetBytes(bytes);
-
-        return Convert.ToBase64String(bytes);
+        return Convert.ToBase64String(bytes)
+            .Replace('+', '-')
+            .Replace('/', '_')
+            .TrimEnd('=');
     }
 
-    // Hashes the token before storing it in the database.
+    // Hashes the token with SHA-256 before it is stored, so a database leak
+    // never exposes a usable token.
     public string HashToken(string token)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(token);
 
-        using var sha256 = SHA256.Create();
-
-        byte[] tokenBytes =
-            System.Text.Encoding.UTF8.GetBytes(token);
-
         byte[] hashBytes =
-            sha256.ComputeHash(tokenBytes);
+            SHA256.HashData(Encoding.UTF8.GetBytes(token));
 
         return Convert.ToHexString(hashBytes);
     }

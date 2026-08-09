@@ -1,0 +1,1261 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\common.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\common.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\api.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\api.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\admin.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:css\\admin.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\payments.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\admin\\payments.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\payments.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\admin\\payments.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\booking-details.js||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\admin\\booking-details.js||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\booking-details.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\admin\\booking-details.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\bookings.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\admin\\bookings.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\bookings.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\admin\\bookings.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\dashboard.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\customer\\dashboard.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\parking-layout-builder.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\admin\\parking-layout-builder.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\parking-map.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:css\\parking-map.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\parking-layout-builder.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\admin\\parking-layout-builder.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\seat-map-builder.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\admin\\seat-map-builder.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\seat-map.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:css\\seat-map.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\seat-map-builder.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\admin\\seat-map-builder.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\event-form.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\admin\\event-form.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\events.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\admin\\events.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\events.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\admin\\events.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\categories.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\admin\\categories.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\categories.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\admin\\categories.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\venues.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\admin\\venues.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\venues.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\admin\\venues.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\customer-details.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\admin\\customer-details.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\customer-details.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\admin\\customer-details.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\customers.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\admin\\customers.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\customers.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\admin\\customers.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\dashboard.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\admin\\dashboard.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\dashboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\admin\\dashboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\dashboard.js||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\customer\\dashboard.js||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\components\\admin-sidebar.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:components\\admin-sidebar.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\event-details.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\customer\\event-details.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\booking-summary.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\customer\\booking-summary.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\booking-details.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\customer\\booking-details.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\notifications.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\customer\\notifications.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\customer.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:css\\customer.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\notifications.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\customer\\notifications.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\payment-history.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\customer\\payment-history.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\payment-history.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\customer\\payment-history.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\profile.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\customer\\profile.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\profile.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\customer\\profile.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\booking-details.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\customer\\booking-details.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\my-bookings.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\customer\\my-bookings.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\my-bookings.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\customer\\my-bookings.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\payment.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\customer\\payment.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\payment.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\customer\\payment.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\booking-summary.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\customer\\booking-summary.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\parking-selection.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\customer\\parking-selection.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\parking-selection.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\customer\\parking-selection.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\seat-selection.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\customer\\seat-selection.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\seat-selection.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\customer\\seat-selection.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\event-details.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\customer\\event-details.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\events.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\customer\\events.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\events.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\customer\\events.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\auth\\reset-password.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\auth\\reset-password.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\auth.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:css\\auth.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\auth\\reset-password.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\auth\\reset-password.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\auth\\forgot-password.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\auth\\forgot-password.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\auth\\forgot-password.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\auth\\forgot-password.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\auth\\verify-email.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\auth\\verify-email.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\auth\\verify-email.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\auth\\verify-email.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\auth\\login.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\auth\\login.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\auth\\login.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\auth\\login.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\auth\\register.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\auth\\register.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\auth\\register.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pages\\auth\\register.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\responsive.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:css\\responsive.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:css\\style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\components\\confirmation-modal.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:components\\confirmation-modal.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\components\\loading-spinner.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:components\\loading-spinner.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\components\\footer.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:components\\footer.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\components\\navbar.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:components\\navbar.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:js\\config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "index.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\index.html",
+              "RelativeDocumentMoniker": "index.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\index.html",
+              "RelativeToolTip": "index.html",
+              "ViewState": "AgIAAKECAAAAAAAAAAAQwNICAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T07:37:44.206Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "payments.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\payments.js",
+              "RelativeDocumentMoniker": "js\\admin\\payments.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\payments.js",
+              "RelativeToolTip": "js\\admin\\payments.js",
+              "ViewState": "AgIAAPkIAAAAAAAAAAAiwCAJAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T09:48:27.391Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "admin.css",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\admin.css",
+              "RelativeDocumentMoniker": "css\\admin.css",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\admin.css",
+              "RelativeToolTip": "css\\admin.css",
+              "ViewState": "AgIAAI4OAAAAAAAAAAAQwLYOAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-08-07T11:11:31.34Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "api.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\api.js",
+              "RelativeDocumentMoniker": "js\\api.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\api.js",
+              "RelativeToolTip": "js\\api.js",
+              "ViewState": "AgIAAG4CAAAAAAAAAAAAAG4CAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T08:17:53.647Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "common.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\common.js",
+              "RelativeDocumentMoniker": "js\\common.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\common.js",
+              "RelativeToolTip": "js\\common.js",
+              "ViewState": "AgIAAPAEAAAAAAAAAAAiwAYFAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T08:44:05.993Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "payments.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\payments.html",
+              "RelativeDocumentMoniker": "pages\\admin\\payments.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\payments.html",
+              "RelativeToolTip": "pages\\admin\\payments.html",
+              "ViewState": "AgIAAI4BAAAAAAAAAAAQwKEBAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T11:49:12.098Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "booking-details.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\booking-details.js",
+              "RelativeDocumentMoniker": "js\\admin\\booking-details.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\booking-details.js",
+              "RelativeToolTip": "js\\admin\\booking-details.js",
+              "ViewState": "AgIAAIAGAAAAAAAAAAAiwKcGAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T11:44:24.879Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "booking-details.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\booking-details.html",
+              "RelativeDocumentMoniker": "pages\\admin\\booking-details.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\booking-details.html",
+              "RelativeToolTip": "pages\\admin\\booking-details.html",
+              "ViewState": "AgIAAM8BAAAAAAAAAAAQwOYBAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T11:46:19.914Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "bookings.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\bookings.js",
+              "RelativeDocumentMoniker": "js\\admin\\bookings.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\bookings.js",
+              "RelativeToolTip": "js\\admin\\bookings.js",
+              "ViewState": "AgIAAMEFAAAAAAAAAAAiwOgFAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T11:45:37.081Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "bookings.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\bookings.html",
+              "RelativeDocumentMoniker": "pages\\admin\\bookings.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\bookings.html",
+              "RelativeToolTip": "pages\\admin\\bookings.html",
+              "ViewState": "AgIAABUBAAAAAAAAAAAQwC4BAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T11:45:10.489Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "parking-layout-builder.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\parking-layout-builder.js",
+              "RelativeDocumentMoniker": "js\\admin\\parking-layout-builder.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\parking-layout-builder.js",
+              "RelativeToolTip": "js\\admin\\parking-layout-builder.js",
+              "ViewState": "AgIAAF4MAAAAAAAAAAAiwIUMAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T11:41:55.947Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "parking-layout-builder.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\parking-layout-builder.html",
+              "RelativeDocumentMoniker": "pages\\admin\\parking-layout-builder.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\parking-layout-builder.html",
+              "RelativeToolTip": "pages\\admin\\parking-layout-builder.html",
+              "ViewState": "AgIAAJUCAAAAAAAAAAAQwLsCAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T11:40:42.881Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "dashboard.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\dashboard.html",
+              "RelativeDocumentMoniker": "pages\\customer\\dashboard.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\dashboard.html",
+              "RelativeToolTip": "pages\\customer\\dashboard.html",
+              "ViewState": "AgIAAOoBAAAAAAAAAAAQwPABAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T08:06:10.318Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "seat-map-builder.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\seat-map-builder.js",
+              "RelativeDocumentMoniker": "js\\admin\\seat-map-builder.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\seat-map-builder.js",
+              "RelativeToolTip": "js\\admin\\seat-map-builder.js",
+              "ViewState": "AgIAAG4LAAAAAAAAAAAiwHQLAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T11:33:10.765Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "parking-map.css",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\parking-map.css",
+              "RelativeDocumentMoniker": "css\\parking-map.css",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\parking-map.css",
+              "RelativeToolTip": "css\\parking-map.css",
+              "ViewState": "AgIAAF0EAAAAAAAAAAAQwIUEAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-08-07T09:30:07.305Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "seat-map-builder.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\seat-map-builder.html",
+              "RelativeDocumentMoniker": "pages\\admin\\seat-map-builder.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\seat-map-builder.html",
+              "RelativeToolTip": "pages\\admin\\seat-map-builder.html",
+              "ViewState": "AgIAAHwCAAAAAAAAAAAQwIECAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T11:33:21.016Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "events.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\events.js",
+              "RelativeDocumentMoniker": "js\\admin\\events.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\events.js",
+              "RelativeToolTip": "js\\admin\\events.js",
+              "ViewState": "AgIAAKAGAAAAAAAAAAAiwMcGAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T11:29:46.061Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "seat-map.css",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\seat-map.css",
+              "RelativeDocumentMoniker": "css\\seat-map.css",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\seat-map.css",
+              "RelativeToolTip": "css\\seat-map.css",
+              "ViewState": "AgIAAC4EAAAAAAAAAAAQwFYEAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-08-07T09:25:15.324Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "events.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\events.html",
+              "RelativeDocumentMoniker": "pages\\admin\\events.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\events.html",
+              "RelativeToolTip": "pages\\admin\\events.html",
+              "ViewState": "AgIAAFgBAAAAAAAAAAAQwH4BAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T11:28:04.249Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "event-form.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\event-form.js",
+              "RelativeDocumentMoniker": "js\\admin\\event-form.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\event-form.js",
+              "RelativeToolTip": "js\\admin\\event-form.js",
+              "ViewState": "AgIAAP4IAAAAAAAAAAAAAA0JAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T11:27:52.162Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "categories.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\categories.js",
+              "RelativeDocumentMoniker": "js\\admin\\categories.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\categories.js",
+              "RelativeToolTip": "js\\admin\\categories.js",
+              "ViewState": "AgIAAHMGAAAAAAAAAAAiwI4GAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T11:25:48.926Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "categories.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\categories.html",
+              "RelativeDocumentMoniker": "pages\\admin\\categories.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\categories.html",
+              "RelativeToolTip": "pages\\admin\\categories.html",
+              "ViewState": "AgIAAGABAAAAAAAAAAAQwIYBAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T11:24:41.192Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "venues.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\venues.js",
+              "RelativeDocumentMoniker": "js\\admin\\venues.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\venues.js",
+              "RelativeToolTip": "js\\admin\\venues.js",
+              "ViewState": "AgIAAAMIAAAAAAAAAAAiwCoIAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T11:23:28.408Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "venues.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\venues.html",
+              "RelativeDocumentMoniker": "pages\\admin\\venues.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\venues.html",
+              "RelativeToolTip": "pages\\admin\\venues.html",
+              "ViewState": "AgIAAAQCAAAAAAAAAAAQwCoCAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T11:22:27.997Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "customer-details.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\customer-details.js",
+              "RelativeDocumentMoniker": "js\\admin\\customer-details.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\customer-details.js",
+              "RelativeToolTip": "js\\admin\\customer-details.js",
+              "ViewState": "AgIAALkHAAAAAAAAAAAiwOAHAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T11:21:03.781Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "customer-details.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\customer-details.html",
+              "RelativeDocumentMoniker": "pages\\admin\\customer-details.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\customer-details.html",
+              "RelativeToolTip": "pages\\admin\\customer-details.html",
+              "ViewState": "AgIAAB4CAAAAAAAAAAAQwC0CAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T11:19:54.939Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "customers.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\customers.js",
+              "RelativeDocumentMoniker": "js\\admin\\customers.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\customers.js",
+              "RelativeToolTip": "js\\admin\\customers.js",
+              "ViewState": "AgIAADUHAAAAAAAAAAAiwDEHAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T11:16:33.97Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "customers.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\customers.html",
+              "RelativeDocumentMoniker": "pages\\admin\\customers.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\customers.html",
+              "RelativeToolTip": "pages\\admin\\customers.html",
+              "ViewState": "AgIAAFIBAAAAAAAAAAAQwHgBAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T11:15:45.573Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "dashboard.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\dashboard.html",
+              "RelativeDocumentMoniker": "pages\\admin\\dashboard.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\admin\\dashboard.html",
+              "RelativeToolTip": "pages\\admin\\dashboard.html",
+              "ViewState": "AgIAAJYBAAAAAAAAAAAQwL4BAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T11:12:30.229Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "dashboard.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\dashboard.js",
+              "RelativeDocumentMoniker": "js\\admin\\dashboard.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\admin\\dashboard.js",
+              "RelativeToolTip": "js\\admin\\dashboard.js",
+              "ViewState": "AgIAAK4CAAAAAAAAAAAiwMoCAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T11:11:50.995Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "dashboard.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\dashboard.js",
+              "RelativeDocumentMoniker": "js\\customer\\dashboard.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\dashboard.js",
+              "RelativeToolTip": "js\\customer\\dashboard.js",
+              "ViewState": "AgIAAAYGAAAAAAAAAAAiwCcGAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T08:06:42.303Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "admin-sidebar.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\components\\admin-sidebar.html",
+              "RelativeDocumentMoniker": "components\\admin-sidebar.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\components\\admin-sidebar.html",
+              "RelativeToolTip": "components\\admin-sidebar.html",
+              "ViewState": "AgIAAJ8AAAAAAAAAAAAQwLcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T11:11:11.372Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "booking-summary.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\booking-summary.js",
+              "RelativeDocumentMoniker": "js\\customer\\booking-summary.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\booking-summary.js",
+              "RelativeToolTip": "js\\customer\\booking-summary.js",
+              "ViewState": "AgIAAI0FAAAAAAAAAAAiwLQFAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T09:36:25.314Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "event-details.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\event-details.js",
+              "RelativeDocumentMoniker": "js\\customer\\event-details.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\event-details.js",
+              "RelativeToolTip": "js\\customer\\event-details.js",
+              "ViewState": "AgIAAC0DAAAAAAAAAAAiwDsDAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T09:19:50.985Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "booking-details.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\booking-details.js",
+              "RelativeDocumentMoniker": "js\\customer\\booking-details.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\booking-details.js",
+              "RelativeToolTip": "js\\customer\\booking-details.js",
+              "ViewState": "AgIAANYIAAAAAAAAAAAiwP0IAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T10:49:37.863Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "notifications.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\notifications.js",
+              "RelativeDocumentMoniker": "js\\customer\\notifications.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\notifications.js",
+              "RelativeToolTip": "js\\customer\\notifications.js",
+              "ViewState": "AgIAABUHAAAAAAAAAAAiwDwHAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T11:09:05.522Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "customer.css",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\customer.css",
+              "RelativeDocumentMoniker": "css\\customer.css",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\customer.css",
+              "RelativeToolTip": "css\\customer.css",
+              "ViewState": "AgIAABUQAAAAAAAAAAAQwD0QAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-08-07T09:09:20.802Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "notifications.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\notifications.html",
+              "RelativeDocumentMoniker": "pages\\customer\\notifications.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\notifications.html",
+              "RelativeToolTip": "pages\\customer\\notifications.html",
+              "ViewState": "AgIAAOwAAAAAAAAAAAAQwBIBAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T11:07:13.416Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "payment-history.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\payment-history.js",
+              "RelativeDocumentMoniker": "js\\customer\\payment-history.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\payment-history.js",
+              "RelativeToolTip": "js\\customer\\payment-history.js",
+              "ViewState": "AgIAAKsGAAAAAAAAAAAiwLwGAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T11:04:21.023Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "payment-history.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\payment-history.html",
+              "RelativeDocumentMoniker": "pages\\customer\\payment-history.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\payment-history.html",
+              "RelativeToolTip": "pages\\customer\\payment-history.html",
+              "ViewState": "AgIAAN4AAAAAAAAAAAAQwAQBAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T11:01:18.607Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "profile.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\profile.js",
+              "RelativeDocumentMoniker": "js\\customer\\profile.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\profile.js",
+              "RelativeToolTip": "js\\customer\\profile.js",
+              "ViewState": "AgIAAEYGAAAAAAAAAAAiwG0GAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T11:00:19.156Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "profile.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\profile.html",
+              "RelativeDocumentMoniker": "pages\\customer\\profile.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\profile.html",
+              "RelativeToolTip": "pages\\customer\\profile.html",
+              "ViewState": "AgIAAGMBAAAAAAAAAAAQwIkBAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T10:58:39.934Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "booking-details.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\booking-details.html",
+              "RelativeDocumentMoniker": "pages\\customer\\booking-details.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\booking-details.html",
+              "RelativeToolTip": "pages\\customer\\booking-details.html",
+              "ViewState": "AgIAAAwCAAAAAAAAAAAQwDICAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T10:33:56.639Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "my-bookings.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\my-bookings.js",
+              "RelativeDocumentMoniker": "js\\customer\\my-bookings.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\my-bookings.js",
+              "RelativeToolTip": "js\\customer\\my-bookings.js",
+              "ViewState": "AgIAAF0GAAAAAAAAAAAiwIQGAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T10:31:31.211Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "my-bookings.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\my-bookings.html",
+              "RelativeDocumentMoniker": "pages\\customer\\my-bookings.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\my-bookings.html",
+              "RelativeToolTip": "pages\\customer\\my-bookings.html",
+              "ViewState": "AgIAAMoAAAAAAAAAAAAQwPAAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T10:30:09.704Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "payment.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\payment.js",
+              "RelativeDocumentMoniker": "js\\customer\\payment.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\payment.js",
+              "RelativeToolTip": "js\\customer\\payment.js",
+              "ViewState": "AgIAAGIJAAAAAAAAAAAiwGQJAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T09:48:22.935Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "payment.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\payment.html",
+              "RelativeDocumentMoniker": "pages\\customer\\payment.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\payment.html",
+              "RelativeToolTip": "pages\\customer\\payment.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHQBAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T09:39:29.786Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "booking-summary.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\booking-summary.html",
+              "RelativeDocumentMoniker": "pages\\customer\\booking-summary.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\booking-summary.html",
+              "RelativeToolTip": "pages\\customer\\booking-summary.html",
+              "ViewState": "AgIAAMMBAAAAAAAAAAAQwOkBAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T09:35:36.494Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "parking-selection.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\parking-selection.js",
+              "RelativeDocumentMoniker": "js\\customer\\parking-selection.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\parking-selection.js",
+              "RelativeToolTip": "js\\customer\\parking-selection.js",
+              "ViewState": "AgIAAFEGAAAAAAAAAAAiwHgGAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T09:31:37.929Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "parking-selection.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\parking-selection.html",
+              "RelativeDocumentMoniker": "pages\\customer\\parking-selection.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\parking-selection.html",
+              "RelativeToolTip": "pages\\customer\\parking-selection.html",
+              "ViewState": "AgIAAI8BAAAAAAAAAAAQwLUBAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T09:29:43.151Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "seat-selection.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\seat-selection.js",
+              "RelativeDocumentMoniker": "js\\customer\\seat-selection.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\seat-selection.js",
+              "RelativeToolTip": "js\\customer\\seat-selection.js",
+              "ViewState": "AgIAAHsFAAAAAAAAAAAiwKIFAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T09:26:19.344Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "seat-selection.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\seat-selection.html",
+              "RelativeDocumentMoniker": "pages\\customer\\seat-selection.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\seat-selection.html",
+              "RelativeToolTip": "pages\\customer\\seat-selection.html",
+              "ViewState": "AgIAAG0BAAAAAAAAAAAQwJMBAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T09:24:41.424Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "event-details.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\event-details.html",
+              "RelativeDocumentMoniker": "pages\\customer\\event-details.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\event-details.html",
+              "RelativeToolTip": "pages\\customer\\event-details.html",
+              "ViewState": "AgIAAHIBAAAAAAAAAAAQwJgBAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T09:18:47.244Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "events.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\events.js",
+              "RelativeDocumentMoniker": "js\\customer\\events.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\customer\\events.js",
+              "RelativeToolTip": "js\\customer\\events.js",
+              "ViewState": "AgIAAO4EAAAAAAAAAAAAAP8EAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T09:17:08.659Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 54,
+              "Title": "events.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\events.html",
+              "RelativeDocumentMoniker": "pages\\customer\\events.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\customer\\events.html",
+              "RelativeToolTip": "pages\\customer\\events.html",
+              "ViewState": "AgIAAAoBAAAAAAAAAAAQwDEBAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T09:15:54.005Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 55,
+              "Title": "reset-password.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\auth\\reset-password.js",
+              "RelativeDocumentMoniker": "js\\auth\\reset-password.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\auth\\reset-password.js",
+              "RelativeToolTip": "js\\auth\\reset-password.js",
+              "ViewState": "AgIAAIMCAAAAAAAAAAAiwKoCAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T09:05:13.743Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 56,
+              "Title": "auth.css",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\auth.css",
+              "RelativeDocumentMoniker": "css\\auth.css",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\auth.css",
+              "RelativeToolTip": "css\\auth.css",
+              "ViewState": "AgIAAOgCAAAAAAAAAAAQwBADAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-08-07T08:50:08.893Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 57,
+              "Title": "reset-password.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\auth\\reset-password.html",
+              "RelativeDocumentMoniker": "pages\\auth\\reset-password.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\auth\\reset-password.html",
+              "RelativeToolTip": "pages\\auth\\reset-password.html",
+              "ViewState": "AgIAAAYBAAAAAAAAAAAQwC0BAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T09:04:28.416Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 58,
+              "Title": "forgot-password.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\auth\\forgot-password.js",
+              "RelativeDocumentMoniker": "js\\auth\\forgot-password.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\auth\\forgot-password.js",
+              "RelativeToolTip": "js\\auth\\forgot-password.js",
+              "ViewState": "AgIAABgBAAAAAAAAAAAiwD8BAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T09:03:17.149Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 59,
+              "Title": "forgot-password.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\auth\\forgot-password.html",
+              "RelativeDocumentMoniker": "pages\\auth\\forgot-password.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\auth\\forgot-password.html",
+              "RelativeToolTip": "pages\\auth\\forgot-password.html",
+              "ViewState": "AgIAAHAAAAAAAAAAAAAQwJYAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T09:02:38.228Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 60,
+              "Title": "verify-email.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\auth\\verify-email.js",
+              "RelativeDocumentMoniker": "js\\auth\\verify-email.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\auth\\verify-email.js",
+              "RelativeToolTip": "js\\auth\\verify-email.js",
+              "ViewState": "AgIAAGECAAAAAAAAAAAiwIgCAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T09:00:21.534Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 61,
+              "Title": "verify-email.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\auth\\verify-email.html",
+              "RelativeDocumentMoniker": "pages\\auth\\verify-email.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\auth\\verify-email.html",
+              "RelativeToolTip": "pages\\auth\\verify-email.html",
+              "ViewState": "AgIAAOYAAAAAAAAAAAAQwA0BAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T08:59:30.951Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 62,
+              "Title": "login.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\auth\\login.js",
+              "RelativeDocumentMoniker": "js\\auth\\login.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\auth\\login.js",
+              "RelativeToolTip": "js\\auth\\login.js",
+              "ViewState": "AgIAAO8DAAAAAAAAAAAAAAAEAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T08:56:00.783Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 63,
+              "Title": "login.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\auth\\login.html",
+              "RelativeDocumentMoniker": "pages\\auth\\login.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\auth\\login.html",
+              "RelativeToolTip": "pages\\auth\\login.html",
+              "ViewState": "AgIAADwBAAAAAAAAAAAQwGMBAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T08:54:31.453Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 64,
+              "Title": "register.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\auth\\register.js",
+              "RelativeDocumentMoniker": "js\\auth\\register.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\auth\\register.js",
+              "RelativeToolTip": "js\\auth\\register.js",
+              "ViewState": "AgIAAIYCAAAAAAAAAAAiwK0CAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T08:50:46.969Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 65,
+              "Title": "register.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\auth\\register.html",
+              "RelativeDocumentMoniker": "pages\\auth\\register.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\pages\\auth\\register.html",
+              "RelativeToolTip": "pages\\auth\\register.html",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAQwFkBAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T08:49:12.218Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 67,
+              "Title": "style.css",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\style.css",
+              "RelativeDocumentMoniker": "css\\style.css",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\style.css",
+              "RelativeToolTip": "css\\style.css",
+              "ViewState": "AgIAAEMFAAAAAAAAAAAQwGsFAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-08-07T08:09:09.448Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 66,
+              "Title": "responsive.css",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\responsive.css",
+              "RelativeDocumentMoniker": "css\\responsive.css",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\css\\responsive.css",
+              "RelativeToolTip": "css\\responsive.css",
+              "ViewState": "AgIAAAECAAAAAAAAAAAQwCACAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-08-07T08:12:21.308Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 68,
+              "Title": "confirmation-modal.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\components\\confirmation-modal.html",
+              "RelativeDocumentMoniker": "components\\confirmation-modal.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\components\\confirmation-modal.html",
+              "RelativeToolTip": "components\\confirmation-modal.html",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAQwCoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T08:38:09.9Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 69,
+              "Title": "loading-spinner.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\components\\loading-spinner.html",
+              "RelativeDocumentMoniker": "components\\loading-spinner.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\components\\loading-spinner.html",
+              "RelativeToolTip": "components\\loading-spinner.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T08:36:18.89Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 70,
+              "Title": "footer.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\components\\footer.html",
+              "RelativeDocumentMoniker": "components\\footer.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\components\\footer.html",
+              "RelativeToolTip": "components\\footer.html",
+              "ViewState": "AgIAAFYAAAAAAAAAAAAQwH4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T08:33:37.411Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 71,
+              "Title": "navbar.html",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\components\\navbar.html",
+              "RelativeDocumentMoniker": "components\\navbar.html",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\components\\navbar.html",
+              "RelativeToolTip": "components\\navbar.html",
+              "ViewState": "AgIAAMMAAAAAAAAAAAAQwOcAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-08-07T08:20:40.99Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 72,
+              "Title": "config.js",
+              "DocumentMoniker": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\config.js",
+              "RelativeDocumentMoniker": "js\\config.js",
+              "ToolTip": "Z:\\Event-Parking-Reservation-System\\Event-Parking-Reservation-System-Team\\frontend\\js\\config.js",
+              "RelativeToolTip": "js\\config.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-08-07T08:15:18.141Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

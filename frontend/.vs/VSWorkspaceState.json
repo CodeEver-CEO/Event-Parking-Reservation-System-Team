@@ -1,0 +1,17 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\assets",
+    "\\assets\\icons",
+    "\\assets\\images",
+    "\\components",
+    "\\js",
+    "\\js\\customer",
+    "\\pages",
+    "\\pages\\admin",
+    "\\pages\\auth",
+    "\\pages\\customer"
+  ],
+  "SelectedNode": "\\js\\common.js",
+  "PreviewInSolutionExplorer": false
+}

@@ -1,5 +1,4 @@
-﻿using EventParkingReservationSystem.API.DTOs.Auth;
-using EventParkingReservationSystem.API.DTOs.Customers;
+using EventParkingReservationSystem.API.DTOs.Auth;
 using EventParkingReservationSystem.API.Enums;
 using EventParkingReservationSystem.API.Helpers;
 using EventParkingReservationSystem.API.Models;
@@ -11,6 +10,9 @@ namespace EventParkingReservationSystem.API.Services.Implementations;
 
 public sealed class AuthService : IAuthService
 {
+    private const int EmailVerificationTokenHours = 24;
+    private const int PasswordResetTokenHours = 1;
+
     private readonly ICustomerRepository _customerRepository;
     private readonly PasswordHasher _passwordHasher;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
@@ -32,37 +34,27 @@ public sealed class AuthService : IAuthService
     }
 
     // Registers a new customer and sends an email-verification token.
-    public async Task<ServiceResult<CustomerResponseDto>> RegisterAsync(
+    public async Task<ServiceResult<string>> RegisterAsync(
         RegisterRequestDto request)
     {
-        // Confirms that the password and confirmation password match.
+        // The same response is returned whether or not the email is already
+        // registered, so the endpoint cannot be used to discover accounts.
+        const string safeMessage =
+            "If the email address is eligible, a verification link has been sent. Please check your inbox.";
+
+        // Defence in depth; model validation already enforces this.
         if (request.Password != request.ConfirmPassword)
         {
-            return ServiceResult<CustomerResponseDto>.Failure(
+            return ServiceResult<string>.Failure(
                 "Password and confirmation password do not match.");
         }
 
-        // Normalises the email to prevent duplicate accounts with different casing.
-        string normalizedEmail = request.Email
-            .Trim()
-            .ToLowerInvariant();
+        string normalizedEmail = NormalizeEmail(request.Email);
 
-        bool emailExists =
-            await _customerRepository.EmailExistsAsync(normalizedEmail);
-
-        if (emailExists)
+        if (await _customerRepository.EmailExistsAsync(normalizedEmail))
         {
-            return ServiceResult<CustomerResponseDto>.Failure(
-                "An account already exists with this email address.");
+            return ServiceResult<string>.Success(safeMessage);
         }
-
-        // Generates the raw token that will be sent to the customer.
-        string verificationToken =
-            _secureTokenGenerator.GenerateToken();
-
-        // Stores only the token hash to protect it if the database is exposed.
-        string verificationTokenHash =
-            _secureTokenGenerator.HashToken(verificationToken);
 
         var customer = new Customer
         {
@@ -80,15 +72,12 @@ public sealed class AuthService : IAuthService
             Role = UserRole.Customer,
             Status = CustomerStatus.Active,
             EmailVerified = false,
-
-            EmailVerificationTokenHash =
-                verificationTokenHash,
-
-            EmailVerificationTokenExpiresAt =
-                DateTime.UtcNow.AddHours(24),
-
             CreatedAt = DateTime.UtcNow
         };
+
+        // Assigns the verification token hash and expiry to the new customer.
+        string verificationToken =
+            IssueEmailVerificationToken(customer);
 
         await _customerRepository.AddAsync(customer);
         await _customerRepository.SaveChangesAsync();
@@ -99,21 +88,17 @@ public sealed class AuthService : IAuthService
             customer.Name,
             verificationToken);
 
-        return ServiceResult<CustomerResponseDto>.Success(
-            CustomerMapper.ToResponseDto(customer));
+        return ServiceResult<string>.Success(safeMessage);
     }
 
     // Validates credentials and returns a signed JWT access token.
     public async Task<ServiceResult<AuthResponseDto>> LoginAsync(
         LoginRequestDto request)
     {
-        string normalizedEmail = request.Email
-            .Trim()
-            .ToLowerInvariant();
+        string normalizedEmail = NormalizeEmail(request.Email);
 
         var customer =
-            await _customerRepository.GetByEmailAsync(
-                normalizedEmail);
+            await _customerRepository.GetByEmailAsync(normalizedEmail);
 
         // Uses one generic error to prevent account discovery.
         if (customer is null ||
@@ -168,13 +153,11 @@ public sealed class AuthService : IAuthService
 
         // Hashes the received token before database comparison.
         string tokenHash =
-            _secureTokenGenerator.HashToken(
-                request.Token.Trim());
+            _secureTokenGenerator.HashToken(request.Token.Trim());
 
         var customer =
             await _customerRepository
-                .GetByEmailVerificationTokenHashAsync(
-                    tokenHash);
+                .GetByEmailVerificationTokenHashAsync(tokenHash);
 
         if (customer is null)
         {
@@ -189,14 +172,9 @@ public sealed class AuthService : IAuthService
         }
 
         // Rejects expired verification tokens.
-        if (customer.EmailVerificationTokenExpiresAt is null ||
-            customer.EmailVerificationTokenExpiresAt <=
-            DateTime.UtcNow)
+        if (IsTokenExpired(customer.EmailVerificationTokenExpiresAt))
         {
-            customer.EmailVerificationTokenHash = null;
-            customer.EmailVerificationTokenExpiresAt = null;
-            customer.UpdatedAt = DateTime.UtcNow;
-
+            ClearEmailVerificationToken(customer);
             await _customerRepository.SaveChangesAsync();
 
             return ServiceResult<string>.Failure(
@@ -206,10 +184,7 @@ public sealed class AuthService : IAuthService
         customer.EmailVerified = true;
 
         // Removes the verification token after successful use.
-        customer.EmailVerificationTokenHash = null;
-        customer.EmailVerificationTokenExpiresAt = null;
-        customer.UpdatedAt = DateTime.UtcNow;
-
+        ClearEmailVerificationToken(customer);
         await _customerRepository.SaveChangesAsync();
 
         return ServiceResult<string>.Success(
@@ -217,39 +192,27 @@ public sealed class AuthService : IAuthService
     }
 
     // Generates a replacement email-verification token.
-    public async Task<ServiceResult<string>>
-        ResendVerificationAsync(
-            ResendVerificationRequestDto request)
+    public async Task<ServiceResult<string>> ResendVerificationAsync(
+        ResendVerificationRequestDto request)
     {
-        string normalizedEmail = request.Email
-            .Trim()
-            .ToLowerInvariant();
+        string normalizedEmail = NormalizeEmail(request.Email);
 
         const string safeMessage =
             "If an eligible account exists, a verification email has been sent.";
 
         var customer =
-            await _customerRepository.GetByEmailAsync(
-                normalizedEmail);
+            await _customerRepository.GetByEmailAsync(normalizedEmail);
 
         // Returns the same response to prevent account discovery.
         if (customer is null ||
             customer.Status != CustomerStatus.Active ||
             customer.EmailVerified)
         {
-            return ServiceResult<string>.Success(
-                safeMessage);
+            return ServiceResult<string>.Success(safeMessage);
         }
 
         string verificationToken =
-            _secureTokenGenerator.GenerateToken();
-
-        customer.EmailVerificationTokenHash =
-            _secureTokenGenerator.HashToken(
-                verificationToken);
-
-        customer.EmailVerificationTokenExpiresAt =
-            DateTime.UtcNow.AddHours(24);
+            IssueEmailVerificationToken(customer);
 
         customer.UpdatedAt = DateTime.UtcNow;
 
@@ -260,32 +223,27 @@ public sealed class AuthService : IAuthService
             customer.Name,
             verificationToken);
 
-        return ServiceResult<string>.Success(
-            safeMessage);
+        return ServiceResult<string>.Success(safeMessage);
     }
 
     // Generates a secure password-reset token.
     public async Task<ServiceResult<string>> ForgotPasswordAsync(
         ForgotPasswordRequestDto request)
     {
-        string normalizedEmail = request.Email
-            .Trim()
-            .ToLowerInvariant();
-
-        var customer =
-            await _customerRepository.GetByEmailAsync(
-                normalizedEmail);
+        string normalizedEmail = NormalizeEmail(request.Email);
 
         const string safeMessage =
             "If an eligible account exists, password-reset instructions have been sent.";
+
+        var customer =
+            await _customerRepository.GetByEmailAsync(normalizedEmail);
 
         // Returns the same response to prevent account discovery.
         if (customer is null ||
             customer.Status != CustomerStatus.Active ||
             !customer.EmailVerified)
         {
-            return ServiceResult<string>.Success(
-                safeMessage);
+            return ServiceResult<string>.Success(safeMessage);
         }
 
         string resetToken =
@@ -293,12 +251,11 @@ public sealed class AuthService : IAuthService
 
         // Stores only the reset-token hash.
         customer.PasswordResetTokenHash =
-            _secureTokenGenerator.HashToken(
-                resetToken);
+            _secureTokenGenerator.HashToken(resetToken);
 
-        // Makes the reset token valid for one hour.
+        // Makes the reset token valid for a short window only.
         customer.PasswordResetTokenExpiresAt =
-            DateTime.UtcNow.AddHours(1);
+            DateTime.UtcNow.AddHours(PasswordResetTokenHours);
 
         customer.UpdatedAt = DateTime.UtcNow;
 
@@ -309,8 +266,7 @@ public sealed class AuthService : IAuthService
             customer.Name,
             resetToken);
 
-        return ServiceResult<string>.Success(
-            safeMessage);
+        return ServiceResult<string>.Success(safeMessage);
     }
 
     // Resets the password using a valid one-time token.
@@ -330,13 +286,11 @@ public sealed class AuthService : IAuthService
         }
 
         string tokenHash =
-            _secureTokenGenerator.HashToken(
-                request.Token.Trim());
+            _secureTokenGenerator.HashToken(request.Token.Trim());
 
         var customer =
             await _customerRepository
-                .GetByPasswordResetTokenHashAsync(
-                    tokenHash);
+                .GetByPasswordResetTokenHashAsync(tokenHash);
 
         if (customer is null)
         {
@@ -345,33 +299,70 @@ public sealed class AuthService : IAuthService
         }
 
         // Rejects expired reset tokens.
-        if (customer.PasswordResetTokenExpiresAt is null ||
-            customer.PasswordResetTokenExpiresAt <=
-            DateTime.UtcNow)
+        if (IsTokenExpired(customer.PasswordResetTokenExpiresAt))
         {
-            customer.PasswordResetTokenHash = null;
-            customer.PasswordResetTokenExpiresAt = null;
-            customer.UpdatedAt = DateTime.UtcNow;
-
+            ClearPasswordResetToken(customer);
             await _customerRepository.SaveChangesAsync();
 
             return ServiceResult<string>.Failure(
                 "The password-reset token has expired.");
         }
 
+        // Only an active account may complete a password reset, even with a
+        // still-valid token (the account may have been deactivated meanwhile).
+        if (customer.Status != CustomerStatus.Active)
+        {
+            return ServiceResult<string>.Failure(
+                "This account is not eligible for a password reset.");
+        }
+
         // Replaces the previous password hash.
         customer.PasswordHash =
-            _passwordHasher.HashPassword(
-                request.NewPassword);
+            _passwordHasher.HashPassword(request.NewPassword);
 
         // Removes the reset token to prevent reuse.
-        customer.PasswordResetTokenHash = null;
-        customer.PasswordResetTokenExpiresAt = null;
-        customer.UpdatedAt = DateTime.UtcNow;
-
+        ClearPasswordResetToken(customer);
         await _customerRepository.SaveChangesAsync();
 
         return ServiceResult<string>.Success(
             "Password reset successfully.");
+    }
+
+    // Normalises an email so lookups and uniqueness ignore case and padding.
+    private static string NormalizeEmail(string email) =>
+        email.Trim().ToLowerInvariant();
+
+    // True when an optional token-expiry timestamp is missing or in the past.
+    private static bool IsTokenExpired(DateTime? expiresAtUtc) =>
+        expiresAtUtc is null || expiresAtUtc <= DateTime.UtcNow;
+
+    // Generates a fresh verification token and stores its hash and expiry on
+    // the customer, returning the raw token to be emailed. Does not persist,
+    // and leaves UpdatedAt to the caller (a new customer keeps it null).
+    private string IssueEmailVerificationToken(Customer customer)
+    {
+        string token = _secureTokenGenerator.GenerateToken();
+
+        customer.EmailVerificationTokenHash =
+            _secureTokenGenerator.HashToken(token);
+
+        customer.EmailVerificationTokenExpiresAt =
+            DateTime.UtcNow.AddHours(EmailVerificationTokenHours);
+
+        return token;
+    }
+
+    private static void ClearEmailVerificationToken(Customer customer)
+    {
+        customer.EmailVerificationTokenHash = null;
+        customer.EmailVerificationTokenExpiresAt = null;
+        customer.UpdatedAt = DateTime.UtcNow;
+    }
+
+    private static void ClearPasswordResetToken(Customer customer)
+    {
+        customer.PasswordResetTokenHash = null;
+        customer.PasswordResetTokenExpiresAt = null;
+        customer.UpdatedAt = DateTime.UtcNow;
     }
 }

@@ -1,12 +1,13 @@
 ﻿using EventParkingReservationSystem.API.Services.Common;
 using EventParkingReservationSystem.API.DTOs.Auth;
-using EventParkingReservationSystem.API.DTOs.Customers;
 
 namespace EventParkingReservationSystem.API.Services.Interfaces;
 
 public interface IAuthService
 {
-    Task<ServiceResult<CustomerResponseDto>> RegisterAsync(
+    // Registers a customer. Returns a generic message that never reveals
+    // whether the email already exists, to prevent account enumeration.
+    Task<ServiceResult<string>> RegisterAsync(
         RegisterRequestDto request);
 
     Task<ServiceResult<AuthResponseDto>> LoginAsync(

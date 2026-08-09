@@ -1,5 +1,4 @@
 ﻿using EventParkingReservationSystem.API.DTOs.Auth;
-using EventParkingReservationSystem.API.DTOs.Customers;
 using EventParkingReservationSystem.API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,15 +16,13 @@ public class AuthController : ControllerBase
         _authService = authService;
     }
 
-    // Creates a new customer account.
+    // Registers a customer. The response is identical whether or not the email
+    // is already in use, so it cannot be used to enumerate accounts.
     [AllowAnonymous]
     [HttpPost("register")]
-    [ProducesResponseType(
-        typeof(CustomerResponseDto),
-        StatusCodes.Status201Created)]
-    [ProducesResponseType(
-        StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<CustomerResponseDto>> Register(
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Register(
         [FromBody] RegisterRequestDto request)
     {
         var result = await _authService.RegisterAsync(request);
@@ -38,9 +35,10 @@ public class AuthController : ControllerBase
             });
         }
 
-        return StatusCode(
-            StatusCodes.Status201Created,
-            result.Data);
+        return Ok(new
+        {
+            message = result.Data
+        });
     }
 
     // Validates credentials and returns a JWT access token.

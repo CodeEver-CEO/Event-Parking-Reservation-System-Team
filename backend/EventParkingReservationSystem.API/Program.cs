@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-
 using EventParkingReservationSystem.API.BackgroundServices;
 using EventParkingReservationSystem.API.Configuration;
 using EventParkingReservationSystem.API.Data;
@@ -8,40 +7,29 @@ using EventParkingReservationSystem.API.Repositories.Implementations;
 using EventParkingReservationSystem.API.Repositories.Interfaces;
 using EventParkingReservationSystem.API.Services.Implementations;
 using EventParkingReservationSystem.API.Services.Interfaces;
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers();
 
 // ------------------------------------
 // Database Connection
 // ------------------------------------
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")
-    )
-);
-
-// ------------------------------------
-// Repository Dependency Injection
-// ------------------------------------
-builder.Services.AddScoped<IBookingRepository, BookingRepository>();
-builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
-
-// Database
 var connectionString =
-    builder.Configuration.GetConnectionString("DefaultConnection")
+    builder.Configuration.GetConnectionString(
+        "DefaultConnection")
     ?? throw new InvalidOperationException(
         "DefaultConnection was not found in appsettings.json.");
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<ApplicationDbContext>(
+    options =>
+        options.UseSqlServer(connectionString));
 
+// ------------------------------------
 // JWT Configuration
+// ------------------------------------
 builder.Services
     .AddOptions<JwtOptions>()
     .Bind(
@@ -49,9 +37,8 @@ builder.Services
             JwtOptions.SectionName))
     .Validate(
         options =>
-            !string.IsNullOrWhiteSpace(options.Key) &&
-            options.Key.Length >= 32,
-        "JWT key must contain at least 32 characters.")
+            !string.IsNullOrWhiteSpace(options.Key),
+        "JWT key is required.")
     .Validate(
         options =>
             !string.IsNullOrWhiteSpace(options.Issuer),
@@ -63,7 +50,7 @@ builder.Services
     .Validate(
         options =>
             options.AccessTokenMinutes > 0,
-        "JWT access token duration must be greater than zero.")
+        "JWT access-token duration must be greater than zero.")
     .ValidateOnStart();
 
 var jwtOptions =
@@ -87,7 +74,15 @@ catch (FormatException exception)
         exception);
 }
 
-// Authentication
+if (jwtKeyBytes.Length < 32)
+{
+    throw new InvalidOperationException(
+        "Jwt:Key must contain at least 32 bytes.");
+}
+
+// ------------------------------------
+// JWT Authentication
+// ------------------------------------
 builder.Services
     .AddAuthentication(options =>
     {
@@ -113,76 +108,102 @@ builder.Services
 
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey =
-                    new SymmetricSecurityKey(jwtKeyBytes),
+                    new SymmetricSecurityKey(
+                        jwtKeyBytes),
 
                 ValidateLifetime = true,
-
                 ClockSkew = TimeSpan.Zero
             };
     });
 
 builder.Services.AddAuthorization();
 
-// Customer Repository
+// ------------------------------------
+// Repository Dependency Injection
+// ------------------------------------
 builder.Services.AddScoped<
     ICustomerRepository,
     CustomerRepository>();
 
-// Module 4 - Seat Reservation Repository
+builder.Services.AddScoped<
+    IAdminRepository,
+    AdminRepository>();
+
+builder.Services.AddScoped<
+    IBookingRepository,
+    BookingRepository>();
+
+builder.Services.AddScoped<
+    IPaymentRepository,
+    PaymentRepository>();
+
 builder.Services.AddScoped<
     ISeatRepository,
     SeatRepository>();
 
-// Authentication Service
+// ------------------------------------
+// Service Dependency Injection
+// ------------------------------------
 builder.Services.AddScoped<
     IAuthService,
     AuthService>();
 
-// Customer Service
+builder.Services.AddScoped<
+    IAdminAuthService,
+    AdminAuthService>();
+
 builder.Services.AddScoped<
     ICustomerService,
     CustomerService>();
 
-// Email Service (development logger implementation)
 builder.Services.AddScoped<
     IEmailService,
     EmailService>();
 
-// Module 4 - Seat Reservation Service
 builder.Services.AddScoped<
     ISeatService,
     SeatService>();
 
-// Module 4 - Booking Expiry Service
+// ------------------------------------
+// Background Services
+// ------------------------------------
 builder.Services.AddHostedService<
     BookingExpiryService>();
 
-// Helpers
-builder.Services.AddScoped<
-    PasswordHasher>();
+// ------------------------------------
+// Helpers and Database Seeder
+// ------------------------------------
+builder.Services.AddScoped<PasswordHasher>();
 
-builder.Services.AddSingleton<
-    SecureTokenGenerator>();
+builder.Services.AddScoped<DatabaseSeeder>();
+
+builder.Services.AddSingleton<SecureTokenGenerator>();
 
 builder.Services.AddSingleton<
     IJwtTokenGenerator,
     JwtTokenGenerator>();
 
-// Controllers
+builder.Services.AddSingleton<
+    IAdminJwtTokenGenerator,
+    AdminJwtTokenGenerator>();
+
+// ------------------------------------
+// Controllers and JSON
+// ------------------------------------
 builder.Services
     .AddControllers()
     .AddJsonOptions(options =>
     {
-        options
-            .JsonSerializerOptions
+        options.JsonSerializerOptions
             .Converters
-            .Add(
-                new JsonStringEnumConverter());
+            .Add(new JsonStringEnumConverter());
     });
 
 builder.Services.AddEndpointsApiExplorer();
 
+// ------------------------------------
 // CORS
+// ------------------------------------
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(
@@ -196,7 +217,9 @@ builder.Services.AddCors(options =>
         });
 });
 
+// ------------------------------------
 // Swagger
+// ------------------------------------
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc(
@@ -206,8 +229,7 @@ builder.Services.AddSwaggerGen(options =>
             Title =
                 "Event Parking Reservation System API",
 
-            Version =
-                "v1",
+            Version = "v1",
 
             Description =
                 "API for event booking and parking reservation management."
@@ -222,7 +244,8 @@ builder.Services.AddSwaggerGen(options =>
             Scheme = "bearer",
             BearerFormat = "JWT",
             In = ParameterLocation.Header,
-            Description = "Enter the JWT access token only."
+            Description =
+                "Enter the JWT access token only."
         });
 
     options.AddSecurityRequirement(
@@ -234,7 +257,9 @@ builder.Services.AddSwaggerGen(options =>
                     Reference =
                         new OpenApiReference
                         {
-                            Type = ReferenceType.SecurityScheme,
+                            Type =
+                                ReferenceType.SecurityScheme,
+
                             Id = "Bearer"
                         }
                 },
@@ -248,7 +273,21 @@ builder.Services.AddSwaggerGen(options =>
 // ------------------------------------
 var app = builder.Build();
 
-// Swagger
+// ------------------------------------
+// Seed Default Administrator
+// ------------------------------------
+using (var scope = app.Services.CreateScope())
+{
+    var databaseSeeder =
+        scope.ServiceProvider
+            .GetRequiredService<DatabaseSeeder>();
+
+    await databaseSeeder.SeedAsync();
+}
+
+// ------------------------------------
+// HTTP Pipeline
+// ------------------------------------
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

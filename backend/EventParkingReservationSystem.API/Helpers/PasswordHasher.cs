@@ -1,4 +1,6 @@
-﻿namespace EventParkingReservationSystem.API.Helpers;
+﻿
+
+namespace EventParkingReservationSystem.API.Helpers;
 
 public sealed class PasswordHasher
 {

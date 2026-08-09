@@ -50,4 +50,6 @@ public class Booking
 
     public ICollection<Notification> Notifications { get; set; } =
         new List<Notification>();
+    public int? ParkingSlotId { get; internal set; }
+    public decimal ParkingFee { get; internal set; }
 }

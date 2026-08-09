@@ -477,7 +477,7 @@ public class ApplicationDbContext : DbContext
             entity.HasIndex(payment => payment.BookingId)
                 .IsUnique();
 
-            entity.HasIndex(payment => payment.Reference)
+            entity.HasIndex(payment => payment.PaymentReference)
                 .IsUnique()
                 .HasFilter("[Reference] IS NOT NULL");
 
@@ -495,7 +495,7 @@ public class ApplicationDbContext : DbContext
                 .HasConversion<string>()
                 .HasMaxLength(30);
 
-            entity.Property(payment => payment.Reference)
+            entity.Property(payment => payment.PaymentReference)
                 .HasMaxLength(100);
 
             entity.HasOne(payment => payment.Customer)

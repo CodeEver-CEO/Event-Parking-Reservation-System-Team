@@ -5,7 +5,7 @@ namespace EventParkingReservationSystem.API.Models;
 
 public class Payment
 {
-    internal readonly object? Reference;
+  
 
     public int PaymentId { get; set; }
 

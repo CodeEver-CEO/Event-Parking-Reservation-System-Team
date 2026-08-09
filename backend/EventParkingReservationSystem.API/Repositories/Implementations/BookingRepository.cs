@@ -81,7 +81,7 @@ namespace EventParkingReservationSystem.API.Repositories.Implementations
             // Assuming your existing Seat model
             // has IsAvailable property.
             return seats.All(s =>
-                s.IsAvailable);
+                s.Available);
         }
 
         public async Task<Booking>

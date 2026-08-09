@@ -44,7 +44,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
 
             var seatAmount =
                 booking.BookingSeats
-                    .Sum(x => x.TicketPrice);
+                    .Sum(x => x.TicketPriceSnapshot);
 
             return new PaymentResponseDto
             {
@@ -126,7 +126,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                     "Booking is already confirmed.");
             }
 
-            if (booking.HoldExpiresAt <=
+            if (booking.HoldExpiresAtUtc <=
                 DateTime.UtcNow)
             {
                 throw new Exception(
@@ -148,7 +148,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
 
             var seatAmount =
                 booking.BookingSeats
-                    .Sum(x => x.TicketPrice);
+                    .Sum(x => x.TicketPriceSnapshot);
 
             var total =
                 seatAmount +
@@ -215,7 +215,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
 
                 var seatAmount =
                     booking.BookingSeats
-                        .Sum(x => x.TicketPrice);
+                        .Sum(x => x.TicketPriceSnapshot);
 
                 result.Add(
                     new PaymentResponseDto

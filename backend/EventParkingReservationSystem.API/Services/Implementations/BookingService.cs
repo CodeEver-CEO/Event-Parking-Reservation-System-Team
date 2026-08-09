@@ -107,7 +107,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                         "Parking slot not found.");
                 }
 
-                if (parkingSlot.IsAvailable)
+                if (parkingSlot.Available)
                 {
                 }
                 else
@@ -252,10 +252,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                 booking.HoldExpiresAtUtc -
                 DateTime.UtcNow;
 
-            var seconds =
-                Math.Max(0,
-                         val2: (int)remaining.TotalSeconds);
-
+          
             return new HoldStatusDto
             {
                 BookingId =
@@ -267,11 +264,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                 HoldExpiresAt =
                     (DateTime)booking.HoldExpiresAtUtc,
 
-                RemainingSeconds =
-                    seconds,
-
-                IsExpired =
-                    seconds <= 0
+               
             };
         }
 
@@ -302,7 +295,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
             foreach (var bookingSeat
                 in booking.BookingSeats)
             {
-                bookingSeat.Seat.Available =
+                bookingSeat.Seat.IsAvailable =
                     true;
             }
 
@@ -348,7 +341,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
 
                 if (booking.ParkingSlot != null)
                 {
-                    booking.ParkingSlot.IsAvailable =
+                    booking.ParkingSlot.Available =
                         true;
                 }
 

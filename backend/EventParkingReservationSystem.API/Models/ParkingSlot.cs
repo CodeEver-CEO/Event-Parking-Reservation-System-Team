@@ -5,7 +5,7 @@ namespace EventParkingReservationSystem.API.Models;
 
 public class ParkingSlot
 {
-    internal readonly bool IsAvailable;
+ 
 
     public int Id { get; set; }
 

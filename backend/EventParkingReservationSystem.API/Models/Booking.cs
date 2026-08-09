@@ -5,7 +5,7 @@ namespace EventParkingReservationSystem.API.Models;
 
 public class Booking
 {
-    internal readonly object ParkingSlot;
+  
 
     public int BookingId { get; set; }
 
@@ -52,4 +52,5 @@ public class Booking
         new List<Notification>();
     public int? ParkingSlotId { get; internal set; }
     public decimal ParkingFee { get; internal set; }
+    public ParkingSlot? ParkingSlot { get; set; }
 }

@@ -51,14 +51,14 @@ namespace EventParkingReservationSystem.API.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{BookingId}")]
         public async Task<IActionResult>
             GetBooking(
-                int id)
+                int BookingId)
         {
             var result =
                 await _bookingService
-                    .GetBookingByIdAsync(id);
+                    .GetBookingByIdAsync(BookingId);
 
             if (result == null)
             {
@@ -95,14 +95,14 @@ namespace EventParkingReservationSystem.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}/hold-status")]
+        [HttpGet("{BookingId}/hold-status")]
         public async Task<IActionResult>
             GetHoldStatus(
-                int id)
+                int BookingId)
         {
             var result =
                 await _bookingService
-                    .GetHoldStatusAsync(id);
+                    .GetHoldStatusAsync(BookingId);
 
             if (result == null)
             {
@@ -112,11 +112,11 @@ namespace EventParkingReservationSystem.API.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{BookingId}")]
         [Authorize(Roles = "Customer")]
         public async Task<IActionResult>
             CancelBooking(
-                int id)
+                int BookingId)
         {
             var customerId =
                 GetCustomerId();
@@ -124,7 +124,7 @@ namespace EventParkingReservationSystem.API.Controllers
             var result =
                 await _bookingService
                     .CancelBookingAsync(
-                        id,
+                        BookingId,
                         customerId);
 
             if (!result)

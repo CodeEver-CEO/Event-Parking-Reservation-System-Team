@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using EventParkingReservationSystem.API.Enums;
+﻿using EventParkingReservationSystem.API.Enums;
 
 namespace EventParkingReservationSystem.API.Models;
 
@@ -15,25 +14,16 @@ public class Payment
 
     public Customer Customer { get; set; } = null!;
 
-using EventParkingReservationSystem.API.Enums;
+    public decimal Amount { get; set; }
 
-namespace EventParkingReservationSystem.API.Models
-{
-    public class Payment
-    {
-        public int PaymentId { get; set; }
+    public PaymentStatus Status { get; set; }
 
-        public int BookingId { get; set; }
+    public string? Reference { get; set; }
 
-        public decimal Amount { get; set; }
+    public DateTime? PaidAtUtc { get; set; }
 
-        public PaymentStatus Status { get; set; }
+    public DateTime CreatedAt { get; set; } =
+        DateTime.UtcNow;
 
-        public string PaymentReference { get; set; }
-            = string.Empty;
-
-        public DateTime? PaymentDate { get; set; }
-
-        public Booking Booking { get; set; } = null!;
-    }
+    public DateTime? UpdatedAt { get; set; }
 }

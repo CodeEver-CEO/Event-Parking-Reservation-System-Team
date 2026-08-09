@@ -1,37 +1,40 @@
-﻿
-using EventParkingReservationSystem.API.Models;
+﻿using EventParkingReservationSystem.API.Models;
 
-namespace EventParkingReservationSystem.API.Helpers
+namespace EventParkingReservationSystem.API.Helpers;
+
+public static class ReceiptGenerator
 {
-    public static class ReceiptGenerator
+    public static byte[] Generate(
+        Payment payment)
     {
-        public static byte[] Generate(
-            Payment payment)
-        {
-            var text = $"""
-            ===========================================
-                     EVENT BOOKING RECEIPT
-            ===========================================
+        var paymentDate =
+            payment.PaidAtUtc?.ToString(
+                "yyyy-MM-dd HH:mm")
+            ?? "-";
 
-            Booking Number : {payment.Booking.BookingNumber}
+        var text = $"""
+========================================
+          EVENT BOOKING RECEIPT
+========================================
 
-            Payment ID     : {payment.PaymentId}
+Booking Number : {payment.Booking.BookingNumber}
 
-            Reference      : {payment.PaymentReference}
+Payment ID     : {payment.Id}
 
-            Amount         : Rs. {payment.Amount:N2}
+Reference      : {payment.Reference ?? "-"}
 
-            Status         : {payment.Status}
+Amount         : Rs. {payment.Amount:N2}
 
-            Date           : {payment.PaymentDate:yyyy-MM-dd HH:mm}
+Status         : {payment.Status}
 
-            ===========================================
-                     THANK YOU, PLEASE COME AGAIN.
-            ===========================================
-            """;
+Date           : {paymentDate}
 
-            return System.Text.Encoding.UTF8
-                .GetBytes(text);
-        }
+========================================
+          THANK YOU, PLEASE COME AGAIN.
+========================================
+""";
+
+        return System.Text.Encoding.UTF8
+            .GetBytes(text);
     }
 }

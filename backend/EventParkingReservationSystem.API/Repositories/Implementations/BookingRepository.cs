@@ -1,126 +1,134 @@
-﻿
-using EventParkingReservationSystem.API.Data;
+﻿using EventParkingReservationSystem.API.Data;
 using EventParkingReservationSystem.API.Enums;
 using EventParkingReservationSystem.API.Models;
 using EventParkingReservationSystem.API.Repositories.Interfaces;
+
 using Microsoft.EntityFrameworkCore;
-using System;
 
-namespace EventParkingReservationSystem.API.Repositories.Implementations
+namespace EventParkingReservationSystem.API.Repositories.Implementations;
+
+public class BookingRepository : IBookingRepository
 {
-    public class BookingRepository : IBookingRepository
+    private readonly ApplicationDbContext _context;
+
+    public BookingRepository(
+        ApplicationDbContext context)
     {
-        private readonly AppDbContext _context;
+        _context = context;
+    }
 
-        public BookingRepository(
-            AppDbContext context)
-        {
-            _context = context;
-        }
+    public async Task<Booking?> GetByIdAsync(
+        int bookingId)
+    {
+        return await _context.Bookings
+            .Include(b => b.BookingSeats)
+                .ThenInclude(bs => bs.Seat)
+            .Include(b => b.Event)
+            .Include(b => b.Payment)
+            .Include(b => b.ParkingReservations)
+                .ThenInclude(pr => pr.ParkingSlot)
+            .FirstOrDefaultAsync(
+                b => b.Id == bookingId);
+    }
 
-        public async Task<Booking?> GetByIdAsync(
-            int bookingId)
-        {
-            return await _context.Bookings
-                .Include(b => b.BookingSeats)
-                    .ThenInclude(bs => bs.Seat)
-                .Include(b => b.Event)
-                .Include(b => b.Payment)
-                .Include(b => b.ParkingSlot)
-                .FirstOrDefaultAsync(
-                    b => b.BookingId == bookingId);
-        }
+    public async Task<List<Booking>>
+        GetByCustomerIdAsync(
+            int customerId)
+    {
+        return await _context.Bookings
+            .Include(b => b.BookingSeats)
+                .ThenInclude(bs => bs.Seat)
+            .Include(b => b.Event)
+            .Include(b => b.ParkingReservations)
+                .ThenInclude(pr => pr.ParkingSlot)
+            .Where(
+                b => b.CustomerId == customerId)
+            .OrderByDescending(
+                b => b.CreatedAt)
+            .ToListAsync();
+    }
 
-        public async Task<List<Booking>>
-            GetByCustomerIdAsync(
-                int customerId)
-        {
-            return await _context.Bookings
-                .Include(b => b.BookingSeats)
-                    .ThenInclude(bs => bs.Seat)
-                .Include(b => b.Event)
-                .Include(b => b.ParkingSlot)
-                .Where(b =>
-                    b.CustomerId == customerId)
-                .OrderByDescending(
-                    b => b.CreatedAt)
-                .ToListAsync();
-        }
+    public async Task<List<Booking>>
+        GetByEventIdAsync(
+            int eventId)
+    {
+        return await _context.Bookings
+            .Include(b => b.BookingSeats)
+                .ThenInclude(bs => bs.Seat)
+            .Include(b => b.ParkingReservations)
+                .ThenInclude(pr => pr.ParkingSlot)
+            .Where(
+                b => b.EventId == eventId)
+            .OrderByDescending(
+                b => b.CreatedAt)
+            .ToListAsync();
+    }
 
-        public async Task<List<Booking>>
-            GetByEventIdAsync(
-                int eventId)
-        {
-            return await _context.Bookings
-                .Include(b => b.BookingSeats)
-                    .ThenInclude(bs => bs.Seat)
-                .Include(b => b.ParkingSlot)
-                .Where(b =>
-                    b.EventId == eventId)
-                .OrderByDescending(
-                    b => b.CreatedAt)
-                .ToListAsync();
-        }
-
-        public async Task<bool>
-            AreSeatsAvailableAsync(
-                int eventId,
-                List<int> seatIds)
-        {
-            var seats =
-                await _context.Seats
-                    .Where(s =>
+    public async Task<bool>
+        AreSeatsAvailableAsync(
+            int eventId,
+            List<int> seatIds)
+    {
+        var seats =
+            await _context.Seats
+                .Where(
+                    s =>
                         s.EventId == eventId &&
-                        seatIds.Contains(
-                            s.SeatId))
-                    .ToListAsync();
+                        seatIds.Contains(s.Id))
+                .ToListAsync();
 
-            if (seats.Count != seatIds.Count)
-                return false;
-
-            // Assuming your existing Seat model
-            // has IsAvailable property.
-            return seats.All(s =>
-                s.IsAvailable);
-        }
-
-        public async Task<Booking>
-            AddAsync(
-                Booking booking)
+        if (seats.Count != seatIds.Count)
         {
-            await _context.Bookings.AddAsync(
-                booking);
-
-            return booking;
+            return false;
         }
 
-        public async Task UpdateAsync(
+        return seats.All(
+            s =>
+                s.Status ==
+                SeatStatus.Available);
+    }
+
+    public async Task<Booking>
+        AddAsync(
             Booking booking)
-        {
-            _context.Bookings.Update(
-                booking);
+    {
+        await _context.Bookings.AddAsync(
+            booking);
 
-            await Task.CompletedTask;
-        }
+        return booking;
+    }
 
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
+    public async Task UpdateAsync(
+        Booking booking)
+    {
+        _context.Bookings.Update(
+            booking);
 
-        public async Task<List<Booking>>
-            GetExpiredPendingBookingsAsync()
-        {
-            var now = DateTime.UtcNow;
+        await Task.CompletedTask;
+    }
 
-            return await _context.Bookings
-                .Include(b => b.BookingSeats)
-                .Include(b => b.ParkingSlot)
-                .Where(b =>
+    public async Task SaveChangesAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<Booking>>
+        GetExpiredPendingBookingsAsync()
+    {
+        var now =
+            DateTime.UtcNow;
+
+        return await _context.Bookings
+            .Include(b => b.BookingSeats)
+                .ThenInclude(bs => bs.Seat)
+            .Include(b => b.ParkingReservations)
+                .ThenInclude(pr => pr.ParkingSlot)
+            .Where(
+                b =>
                     b.Status ==
                         BookingStatus.Pending &&
-                    b.HoldExpiresAt <= now)
-                .ToListAsync();
-        }
+                    b.HoldExpiresAtUtc.HasValue &&
+                    b.HoldExpiresAtUtc.Value <= now)
+            .ToListAsync();
     }
 }

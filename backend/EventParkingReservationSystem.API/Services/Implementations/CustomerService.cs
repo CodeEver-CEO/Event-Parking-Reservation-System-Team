@@ -26,7 +26,7 @@ public class CustomerService : ICustomerService
         }
 
         var customer =
-            await _customerRepository.GetByIdAsync(customerId);
+           await _customerRepository.GetByIdAsync(customerId);
 
         if (customer is null)
         {
@@ -65,7 +65,7 @@ public class CustomerService : ICustomerService
         }
 
         var customer =
-            await _customerRepository.GetByIdAsync(customerId);
+            await _customerRepository.GetByIdForUpdateAsync(customerId);
 
         if (customer is null)
         {
@@ -99,7 +99,7 @@ public class CustomerService : ICustomerService
         }
 
         var customer =
-            await _customerRepository.GetByIdAsync(customerId);
+            await _customerRepository.GetByIdForUpdateAsync(customerId);
 
         if (customer is null)
         {

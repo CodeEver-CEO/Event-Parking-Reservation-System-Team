@@ -30,4 +30,12 @@ public interface ICustomerRepository
 
     // Saves pending database changes.
     Task SaveChangesAsync();
+
+    // Gets a tracked customer for profile or status updates.
+    Task<Customer?> GetByIdForUpdateAsync(int id);
+
+    // Returns the total number of bookings for a customer.
+    Task<int> CountBookingsAsync(int customerId);
+
+
 }

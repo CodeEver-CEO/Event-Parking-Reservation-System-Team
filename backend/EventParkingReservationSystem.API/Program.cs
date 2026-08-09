@@ -15,6 +15,22 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers();
+
+// ------------------------------------
+// Database Connection
+// ------------------------------------
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")
+    )
+);
+
+// ------------------------------------
+// Repository Dependency Injection
+// ------------------------------------
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 
 // Database
 var connectionString =
@@ -227,6 +243,9 @@ builder.Services.AddSwaggerGen(options =>
         });
 });
 
+// ------------------------------------
+// Build Application
+// ------------------------------------
 var app = builder.Build();
 
 // Swagger

@@ -15,18 +15,25 @@ public class Payment
 
     public Customer Customer { get; set; } = null!;
 
-    public decimal Amount { get; set; }
+using EventParkingReservationSystem.API.Enums;
 
-    public PaymentStatus Status { get; set; } =
-        PaymentStatus.Pending;
+namespace EventParkingReservationSystem.API.Models
+{
+    public class Payment
+    {
+        public int PaymentId { get; set; }
 
-    [MaxLength(100)]
-    public string? Reference { get; set; }
+        public int BookingId { get; set; }
 
-    public DateTime? PaidAtUtc { get; set; }
+        public decimal Amount { get; set; }
 
-    public DateTime CreatedAt { get; set; } =
-        DateTime.UtcNow;
+        public PaymentStatus Status { get; set; }
 
-    public DateTime? UpdatedAt { get; set; }
+        public string PaymentReference { get; set; }
+            = string.Empty;
+
+        public DateTime? PaymentDate { get; set; }
+
+        public Booking Booking { get; set; } = null!;
+    }
 }

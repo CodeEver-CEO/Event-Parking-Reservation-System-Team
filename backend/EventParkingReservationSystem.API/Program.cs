@@ -20,7 +20,7 @@ builder.Services.AddControllers();
 // ------------------------------------
 // Database Connection
 // ------------------------------------
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")
     )

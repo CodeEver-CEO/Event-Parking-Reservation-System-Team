@@ -5,7 +5,9 @@ namespace EventParkingReservationSystem.API.Models;
 
 public class Booking
 {
-    public int Id { get; set; }
+    internal readonly object ParkingSlot;
+
+    public int BookingId { get; set; }
 
     [Required]
     [MaxLength(30)]

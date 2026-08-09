@@ -323,7 +323,7 @@ public class ApplicationDbContext : DbContext
                     "CK_Bookings_TotalAmount",
                     "[TotalAmount] >= 0"));
 
-            entity.HasKey(booking => booking.Id);
+            entity.HasKey(booking => booking.BookingId);
 
             // Every booking receives a globally unique booking number.
             entity.HasIndex(booking => booking.BookingNumber)
@@ -471,7 +471,7 @@ public class ApplicationDbContext : DbContext
                     "CK_Payments_Amount",
                     "[Amount] >= 0"));
 
-            entity.HasKey(payment => payment.Id);
+            entity.HasKey(payment => payment.PaymentId);
 
             // Enforces one payment row for each booking.
             entity.HasIndex(payment => payment.BookingId)

@@ -102,7 +102,7 @@ public class BookingExpiryService : BackgroundService
                         booking.HoldExpiresAtUtc.HasValue &&
                         booking.HoldExpiresAtUtc.Value <= now)
                 .Select(
-                    booking => booking.Id)
+                    booking => booking.BookingId)
                 .ToListAsync(
                     cancellationToken);
 
@@ -146,7 +146,7 @@ public class BookingExpiryService : BackgroundService
                 await context.Bookings
                     .FirstOrDefaultAsync(
                         item =>
-                            item.Id == bookingId,
+                            item.BookingId == bookingId,
                         cancellationToken);
 
             if (booking is null)

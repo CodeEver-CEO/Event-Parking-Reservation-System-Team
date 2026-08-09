@@ -10,10 +10,10 @@ namespace EventParkingReservationSystem.API.Repositories.Implementations
 {
     public class BookingRepository : IBookingRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public BookingRepository(
-            AppDbContext context)
+            ApplicationDbContext context)
         {
             _context = context;
         }
@@ -72,7 +72,7 @@ namespace EventParkingReservationSystem.API.Repositories.Implementations
                     .Where(s =>
                         s.EventId == eventId &&
                         seatIds.Contains(
-                            s.SeatId))
+                            s.Id))
                     .ToListAsync();
 
             if (seats.Count != seatIds.Count)
@@ -119,7 +119,7 @@ namespace EventParkingReservationSystem.API.Repositories.Implementations
                 .Where(b =>
                     b.Status ==
                         BookingStatus.Pending &&
-                    b.HoldExpiresAt <= now)
+                    b.HoldExpiresAtUtc <= now)
                 .ToListAsync();
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace EventParkingReservationSystem.API.Helpers;
 
-public class PasswordHasher
+public sealed class PasswordHasher
 {
     private const int WorkFactor = 12;
 

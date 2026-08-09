@@ -66,6 +66,7 @@ public class AuthController : ControllerBase
 
         return Ok(result.Data);
     }
+
     // Verifies the customer's email using the verification token.
     [AllowAnonymous]
     [HttpPost("verify-email")]

@@ -32,7 +32,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 
-// Database
+// =====================================================
+// DATABASE
+// =====================================================
+
 var connectionString =
     builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException(
@@ -41,7 +44,10 @@ var connectionString =
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// JWT Configuration
+// =====================================================
+// JWT CONFIGURATION
+// =====================================================
+
 builder.Services
     .AddOptions<JwtOptions>()
     .Bind(
@@ -78,7 +84,8 @@ byte[] jwtKeyBytes;
 try
 {
     jwtKeyBytes =
-        Convert.FromBase64String(jwtOptions.Key);
+        Convert.FromBase64String(
+            jwtOptions.Key);
 }
 catch (FormatException exception)
 {
@@ -87,7 +94,10 @@ catch (FormatException exception)
         exception);
 }
 
-// Authentication
+// =====================================================
+// AUTHENTICATION
+// =====================================================
+
 builder.Services
     .AddAuthentication(options =>
     {
@@ -113,7 +123,8 @@ builder.Services
 
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey =
-                    new SymmetricSecurityKey(jwtKeyBytes),
+                    new SymmetricSecurityKey(
+                        jwtKeyBytes),
 
                 ValidateLifetime = true,
 
@@ -122,6 +133,10 @@ builder.Services
     });
 
 builder.Services.AddAuthorization();
+
+// =====================================================
+// REPOSITORIES
+// =====================================================
 
 // Customer Repository
 builder.Services.AddScoped<
@@ -132,6 +147,20 @@ builder.Services.AddScoped<
 builder.Services.AddScoped<
     ISeatRepository,
     SeatRepository>();
+
+// Module 5 - Parking Slot Repository
+builder.Services.AddScoped<
+    IParkingSlotRepository,
+    ParkingSlotRepository>();
+
+// Module 5 - Parking Reservation Repository
+builder.Services.AddScoped<
+    IParkingReservationRepository,
+    ParkingReservationRepository>();
+
+// =====================================================
+// SERVICES
+// =====================================================
 
 // Authentication Service
 builder.Services.AddScoped<
@@ -153,11 +182,24 @@ builder.Services.AddScoped<
     ISeatService,
     SeatService>();
 
-// Module 4 - Booking Expiry Service
+// Module 5 - Parking Slot Service
+builder.Services.AddScoped<
+    IParkingSlotService,
+    ParkingSlotService>();
+
+// Module 5 - Parking Reservation Service
+builder.Services.AddScoped<
+    IParkingReservationService,
+    ParkingReservationService>();
+
+// Module 4 - Booking Expiry Background Service
 builder.Services.AddHostedService<
     BookingExpiryService>();
 
-// Helpers
+// =====================================================
+// HELPERS
+// =====================================================
+
 builder.Services.AddScoped<
     PasswordHasher>();
 
@@ -168,7 +210,10 @@ builder.Services.AddSingleton<
     IJwtTokenGenerator,
     JwtTokenGenerator>();
 
-// Controllers
+// =====================================================
+// CONTROLLERS
+// =====================================================
+
 builder.Services
     .AddControllers()
     .AddJsonOptions(options =>
@@ -182,7 +227,10 @@ builder.Services
 
 builder.Services.AddEndpointsApiExplorer();
 
+// =====================================================
 // CORS
+// =====================================================
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(
@@ -196,7 +244,10 @@ builder.Services.AddCors(options =>
         });
 });
 
-// Swagger
+// =====================================================
+// SWAGGER
+// =====================================================
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc(
@@ -222,7 +273,8 @@ builder.Services.AddSwaggerGen(options =>
             Scheme = "bearer",
             BearerFormat = "JWT",
             In = ParameterLocation.Header,
-            Description = "Enter the JWT access token only."
+            Description =
+                "Enter the JWT access token only."
         });
 
     options.AddSecurityRequirement(
@@ -234,8 +286,11 @@ builder.Services.AddSwaggerGen(options =>
                     Reference =
                         new OpenApiReference
                         {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
+                            Type =
+                                ReferenceType.SecurityScheme,
+
+                            Id =
+                                "Bearer"
                         }
                 },
                 Array.Empty<string>()
@@ -248,7 +303,10 @@ builder.Services.AddSwaggerGen(options =>
 // ------------------------------------
 var app = builder.Build();
 
-// Swagger
+// =====================================================
+// HTTP PIPELINE
+// =====================================================
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

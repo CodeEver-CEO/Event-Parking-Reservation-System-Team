@@ -9,9 +9,9 @@ namespace EventParkingReservationSystem.API.Helpers
             Payment payment)
         {
             var text = $"""
-            ========================================
-                  EVENT BOOKING RECEIPT
-            ========================================
+            ===========================================
+                     EVENT BOOKING RECEIPT
+            ===========================================
 
             Booking Number : {payment.Booking.BookingNumber}
 
@@ -25,9 +25,9 @@ namespace EventParkingReservationSystem.API.Helpers
 
             Date           : {payment.PaymentDate:yyyy-MM-dd HH:mm}
 
-            ========================================
-                    THANK YOU
-            ========================================
+            ===========================================
+                     THANK YOU, PLEASE COME AGAIN.
+            ===========================================
             """;
 
             return System.Text.Encoding.UTF8

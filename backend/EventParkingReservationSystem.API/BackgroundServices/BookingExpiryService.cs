@@ -136,10 +136,7 @@ public class BookingExpiryService : BackgroundService
                 DateTime.UtcNow;
 
             // ----------------------------------------------------
-            // Re-read booking inside transaction.
-            //
-            // Another process may have confirmed the booking
-            // between the original scan and this transaction.
+            // Re-read booking inside transaction
             // ----------------------------------------------------
             var booking =
                 await context.Bookings
@@ -184,9 +181,6 @@ public class BookingExpiryService : BackgroundService
             // MODULE 4 - SEAT RELEASE
             // ====================================================
 
-            // ----------------------------------------------------
-            // Get active seat allocations
-            // ----------------------------------------------------
             var activeBookingSeats =
                 await context.BookingSeats
                     .Where(
@@ -197,9 +191,6 @@ public class BookingExpiryService : BackgroundService
                     .ToListAsync(
                         cancellationToken);
 
-            // ----------------------------------------------------
-            // Find physical Seat records
-            // ----------------------------------------------------
             var seatIds =
                 activeBookingSeats
                     .Select(
@@ -233,9 +224,7 @@ public class BookingExpiryService : BackgroundService
             }
 
             // ----------------------------------------------------
-            // Release held physical seats
-            //
-            // Only temporary Held seats are released.
+            // Release physical seats
             // ----------------------------------------------------
             foreach (var seat in seats)
             {
@@ -254,12 +243,6 @@ public class BookingExpiryService : BackgroundService
             // MODULE 5 - PARKING RELEASE
             // ====================================================
 
-            // ----------------------------------------------------
-            // Find active parking reservation for this booking
-            //
-            // Database rules allow only one active parking
-            // reservation per booking.
-            // ----------------------------------------------------
             var activeParkingReservation =
                 await context.ParkingReservations
                     .Include(
@@ -276,9 +259,6 @@ public class BookingExpiryService : BackgroundService
 
             if (activeParkingReservation is not null)
             {
-                // ------------------------------------------------
-                // Release active parking reservation
-                // ------------------------------------------------
                 activeParkingReservation.IsActive =
                     false;
 
@@ -288,12 +268,6 @@ public class BookingExpiryService : BackgroundService
                 var parkingSlot =
                     activeParkingReservation.ParkingSlot;
 
-                // ------------------------------------------------
-                // Release physical parking slot
-                //
-                // Pending booking parking is Held.
-                // Only Held parking is returned to Available here.
-                // ------------------------------------------------
                 if (parkingSlot.Status ==
                     ParkingSlotStatus.Held)
                 {
@@ -317,9 +291,63 @@ public class BookingExpiryService : BackgroundService
             booking.UpdatedAt =
                 now;
 
-            // ----------------------------------------------------
-            // Save booking + seats + parking atomically
-            // ----------------------------------------------------
+            // ====================================================
+            // BOOKING EXPIRED NOTIFICATION
+            // ====================================================
+
+            var notificationAlreadyExists =
+                await context.Notifications
+                    .AnyAsync(
+                        notification =>
+                            notification.BookingId ==
+                                booking.BookingId &&
+                            notification.Type ==
+                                NotificationType.BookingExpired,
+                        cancellationToken);
+
+            if (!notificationAlreadyExists)
+            {
+                var notification =
+                    new Models.Notification
+                    {
+                        CustomerId =
+                            booking.CustomerId,
+
+                        BookingId =
+                            booking.BookingId,
+
+                        EventId =
+                            booking.EventId,
+
+                        Type =
+                            NotificationType.BookingExpired,
+
+                        Title =
+                            "Booking expired",
+
+                        Message =
+                            $"Booking {booking.BookingNumber} expired " +
+                            $"because payment was not completed " +
+                            $"within the hold period.",
+
+                        IsRead =
+                            false,
+
+                        ReadAtUtc =
+                            null,
+
+                        CreatedAt =
+                            now
+                    };
+
+                context.Notifications.Add(
+                    notification);
+            }
+
+            // ====================================================
+            // SAVE EVERYTHING ATOMICALLY
+            // ====================================================
+
             await context.SaveChangesAsync(
                 cancellationToken);
 
@@ -328,8 +356,9 @@ public class BookingExpiryService : BackgroundService
 
             _logger.LogInformation(
                 "Expired booking {BookingId}. " +
-                "Released {SeatCount} active seat allocation(s) " +
-                "and {ParkingCount} active parking reservation(s).",
+                "Released {SeatCount} active seat allocation(s), " +
+                "{ParkingCount} active parking reservation(s), " +
+                "and created expiry notification.",
                 bookingId,
                 activeBookingSeats.Count,
                 releasedParkingCount);
@@ -342,4 +371,4 @@ public class BookingExpiryService : BackgroundService
             throw;
         }
     }
-}   
+}

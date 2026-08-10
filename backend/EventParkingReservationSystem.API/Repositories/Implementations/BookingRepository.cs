@@ -54,12 +54,34 @@ namespace EventParkingReservationSystem.API.Repositories.Implementations
             return await _context.Bookings
                 .Include(b => b.BookingSeats)
                     .ThenInclude(bs => bs.Seat)
+                .Include(b => b.Event)
                 .Include(b => b.ParkingSlot)
                 .Where(b =>
                     b.EventId == eventId)
                 .OrderByDescending(
                     b => b.CreatedAt)
                 .ToListAsync();
+        }
+
+        public async Task<bool>
+            HasActiveFutureBookingsAsync(
+                int customerId)
+        {
+            DateOnly today =
+                DateOnly.FromDateTime(DateTime.UtcNow);
+
+            TimeOnly now =
+                TimeOnly.FromDateTime(DateTime.UtcNow);
+
+            // Active = not cancelled/expired; future = event not yet ended.
+            return await _context.Bookings
+                .AnyAsync(b =>
+                    b.CustomerId == customerId &&
+                    (b.Status == BookingStatus.Pending ||
+                     b.Status == BookingStatus.Confirmed) &&
+                    (b.Event.EventDate > today ||
+                     (b.Event.EventDate == today &&
+                      b.Event.EndTime > now)));
         }
 
         public async Task<bool>
@@ -78,10 +100,8 @@ namespace EventParkingReservationSystem.API.Repositories.Implementations
             if (seats.Count != seatIds.Count)
                 return false;
 
-            // Assuming your existing Seat model
-            // has IsAvailable property.
             return seats.All(s =>
-                s.Available);
+                s.Status == SeatStatus.Available);
         }
 
         public async Task<Booking>

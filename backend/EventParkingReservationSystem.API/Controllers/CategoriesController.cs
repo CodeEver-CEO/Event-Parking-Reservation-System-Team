@@ -1,5 +1,6 @@
 ﻿using EventParkingReservationSystem.API.DTOs.Categories;
 using EventParkingReservationSystem.API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventParkingReservationSystem.API.Controllers
@@ -42,6 +43,7 @@ namespace EventParkingReservationSystem.API.Controllers
         }
 
         // POST: api/categories
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> Create(
             [FromBody] CreateCategoryDto dto)
@@ -56,6 +58,7 @@ namespace EventParkingReservationSystem.API.Controllers
         }
 
         // PUT: api/categories/5
+        [Authorize(Roles = "Administrator")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(
             int id,
@@ -79,6 +82,7 @@ namespace EventParkingReservationSystem.API.Controllers
         }
 
         // DELETE: api/categories/5
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

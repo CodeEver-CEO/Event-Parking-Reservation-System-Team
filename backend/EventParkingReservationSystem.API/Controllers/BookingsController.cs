@@ -82,7 +82,7 @@ namespace EventParkingReservationSystem.API.Controllers
 
             if (currentCustomerId !=
                 customerId &&
-                !User.IsInRole("Admin"))
+                !User.IsInRole("Administrator"))
             {
                 return Forbid();
             }
@@ -144,7 +144,7 @@ namespace EventParkingReservationSystem.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult>
             GetEventBookings(
                 [FromQuery] int eventId)

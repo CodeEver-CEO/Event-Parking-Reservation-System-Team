@@ -44,7 +44,7 @@ public sealed class AdminAuthController : ControllerBase
     }
 
     // Returns the currently authenticated administrator.
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Administrator")]
     [HttpGet("me")]
     [ProducesResponseType(
         typeof(AdminResponseDto),

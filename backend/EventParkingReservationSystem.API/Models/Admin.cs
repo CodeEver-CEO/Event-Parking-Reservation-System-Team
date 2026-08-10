@@ -15,7 +15,7 @@ public sealed class Admin
     public string PasswordHash { get; set; } = string.Empty;
 
     // Authorization role stored in the JWT.
-    public string Role { get; set; } = "Admin";
+    public string Role { get; set; } = "Administrator";
 
     // Controls whether the administrator can log in.
     public bool IsActive { get; set; } = true;

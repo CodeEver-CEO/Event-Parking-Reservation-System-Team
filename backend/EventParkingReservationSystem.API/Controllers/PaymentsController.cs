@@ -95,7 +95,7 @@ namespace EventParkingReservationSystem.API.Controllers
 
             if (currentCustomerId !=
                 customerId &&
-                !User.IsInRole("Admin"))
+                !User.IsInRole("Administrator"))
             {
                 return Forbid();
             }

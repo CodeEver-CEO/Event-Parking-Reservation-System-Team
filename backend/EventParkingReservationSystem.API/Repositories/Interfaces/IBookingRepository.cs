@@ -17,6 +17,9 @@ namespace EventParkingReservationSystem.API.Repositories.Interfaces
             int eventId,
             List<int> seatIds);
 
+        Task<bool> HasActiveFutureBookingsAsync(
+            int customerId);
+
         Task<Booking> AddAsync(
             Booking booking);
 

@@ -24,7 +24,7 @@ public class SeatRepository : ISeatRepository
         return await _context.Events
             .AsNoTracking()
             .FirstOrDefaultAsync(
-                e => e.Id == eventId,
+                e => e.EventId == eventId,
                 cancellationToken);
     }
 

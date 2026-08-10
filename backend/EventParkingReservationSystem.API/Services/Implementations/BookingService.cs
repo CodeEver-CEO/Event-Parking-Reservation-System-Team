@@ -1,5 +1,6 @@
 ﻿using EventParkingReservationSystem.API.Data;
 using EventParkingReservationSystem.API.DTOs.Bookings;
+using EventParkingReservationSystem.API.DTOs.Notifications;
 using EventParkingReservationSystem.API.Enums;
 using EventParkingReservationSystem.API.Models;
 using EventParkingReservationSystem.API.Repositories.Interfaces;
@@ -19,19 +20,41 @@ namespace EventParkingReservationSystem.API.Services.Implementations
         private readonly IConfiguration
             _configuration;
 
+        // ============================================================
+        // NOTIFICATION SERVICE
+        // ============================================================
+
+        private readonly INotificationService
+            _notificationService;
+
+
+        // ============================================================
+        // CONSTRUCTOR
+        // ============================================================
+
         public BookingService(
             IBookingRepository bookingRepository,
             ApplicationDbContext context,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            INotificationService notificationService)
         {
             _bookingRepository =
                 bookingRepository;
 
-            _context = context;
+            _context =
+                context;
 
             _configuration =
                 configuration;
+
+            _notificationService =
+                notificationService;
         }
+
+
+        // ============================================================
+        // CREATE BOOKING
+        // ============================================================
 
         public async Task<BookingResponseDto>
             CreateBookingAsync(
@@ -70,10 +93,8 @@ namespace EventParkingReservationSystem.API.Services.Implementations
             var seats =
                 await _context.Seats
                     .Where(s =>
-                        seatIds.Contains(
-                            s.Id) &&
-                        s.EventId ==
-                            dto.EventId)
+                        seatIds.Contains(s.Id) &&
+                        s.EventId == dto.EventId)
                     .ToListAsync();
 
             if (seats.Count != seatIds.Count)
@@ -83,11 +104,16 @@ namespace EventParkingReservationSystem.API.Services.Implementations
             }
 
             if (seats.Any(s =>
-                !s.Available))
+                s.Status != SeatStatus.Available))
             {
                 throw new Exception(
                     "One or more selected seats are unavailable.");
             }
+
+
+            // ========================================================
+            // OPTIONAL PARKING SLOT
+            // ========================================================
 
             ParkingSlot? parkingSlot = null;
 
@@ -107,22 +133,31 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                         "Parking slot not found.");
                 }
 
-                if (parkingSlot.Available)
-                {
-                }
-                else
+                if (parkingSlot.Status != ParkingSlotStatus.Available)
                 {
                     throw new Exception(
                         "Parking slot is unavailable.");
                 }
             }
 
+
+            // ========================================================
+            // HOLD TIME
+            // ========================================================
+
             var holdMinutes =
                 _configuration.GetValue<int>(
                     "BookingSettings:HoldMinutes");
 
             if (holdMinutes <= 0)
+            {
                 holdMinutes = 15;
+            }
+
+
+            // ========================================================
+            // CREATE BOOKING ENTITY
+            // ========================================================
 
             var booking =
                 new Booking
@@ -147,13 +182,14 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                         dto.ParkingSlotId,
 
                     ParkingFee =
-                        dto.ParkingSlotId.HasValue
-                            ? eventData.ParkingFee
+                        parkingSlot != null
+                            ? parkingSlot.Fee
                             : 0,
 
                     CreatedAt =
                         DateTime.UtcNow
                 };
+
 
             await _bookingRepository
                 .AddAsync(booking);
@@ -161,9 +197,14 @@ namespace EventParkingReservationSystem.API.Services.Implementations
             await _bookingRepository
                 .SaveChangesAsync();
 
+
+            // ========================================================
+            // BOOKING SEATS
+            // ========================================================
+
             foreach (var seat in seats)
             {
-                seat.Available = false;
+                seat.Status = SeatStatus.Held;
 
                 var bookingSeat =
                     new BookingSeat
@@ -175,26 +216,74 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                             seat.Id,
 
                         TicketPriceSnapshot =
-                            seat.Price
+                            seat.Price,
+
+                        IsActive =
+                            true,
+
+                        ReservedAtUtc =
+                            DateTime.UtcNow
                     };
 
                 _context.BookingSeats.Add(
                     bookingSeat);
             }
 
+
+            // ========================================================
+            // PARKING HOLD
+            // ========================================================
+
             if (parkingSlot != null)
             {
-                parkingSlot.Available =
-                    false;
+                parkingSlot.Status =
+                    ParkingSlotStatus.Held;
             }
 
+
             await _context.SaveChangesAsync();
+
+
+            // ========================================================
+            // BOOKING CREATED NOTIFICATION
+            // ========================================================
+
+            await _notificationService
+                .CreateNotificationAsync(
+                    new CreateNotificationDto
+                    {
+                        CustomerId =
+                            booking.CustomerId,
+
+                        BookingId =
+                            booking.BookingId,
+
+                        EventId =
+                            booking.EventId,
+
+                        Type =
+                            NotificationType.BookingCreated,
+
+                        Title =
+                            "Booking held",
+
+                        Message =
+                            $"Booking {booking.BookingNumber} " +
+                            $"has been created and is held until " +
+                            $"{booking.HoldExpiresAtUtc!.Value:yyyy-MM-dd HH:mm} UTC."
+                    });
+
 
             return await GetBookingByIdAsync(
                 booking.BookingId)
                 ?? throw new Exception(
                     "Unable to create booking.");
         }
+
+
+        // ============================================================
+        // GET BOOKING BY ID
+        // ============================================================
 
         public async Task<BookingResponseDto?>
             GetBookingByIdAsync(
@@ -205,10 +294,17 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                     .GetByIdAsync(bookingId);
 
             if (booking == null)
+            {
                 return null;
+            }
 
             return MapToResponse(booking);
         }
+
+
+        // ============================================================
+        // GET CUSTOMER BOOKINGS
+        // ============================================================
 
         public async Task<List<BookingResponseDto>>
             GetCustomerBookingsAsync(
@@ -224,6 +320,11 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                 .ToList();
         }
 
+
+        // ============================================================
+        // GET EVENT BOOKINGS
+        // ============================================================
+
         public async Task<List<BookingResponseDto>>
             GetEventBookingsAsync(
                 int eventId)
@@ -237,6 +338,11 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                 .ToList();
         }
 
+
+        // ============================================================
+        // GET HOLD STATUS
+        // ============================================================
+
         public async Task<HoldStatusDto?>
             GetHoldStatusAsync(
                 int bookingId)
@@ -246,13 +352,10 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                     .GetByIdAsync(bookingId);
 
             if (booking == null)
+            {
                 return null;
+            }
 
-            var remaining =
-                booking.HoldExpiresAtUtc -
-                DateTime.UtcNow;
-
-          
             return new HoldStatusDto
             {
                 BookingId =
@@ -262,11 +365,14 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                     booking.Status.ToString(),
 
                 HoldExpiresAt =
-                    booking.HoldExpiresAtUtc,
-
-               
+                    booking.HoldExpiresAtUtc
             };
         }
+
+
+        // ============================================================
+        // CANCEL BOOKING
+        // ============================================================
 
         public async Task<bool>
             CancelBookingAsync(
@@ -278,11 +384,15 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                     .GetByIdAsync(bookingId);
 
             if (booking == null)
+            {
                 return false;
+            }
 
             if (booking.CustomerId !=
                 customerId)
+            {
                 return false;
+            }
 
             if (booking.Status ==
                     BookingStatus.Cancelled ||
@@ -292,18 +402,39 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                 return false;
             }
 
+
+            // ========================================================
+            // RELEASE SEATS
+            // ========================================================
+
             foreach (var bookingSeat
                 in booking.BookingSeats)
             {
-                bookingSeat.Seat.IsAvailable =
-                    true;
+                bookingSeat.Seat.Status =
+                    SeatStatus.Available;
+
+                bookingSeat.IsActive =
+                    false;
+
+                bookingSeat.ReleasedAtUtc =
+                    DateTime.UtcNow;
             }
+
+
+            // ========================================================
+            // RELEASE PARKING
+            // ========================================================
 
             if (booking.ParkingSlot != null)
             {
-                booking.ParkingSlot.Available =
-                    true;
+                booking.ParkingSlot.Status =
+                    ParkingSlotStatus.Available;
             }
+
+
+            // ========================================================
+            // UPDATE BOOKING
+            // ========================================================
 
             booking.Status =
                 BookingStatus.Cancelled;
@@ -311,10 +442,49 @@ namespace EventParkingReservationSystem.API.Services.Implementations
             booking.UpdatedAt =
                 DateTime.UtcNow;
 
+            booking.CancelledAtUtc =
+                DateTime.UtcNow;
+
+
             await _context.SaveChangesAsync();
+
+
+            // ========================================================
+            // BOOKING CANCELLED NOTIFICATION
+            // ========================================================
+
+            await _notificationService
+                .CreateNotificationAsync(
+                    new CreateNotificationDto
+                    {
+                        CustomerId =
+                            booking.CustomerId,
+
+                        BookingId =
+                            booking.BookingId,
+
+                        EventId =
+                            booking.EventId,
+
+                        Type =
+                            NotificationType.BookingCancelled,
+
+                        Title =
+                            "Booking cancelled",
+
+                        Message =
+                            $"Booking {booking.BookingNumber} " +
+                            $"has been cancelled successfully."
+                    });
+
 
             return true;
         }
+
+
+        // ============================================================
+        // EXPIRE UNPAID BOOKINGS
+        // ============================================================
 
         public async Task ExpireBookingsAsync()
         {
@@ -322,8 +492,18 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                 await _bookingRepository
                     .GetExpiredPendingBookingsAsync();
 
+            if (bookings.Count == 0)
+            {
+                return;
+            }
+
+
             foreach (var booking in bookings)
             {
+                // ====================================================
+                // RELEASE SEATS
+                // ====================================================
+
                 foreach (var bookingSeat
                     in booking.BookingSeats)
                 {
@@ -334,16 +514,32 @@ namespace EventParkingReservationSystem.API.Services.Implementations
 
                     if (seat != null)
                     {
-                        seat.IsAvailable =
-                            true;
+                        seat.Status =
+                            SeatStatus.Available;
                     }
+
+                    bookingSeat.IsActive =
+                        false;
+
+                    bookingSeat.ReleasedAtUtc =
+                        DateTime.UtcNow;
                 }
+
+
+                // ====================================================
+                // RELEASE PARKING
+                // ====================================================
 
                 if (booking.ParkingSlot != null)
                 {
-                    booking.ParkingSlot.Available =
-                        true;
+                    booking.ParkingSlot.Status =
+                        ParkingSlotStatus.Available;
                 }
+
+
+                // ====================================================
+                // UPDATE BOOKING
+                // ====================================================
 
                 booking.Status =
                     BookingStatus.Expired;
@@ -352,8 +548,47 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                     DateTime.UtcNow;
             }
 
+
             await _context.SaveChangesAsync();
+
+
+            // ========================================================
+            // BOOKING EXPIRED NOTIFICATIONS
+            // ========================================================
+
+            foreach (var booking in bookings)
+            {
+                await _notificationService
+                    .CreateNotificationAsync(
+                        new CreateNotificationDto
+                        {
+                            CustomerId =
+                                booking.CustomerId,
+
+                            BookingId =
+                                booking.BookingId,
+
+                            EventId =
+                                booking.EventId,
+
+                            Type =
+                                NotificationType.BookingExpired,
+
+                            Title =
+                                "Booking expired",
+
+                            Message =
+                                $"Booking {booking.BookingNumber} " +
+                                $"expired because payment was not completed " +
+                                $"within the hold period."
+                        });
+            }
         }
+
+
+        // ============================================================
+        // GENERATE BOOKING NUMBER
+        // ============================================================
 
         private async Task<string>
             GenerateBookingNumberAsync()
@@ -369,13 +604,19 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                 $"BKG-{year}-{(count + 1):D6}";
         }
 
+
+        // ============================================================
+        // MAP BOOKING -> RESPONSE DTO
+        // ============================================================
+
         private BookingResponseDto
             MapToResponse(
                 Booking booking)
         {
             var seatTotal =
                 booking.BookingSeats
-                    .Sum(x => x.TicketPriceSnapshot);
+                    .Sum(x =>
+                        x.TicketPriceSnapshot);
 
             return new BookingResponseDto
             {
@@ -403,7 +644,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                 Seats =
                     booking.BookingSeats
                         .Select(x =>
-                            x.Seat.SeatNumber.ToString())
+                            x.Seat.SeatNumber)
                         .ToList(),
 
                 SeatTotal =

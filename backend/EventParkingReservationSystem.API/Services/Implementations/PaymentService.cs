@@ -1,4 +1,4 @@
-﻿
+﻿using EventParkingReservationSystem.API.DTOs.Notifications;
 using EventParkingReservationSystem.API.DTOs.Payments;
 using EventParkingReservationSystem.API.Enums;
 using EventParkingReservationSystem.API.Models;
@@ -15,15 +15,22 @@ namespace EventParkingReservationSystem.API.Services.Implementations
         private readonly IBookingRepository
             _bookingRepository;
 
+        private readonly INotificationService
+            _notificationService;
+
         public PaymentService(
             IPaymentRepository paymentRepository,
-            IBookingRepository bookingRepository)
+            IBookingRepository bookingRepository,
+            INotificationService notificationService)
         {
             _paymentRepository =
                 paymentRepository;
 
             _bookingRepository =
                 bookingRepository;
+
+            _notificationService =
+                notificationService;
         }
 
         public async Task<PaymentResponseDto?>
@@ -160,6 +167,9 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                     BookingId =
                         bookingId,
 
+                    CustomerId =
+                        customerId,
+
                     Amount =
                         total,
 
@@ -179,11 +189,71 @@ namespace EventParkingReservationSystem.API.Services.Implementations
             booking.Status =
                 BookingStatus.Confirmed;
 
+            booking.ConfirmedAtUtc =
+                DateTime.UtcNow;
+
             booking.UpdatedAt =
                 DateTime.UtcNow;
 
             await _paymentRepository
                 .SaveChangesAsync();
+
+            // ========================================================
+            // PAYMENT COMPLETED NOTIFICATION
+            // ========================================================
+
+            await _notificationService
+                .CreateNotificationAsync(
+                    new CreateNotificationDto
+                    {
+                        CustomerId =
+                            booking.CustomerId,
+
+                        BookingId =
+                            booking.BookingId,
+
+                        EventId =
+                            booking.EventId,
+
+                        Type =
+                            NotificationType.PaymentCompleted,
+
+                        Title =
+                            "Payment completed",
+
+                        Message =
+                            $"Payment completed successfully for " +
+                            $"booking {booking.BookingNumber}. " +
+                            $"Amount paid: Rs. {payment.Amount:N2}."
+                    });
+
+            // ========================================================
+            // BOOKING CONFIRMED NOTIFICATION
+            // ========================================================
+
+            await _notificationService
+                .CreateNotificationAsync(
+                    new CreateNotificationDto
+                    {
+                        CustomerId =
+                            booking.CustomerId,
+
+                        BookingId =
+                            booking.BookingId,
+
+                        EventId =
+                            booking.EventId,
+
+                        Type =
+                            NotificationType.BookingConfirmed,
+
+                        Title =
+                            "Booking confirmed",
+
+                        Message =
+                            $"Booking {booking.BookingNumber} " +
+                            $"has been confirmed successfully."
+                    });
 
             return await GetPaymentAsync(
                 bookingId)

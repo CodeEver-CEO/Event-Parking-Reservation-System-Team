@@ -70,7 +70,7 @@ public sealed class DatabaseSeeder
             Email = adminEmail,
             PasswordHash =
                 _passwordHasher.HashPassword(adminPassword),
-            Role = "Admin",
+            Role = "Administrator",
             IsActive = true,
             CreatedAt = DateTime.UtcNow
         };

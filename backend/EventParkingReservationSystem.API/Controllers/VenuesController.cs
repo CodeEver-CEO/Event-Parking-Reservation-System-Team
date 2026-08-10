@@ -1,5 +1,6 @@
 ﻿using EventParkingReservationSystem.API.DTOs.Venues;
 using EventParkingReservationSystem.API.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventParkingReservationSystem.API.Controllers
@@ -35,13 +36,15 @@ namespace EventParkingReservationSystem.API.Controllers
             return Ok(venue);
         }
 
-        // GET: api/venues/available?venueId=1&date=2026-08-10&startTime=10:00&endTime=12:00
+        // GET: api/venues/available?date=2026-08-10&startTime=10:00&endTime=12:00[&venueId=1]
+        // Without venueId: returns every venue free for the range.
+        // With venueId: returns that specific venue's availability.
         [HttpGet("available")]
         public async Task<IActionResult> CheckAvailability(
-            [FromQuery] int venueId,
             [FromQuery] DateOnly date,
             [FromQuery] TimeOnly startTime,
-            [FromQuery] TimeOnly endTime)
+            [FromQuery] TimeOnly endTime,
+            [FromQuery] int? venueId = null)
         {
             if (startTime >= endTime)
             {
@@ -51,7 +54,25 @@ namespace EventParkingReservationSystem.API.Controllers
                 });
             }
 
-            var venue = await _venueService.GetByIdAsync(venueId);
+            // No venue specified: return all venues that are free for the range.
+            if (venueId is null || venueId <= 0)
+            {
+                var allVenues = await _venueService.GetAllAsync();
+                var availableVenues = new List<VenueDto>();
+
+                foreach (var candidate in allVenues)
+                {
+                    if (await _venueService.CheckAvailabilityAsync(
+                            candidate.VenueId, date, startTime, endTime))
+                    {
+                        availableVenues.Add(candidate);
+                    }
+                }
+
+                return Ok(availableVenues);
+            }
+
+            var venue = await _venueService.GetByIdAsync(venueId.Value);
 
             if (venue == null)
             {
@@ -63,14 +84,14 @@ namespace EventParkingReservationSystem.API.Controllers
 
             var isAvailable =
                 await _venueService.CheckAvailabilityAsync(
-                    venueId,
+                    venueId.Value,
                     date,
                     startTime,
                     endTime);
 
             return Ok(new
             {
-                venueId,
+                venueId = venueId.Value,
                 date,
                 startTime,
                 endTime,
@@ -82,6 +103,7 @@ namespace EventParkingReservationSystem.API.Controllers
         }
 
         // POST: api/venues
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> Create(
             [FromBody] CreateVenueDto dto)
@@ -95,6 +117,7 @@ namespace EventParkingReservationSystem.API.Controllers
         }
 
         // PUT: api/venues/5
+        [Authorize(Roles = "Administrator")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(
             int id,
@@ -118,6 +141,7 @@ namespace EventParkingReservationSystem.API.Controllers
         }
 
         // DELETE: api/venues/5
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

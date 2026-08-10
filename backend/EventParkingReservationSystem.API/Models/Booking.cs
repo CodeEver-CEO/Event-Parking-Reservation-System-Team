@@ -5,7 +5,9 @@ namespace EventParkingReservationSystem.API.Models;
 
 public class Booking
 {
-    public int Id { get; set; }
+  
+
+    public int BookingId { get; set; }
 
     [Required]
     [MaxLength(30)]
@@ -48,4 +50,7 @@ public class Booking
 
     public ICollection<Notification> Notifications { get; set; } =
         new List<Notification>();
+    public int? ParkingSlotId { get; internal set; }
+    public decimal ParkingFee { get; internal set; }
+    public ParkingSlot? ParkingSlot { get; set; }
 }

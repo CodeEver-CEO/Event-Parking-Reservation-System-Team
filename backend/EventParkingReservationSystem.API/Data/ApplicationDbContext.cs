@@ -370,7 +370,7 @@ public class ApplicationDbContext : DbContext
                     "CK_Bookings_TotalAmount",
                     "[TotalAmount] >= 0"));
 
-            entity.HasKey(booking => booking.Id);
+            entity.HasKey(booking => booking.BookingId);
 
             // Every booking receives a globally unique booking number.
             entity.HasIndex(booking => booking.BookingNumber)
@@ -518,13 +518,13 @@ public class ApplicationDbContext : DbContext
                     "CK_Payments_Amount",
                     "[Amount] >= 0"));
 
-            entity.HasKey(payment => payment.Id);
+            entity.HasKey(payment => payment.PaymentId);
 
             // Enforces one payment row for each booking.
             entity.HasIndex(payment => payment.BookingId)
                 .IsUnique();
 
-            entity.HasIndex(payment => payment.Reference)
+            entity.HasIndex(payment => payment.PaymentReference)
                 .IsUnique()
                 .HasFilter("[Reference] IS NOT NULL");
 
@@ -542,7 +542,7 @@ public class ApplicationDbContext : DbContext
                 .HasConversion<string>()
                 .HasMaxLength(30);
 
-            entity.Property(payment => payment.Reference)
+            entity.Property(payment => payment.PaymentReference)
                 .HasMaxLength(100);
 
             entity.HasOne(payment => payment.Customer)

@@ -17,6 +17,22 @@ var builder = WebApplication.CreateBuilder(args);
 // ------------------------------------
 // Database Connection
 // ------------------------------------
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")
+    )
+);
+
+// ------------------------------------
+// Repository Dependency Injection
+// ------------------------------------
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+
+// =====================================================
+// DATABASE
+// =====================================================
+
 var connectionString =
     builder.Configuration.GetConnectionString(
         "DefaultConnection")
@@ -27,9 +43,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(
     options =>
         options.UseSqlServer(connectionString));
 
-// ------------------------------------
-// JWT Configuration
-// ------------------------------------
+// =====================================================
+// JWT CONFIGURATION
+// =====================================================
+
 builder.Services
     .AddOptions<JwtOptions>()
     .Bind(
@@ -65,7 +82,8 @@ byte[] jwtKeyBytes;
 try
 {
     jwtKeyBytes =
-        Convert.FromBase64String(jwtOptions.Key);
+        Convert.FromBase64String(
+            jwtOptions.Key);
 }
 catch (FormatException exception)
 {
@@ -74,15 +92,10 @@ catch (FormatException exception)
         exception);
 }
 
-if (jwtKeyBytes.Length < 32)
-{
-    throw new InvalidOperationException(
-        "Jwt:Key must contain at least 32 bytes.");
-}
+// =====================================================
+// AUTHENTICATION
+// =====================================================
 
-// ------------------------------------
-// JWT Authentication
-// ------------------------------------
 builder.Services
     .AddAuthentication(options =>
     {
@@ -141,9 +154,21 @@ builder.Services.AddScoped<
     ISeatRepository,
     SeatRepository>();
 
-// ------------------------------------
-// Service Dependency Injection
-// ------------------------------------
+// Module 5 - Parking Slot Repository
+builder.Services.AddScoped<
+    IParkingSlotRepository,
+    ParkingSlotRepository>();
+
+// Module 5 - Parking Reservation Repository
+builder.Services.AddScoped<
+    IParkingReservationRepository,
+    ParkingReservationRepository>();
+
+// =====================================================
+// SERVICES
+// =====================================================
+
+// Authentication Service
 builder.Services.AddScoped<
     IAuthService,
     AuthService>();
@@ -164,16 +189,26 @@ builder.Services.AddScoped<
     ISeatService,
     SeatService>();
 
-// ------------------------------------
-// Background Services
-// ------------------------------------
+// Module 5 - Parking Slot Service
+builder.Services.AddScoped<
+    IParkingSlotService,
+    ParkingSlotService>();
+
+// Module 5 - Parking Reservation Service
+builder.Services.AddScoped<
+    IParkingReservationService,
+    ParkingReservationService>();
+
+// Module 4 - Booking Expiry Background Service
 builder.Services.AddHostedService<
     BookingExpiryService>();
 
-// ------------------------------------
-// Helpers and Database Seeder
-// ------------------------------------
-builder.Services.AddScoped<PasswordHasher>();
+// =====================================================
+// HELPERS
+// =====================================================
+
+builder.Services.AddScoped<
+    PasswordHasher>();
 
 builder.Services.AddScoped<DatabaseSeeder>();
 
@@ -183,13 +218,10 @@ builder.Services.AddSingleton<
     IJwtTokenGenerator,
     JwtTokenGenerator>();
 
-builder.Services.AddSingleton<
-    IAdminJwtTokenGenerator,
-    AdminJwtTokenGenerator>();
+// =====================================================
+// CONTROLLERS
+// =====================================================
 
-// ------------------------------------
-// Controllers and JSON
-// ------------------------------------
 builder.Services
     .AddControllers()
     .AddJsonOptions(options =>
@@ -201,9 +233,10 @@ builder.Services
 
 builder.Services.AddEndpointsApiExplorer();
 
-// ------------------------------------
+// =====================================================
 // CORS
-// ------------------------------------
+// =====================================================
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(
@@ -217,9 +250,10 @@ builder.Services.AddCors(options =>
         });
 });
 
-// ------------------------------------
-// Swagger
-// ------------------------------------
+// =====================================================
+// SWAGGER
+// =====================================================
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc(
@@ -260,7 +294,8 @@ builder.Services.AddSwaggerGen(options =>
                             Type =
                                 ReferenceType.SecurityScheme,
 
-                            Id = "Bearer"
+                            Id =
+                                "Bearer"
                         }
                 },
                 Array.Empty<string>()
@@ -273,21 +308,10 @@ builder.Services.AddSwaggerGen(options =>
 // ------------------------------------
 var app = builder.Build();
 
-// ------------------------------------
-// Seed Default Administrator
-// ------------------------------------
-using (var scope = app.Services.CreateScope())
-{
-    var databaseSeeder =
-        scope.ServiceProvider
-            .GetRequiredService<DatabaseSeeder>();
+// =====================================================
+// HTTP PIPELINE
+// =====================================================
 
-    await databaseSeeder.SeedAsync();
-}
-
-// ------------------------------------
-// HTTP Pipeline
-// ------------------------------------
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

@@ -92,4 +92,23 @@ public sealed class CustomerRepository : ICustomerRepository
     {
         await _context.SaveChangesAsync();
     }
+
+    // Gets a tracked customer for profile or status updates.
+    public async Task<Customer?> GetByIdForUpdateAsync(int id)
+    {
+        return await _context.Customers
+            .FirstOrDefaultAsync(customer =>
+                customer.Id == id);
+    }
+
+    // Returns the total number of customer bookings.
+    public async Task<int> CountBookingsAsync(int customerId)
+    {
+        return await _context.Bookings
+            .AsNoTracking()
+            .CountAsync(booking =>
+                booking.CustomerId == customerId);
+    }
+
+
 }

@@ -17,4 +17,6 @@ public interface ICustomerService
     Task<ServiceResult<CustomerResponseDto>> ChangeStatusAsync(
         int customerId,
         bool activate);
+
+
 }

@@ -576,7 +576,7 @@ public class SeatService : ISeatService
                     new BookingSeat
                     {
                         BookingId =
-                            booking.Id,
+                            booking.BookingId,
 
                         SeatId =
                             seat.Id,

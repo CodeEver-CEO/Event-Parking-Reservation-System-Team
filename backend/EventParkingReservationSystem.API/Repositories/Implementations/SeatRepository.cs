@@ -38,7 +38,7 @@ public class SeatRepository : ISeatRepository
         return await _context.Bookings
             .AsNoTracking()
             .FirstOrDefaultAsync(
-                b => b.Id == bookingId,
+                b => b.BookingId == bookingId,
                 cancellationToken);
     }
 

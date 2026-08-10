@@ -102,7 +102,7 @@ public class BookingExpiryService : BackgroundService
                         booking.HoldExpiresAtUtc.HasValue &&
                         booking.HoldExpiresAtUtc.Value <= now)
                 .Select(
-                    booking => booking.Id)
+                    booking => booking.BookingId)
                 .ToListAsync(
                     cancellationToken);
 
@@ -136,9 +136,8 @@ public class BookingExpiryService : BackgroundService
                 DateTime.UtcNow;
 
             // ----------------------------------------------------
-            // Re-read the booking inside transaction.
+            // Re-read booking inside transaction.
             //
-            // Important:
             // Another process may have confirmed the booking
             // between the original scan and this transaction.
             // ----------------------------------------------------
@@ -146,7 +145,7 @@ public class BookingExpiryService : BackgroundService
                 await context.Bookings
                     .FirstOrDefaultAsync(
                         item =>
-                            item.Id == bookingId,
+                            item.BookingId == bookingId,
                         cancellationToken);
 
             if (booking is null)
@@ -180,6 +179,10 @@ public class BookingExpiryService : BackgroundService
 
                 return;
             }
+
+            // ====================================================
+            // MODULE 4 - SEAT RELEASE
+            // ====================================================
 
             // ----------------------------------------------------
             // Get active seat allocations
@@ -232,7 +235,6 @@ public class BookingExpiryService : BackgroundService
             // ----------------------------------------------------
             // Release held physical seats
             //
-            // Do not change a Booked seat here.
             // Only temporary Held seats are released.
             // ----------------------------------------------------
             foreach (var seat in seats)
@@ -248,9 +250,67 @@ public class BookingExpiryService : BackgroundService
                 }
             }
 
+            // ====================================================
+            // MODULE 5 - PARKING RELEASE
+            // ====================================================
+
             // ----------------------------------------------------
-            // Mark booking as expired
+            // Find active parking reservation for this booking
+            //
+            // Database rules allow only one active parking
+            // reservation per booking.
             // ----------------------------------------------------
+            var activeParkingReservation =
+                await context.ParkingReservations
+                    .Include(
+                        reservation =>
+                            reservation.ParkingSlot)
+                    .FirstOrDefaultAsync(
+                        reservation =>
+                            reservation.BookingId ==
+                                bookingId &&
+                            reservation.IsActive,
+                        cancellationToken);
+
+            var releasedParkingCount = 0;
+
+            if (activeParkingReservation is not null)
+            {
+                // ------------------------------------------------
+                // Release active parking reservation
+                // ------------------------------------------------
+                activeParkingReservation.IsActive =
+                    false;
+
+                activeParkingReservation.ReleasedAtUtc =
+                    now;
+
+                var parkingSlot =
+                    activeParkingReservation.ParkingSlot;
+
+                // ------------------------------------------------
+                // Release physical parking slot
+                //
+                // Pending booking parking is Held.
+                // Only Held parking is returned to Available here.
+                // ------------------------------------------------
+                if (parkingSlot.Status ==
+                    ParkingSlotStatus.Held)
+                {
+                    parkingSlot.Status =
+                        ParkingSlotStatus.Available;
+
+                    parkingSlot.UpdatedAt =
+                        now;
+                }
+
+                releasedParkingCount = 1;
+            }
+
+            // ====================================================
+            // BOOKING EXPIRY
+            // ====================================================
+
             booking.Status =
                 BookingStatus.Expired;
 
@@ -258,7 +318,7 @@ public class BookingExpiryService : BackgroundService
                 now;
 
             // ----------------------------------------------------
-            // Save all changes atomically
+            // Save booking + seats + parking atomically
             // ----------------------------------------------------
             await context.SaveChangesAsync(
                 cancellationToken);
@@ -268,9 +328,11 @@ public class BookingExpiryService : BackgroundService
 
             _logger.LogInformation(
                 "Expired booking {BookingId}. " +
-                "Released {SeatCount} active seat allocation(s).",
+                "Released {SeatCount} active seat allocation(s) " +
+                "and {ParkingCount} active parking reservation(s).",
                 bookingId,
-                activeBookingSeats.Count);
+                activeBookingSeats.Count,
+                releasedParkingCount);
         }
         catch
         {
@@ -280,4 +342,4 @@ public class BookingExpiryService : BackgroundService
             throw;
         }
     }
-}
+}   

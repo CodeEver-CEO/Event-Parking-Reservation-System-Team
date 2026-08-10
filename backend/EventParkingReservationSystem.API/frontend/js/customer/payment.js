@@ -1338,7 +1338,7 @@ function processHoldStatus(holdData) {
     if (expiresAt) {
 
         const expiry =
-            new Date(expiresAt);
+            parseServerDateUtc(expiresAt);
 
 
         if (
@@ -1389,6 +1389,35 @@ function processHoldStatus(holdData) {
 
         startHoldCountdown();
     }
+}
+
+
+/* =========================================================
+   PARSE SERVER DATE (UTC)
+   The backend sends UTC timestamps without a timezone designator
+   (e.g. "2026-08-10T19:43:40"). Treat a bare date-time as UTC so the
+   countdown is not skewed by the browser's local timezone.
+   ========================================================= */
+
+function parseServerDateUtc(value) {
+
+    if (!value) {
+        return new Date(NaN);
+    }
+
+    let text =
+        String(value).trim();
+
+
+    if (
+        text.includes("T") &&
+        !/(Z|[+\-]\d{2}:?\d{2})$/.test(text)
+    ) {
+        text += "Z";
+    }
+
+
+    return new Date(text);
 }
 
 
@@ -1496,10 +1525,13 @@ function updateHoldCountdown() {
 
 
         /*
-         * Backend final authority.
+         * The client-side countdown reached zero, so treat the hold as
+         * expired and stop every timer. (Previously this re-fetched the
+         * hold status, which re-started the countdown; when the hold time
+         * was already in the past that span into a tight request loop.)
          */
 
-        refreshHoldStatus();
+        handleBookingExpired();
 
 
         return;

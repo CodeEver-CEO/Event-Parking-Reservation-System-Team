@@ -231,9 +231,7 @@ async function loadCustomerProfile() {
 
         const response =
             await apiGet(
-                `/customers/${encodeURIComponent(
-                    customerProfileId
-                )}`
+                "/customers/me"
             );
 
 
@@ -696,15 +694,10 @@ async function submitCustomerProfileUpdate(
 
         const response =
             await apiPut(
-                `/customers/${encodeURIComponent(
-                    customerProfileId
-                )}`,
+                "/customers/me",
                 {
                     name:
                         name,
-
-                    email:
-                        email,
 
                     phone:
                         phone
@@ -733,9 +726,7 @@ async function submitCustomerProfileUpdate(
 
             const refreshed =
                 await apiGet(
-                    `/customers/${encodeURIComponent(
-                        customerProfileId
-                    )}`
+                    "/customers/me"
                 );
 
 

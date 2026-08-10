@@ -23,7 +23,7 @@ public class ParkingReservationRepository
     {
         return await _context.Bookings
             .FirstOrDefaultAsync(
-                booking => booking.Id == bookingId,
+                booking => booking.BookingId == bookingId,
                 cancellationToken);
     }
 

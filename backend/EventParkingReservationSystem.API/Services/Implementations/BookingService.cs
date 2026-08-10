@@ -175,7 +175,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                             seat.Id,
 
                         TicketPriceSnapshot =
-                            seat.TicketPrice
+                            seat.Price
                     };
 
                 _context.BookingSeats.Add(
@@ -262,7 +262,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                     booking.Status.ToString(),
 
                 HoldExpiresAt =
-                    (DateTime)booking.HoldExpiresAtUtc,
+                    booking.HoldExpiresAtUtc,
 
                
             };
@@ -398,7 +398,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                     booking.Status.ToString(),
 
                 HoldExpiresAt =
-                    (DateTime)booking.HoldExpiresAtUtc,
+                    booking.HoldExpiresAtUtc,
 
                 Seats =
                     booking.BookingSeats

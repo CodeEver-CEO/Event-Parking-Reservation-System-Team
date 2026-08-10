@@ -199,6 +199,15 @@ builder.Services.AddScoped<
     IParkingReservationService,
     ParkingReservationService>();
 
+// Module 4 - Booking & Payment Services
+builder.Services.AddScoped<
+    IBookingService,
+    BookingService>();
+
+builder.Services.AddScoped<
+    IPaymentService,
+    PaymentService>();
+
 // Module 4 - Booking Expiry Background Service
 builder.Services.AddHostedService<
     BookingExpiryService>();
@@ -217,6 +226,10 @@ builder.Services.AddSingleton<SecureTokenGenerator>();
 builder.Services.AddSingleton<
     IJwtTokenGenerator,
     JwtTokenGenerator>();
+
+builder.Services.AddSingleton<
+    IAdminJwtTokenGenerator,
+    AdminJwtTokenGenerator>();
 
 // =====================================================
 // CONTROLLERS

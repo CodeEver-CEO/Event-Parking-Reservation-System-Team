@@ -323,6 +323,13 @@ builder.Services.AddScoped<
 
 
 // ============================================================
+// DATABASE SEEDER
+// ============================================================
+
+builder.Services.AddScoped<DatabaseSeeder>();
+
+
+// ============================================================
 // BACKGROUND SERVICES
 // ============================================================
 
@@ -340,6 +347,29 @@ builder.Services.AddHostedService<
 // ============================================================
 
 var app = builder.Build();
+
+
+// ============================================================
+// DATABASE MIGRATION + SEEDING
+// Applies any pending migrations and creates the default admin
+// (from AdminSeed configuration) so the system is usable on a
+// fresh setup. Both operations are idempotent.
+// ============================================================
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var database =
+        services.GetRequiredService<ApplicationDbContext>();
+
+    database.Database.Migrate();
+
+    var seeder =
+        services.GetRequiredService<DatabaseSeeder>();
+
+    await seeder.SeedAsync();
+}
 
 
 // ============================================================

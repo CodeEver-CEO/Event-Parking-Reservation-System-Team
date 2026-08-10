@@ -10,10 +10,14 @@ namespace EventParkingReservationSystem.API.Services.Implementations;
 public class CustomerService : ICustomerService
 {
     private readonly ICustomerRepository _customerRepository;
+    private readonly IBookingRepository _bookingRepository;
 
-    public CustomerService(ICustomerRepository customerRepository)
+    public CustomerService(
+        ICustomerRepository customerRepository,
+        IBookingRepository bookingRepository)
     {
         _customerRepository = customerRepository;
+        _bookingRepository = bookingRepository;
     }
 
     public async Task<ServiceResult<CustomerResponseDto>> GetByIdAsync(
@@ -105,6 +109,16 @@ public class CustomerService : ICustomerService
         {
             return ServiceResult<CustomerResponseDto>.Failure(
                 "Customer was not found.");
+        }
+
+        // BRD rule 14: a customer with active future bookings cannot be
+        // deactivated until those bookings are cancelled or transferred.
+        if (!activate &&
+            await _bookingRepository.HasActiveFutureBookingsAsync(customerId))
+        {
+            return ServiceResult<CustomerResponseDto>.Failure(
+                "This customer has active future bookings and cannot be " +
+                "deactivated. Cancel or transfer those bookings first.");
         }
 
         // Uses soft deactivation instead of permanently deleting customer data.

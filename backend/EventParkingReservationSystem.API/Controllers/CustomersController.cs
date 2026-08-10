@@ -103,7 +103,7 @@ public class CustomersController : ControllerBase
 
     // Returns customers matching the optional search value.
     [HttpGet]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Administrator")]
     [ProducesResponseType(
         typeof(IReadOnlyList<CustomerResponseDto>),
         StatusCodes.Status200OK)]
@@ -124,7 +124,7 @@ public class CustomersController : ControllerBase
 
     // Returns one customer's details for admin management.
     [HttpGet("{customerId:int}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Administrator")]
     [ProducesResponseType(
         typeof(CustomerResponseDto),
         StatusCodes.Status200OK)]
@@ -153,7 +153,7 @@ public class CustomersController : ControllerBase
 
     // Soft-deactivates a customer account.
     [HttpDelete("{customerId:int}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Administrator")]
     [ProducesResponseType(
         typeof(CustomerResponseDto),
         StatusCodes.Status200OK)]
@@ -173,7 +173,19 @@ public class CustomersController : ControllerBase
 
         if (!result.Succeeded)
         {
-            return NotFound(new
+            // Missing customer -> 404; business-rule rejection -> 400.
+            if (result.Error is not null &&
+                result.Error.Contains(
+                    "not found",
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return NotFound(new
+                {
+                    message = result.Error
+                });
+            }
+
+            return BadRequest(new
             {
                 message = result.Error
             });
@@ -184,7 +196,7 @@ public class CustomersController : ControllerBase
 
     // Reactivates a previously deactivated customer account.
     [HttpPost("{customerId:int}/reactivate")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Administrator")]
     [ProducesResponseType(
         typeof(CustomerResponseDto),
         StatusCodes.Status200OK)]

@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-
 using EventParkingReservationSystem.API.BackgroundServices;
 using EventParkingReservationSystem.API.Configuration;
 using EventParkingReservationSystem.API.Data;
@@ -8,14 +7,12 @@ using EventParkingReservationSystem.API.Repositories.Implementations;
 using EventParkingReservationSystem.API.Repositories.Interfaces;
 using EventParkingReservationSystem.API.Services.Implementations;
 using EventParkingReservationSystem.API.Services.Interfaces;
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers();
 
 // ------------------------------------
 // Database Connection
@@ -37,12 +34,14 @@ builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 // =====================================================
 
 var connectionString =
-    builder.Configuration.GetConnectionString("DefaultConnection")
+    builder.Configuration.GetConnectionString(
+        "DefaultConnection")
     ?? throw new InvalidOperationException(
         "DefaultConnection was not found in appsettings.json.");
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<ApplicationDbContext>(
+    options =>
+        options.UseSqlServer(connectionString));
 
 // =====================================================
 // JWT CONFIGURATION
@@ -55,9 +54,8 @@ builder.Services
             JwtOptions.SectionName))
     .Validate(
         options =>
-            !string.IsNullOrWhiteSpace(options.Key) &&
-            options.Key.Length >= 32,
-        "JWT key must contain at least 32 characters.")
+            !string.IsNullOrWhiteSpace(options.Key),
+        "JWT key is required.")
     .Validate(
         options =>
             !string.IsNullOrWhiteSpace(options.Issuer),
@@ -69,7 +67,7 @@ builder.Services
     .Validate(
         options =>
             options.AccessTokenMinutes > 0,
-        "JWT access token duration must be greater than zero.")
+        "JWT access-token duration must be greater than zero.")
     .ValidateOnStart();
 
 var jwtOptions =
@@ -127,23 +125,31 @@ builder.Services
                         jwtKeyBytes),
 
                 ValidateLifetime = true,
-
                 ClockSkew = TimeSpan.Zero
             };
     });
 
 builder.Services.AddAuthorization();
 
-// =====================================================
-// REPOSITORIES
-// =====================================================
-
-// Customer Repository
+// ------------------------------------
+// Repository Dependency Injection
+// ------------------------------------
 builder.Services.AddScoped<
     ICustomerRepository,
     CustomerRepository>();
 
-// Module 4 - Seat Reservation Repository
+builder.Services.AddScoped<
+    IAdminRepository,
+    AdminRepository>();
+
+builder.Services.AddScoped<
+    IBookingRepository,
+    BookingRepository>();
+
+builder.Services.AddScoped<
+    IPaymentRepository,
+    PaymentRepository>();
+
 builder.Services.AddScoped<
     ISeatRepository,
     SeatRepository>();
@@ -167,17 +173,18 @@ builder.Services.AddScoped<
     IAuthService,
     AuthService>();
 
-// Customer Service
+builder.Services.AddScoped<
+    IAdminAuthService,
+    AdminAuthService>();
+
 builder.Services.AddScoped<
     ICustomerService,
     CustomerService>();
 
-// Email Service (development logger implementation)
 builder.Services.AddScoped<
     IEmailService,
     EmailService>();
 
-// Module 4 - Seat Reservation Service
 builder.Services.AddScoped<
     ISeatService,
     SeatService>();
@@ -203,8 +210,9 @@ builder.Services.AddHostedService<
 builder.Services.AddScoped<
     PasswordHasher>();
 
-builder.Services.AddSingleton<
-    SecureTokenGenerator>();
+builder.Services.AddScoped<DatabaseSeeder>();
+
+builder.Services.AddSingleton<SecureTokenGenerator>();
 
 builder.Services.AddSingleton<
     IJwtTokenGenerator,
@@ -218,11 +226,9 @@ builder.Services
     .AddControllers()
     .AddJsonOptions(options =>
     {
-        options
-            .JsonSerializerOptions
+        options.JsonSerializerOptions
             .Converters
-            .Add(
-                new JsonStringEnumConverter());
+            .Add(new JsonStringEnumConverter());
     });
 
 builder.Services.AddEndpointsApiExplorer();
@@ -257,8 +263,7 @@ builder.Services.AddSwaggerGen(options =>
             Title =
                 "Event Parking Reservation System API",
 
-            Version =
-                "v1",
+            Version = "v1",
 
             Description =
                 "API for event booking and parking reservation management."

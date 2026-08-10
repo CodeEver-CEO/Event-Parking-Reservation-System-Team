@@ -12,6 +12,7 @@ public class ApplicationDbContext : DbContext
     }
 
     // Exposes database tables to Entity Framework Core.
+    public DbSet<Admin> Admins => Set<Admin>();
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<Venue> Venues => Set<Venue>();
     public DbSet<EventCategory> EventCategories => Set<EventCategory>();
@@ -30,7 +31,7 @@ public class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
+        ConfigureAdmin(modelBuilder);
         ConfigureCustomer(modelBuilder);
         ConfigureVenue(modelBuilder);
         ConfigureEventCategory(modelBuilder);
@@ -42,6 +43,52 @@ public class ApplicationDbContext : DbContext
         ConfigureParkingReservation(modelBuilder);
         ConfigurePayment(modelBuilder);
         ConfigureNotification(modelBuilder);
+    }
+
+    private static void ConfigureAdmin(
+    ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Admin>(entity =>
+        {
+            entity.ToTable("Admins");
+
+            entity.HasKey(admin => admin.Id);
+
+            // Prevents duplicate administrator emails.
+            entity.HasIndex(admin => admin.Email)
+                .IsUnique();
+
+            entity.Property(admin => admin.Name)
+                .HasMaxLength(100)
+                .IsRequired();
+
+            entity.Property(admin => admin.Email)
+                .HasMaxLength(200)
+                .IsRequired();
+
+            entity.Property(admin => admin.PasswordHash)
+                .HasMaxLength(500)
+                .IsRequired();
+
+            entity.Property(admin => admin.Role)
+                .HasMaxLength(50)
+                .HasDefaultValue("Admin")
+                .IsRequired();
+
+            entity.Property(admin => admin.IsActive)
+                .HasDefaultValue(true)
+                .IsRequired();
+
+            entity.Property(admin => admin.CreatedAt)
+                .HasDefaultValueSql("GETUTCDATE()")
+                .IsRequired();
+
+            entity.Property(admin => admin.LastLoginAt)
+                .IsRequired(false);
+
+            entity.Property(admin => admin.UpdatedAt)
+                .IsRequired(false);
+        });
     }
 
     private static void ConfigureCustomer(ModelBuilder modelBuilder)
@@ -558,4 +605,5 @@ public class ApplicationDbContext : DbContext
                 .OnDelete(DeleteBehavior.SetNull);
         });
     }
+
 }

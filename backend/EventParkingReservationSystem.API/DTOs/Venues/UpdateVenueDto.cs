@@ -1,12 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
-namespace EventParkingReservationSystem.API.Models
+namespace EventParkingReservationSystem.API.DTOs.Venues
 {
-    public class Venue
+    public class UpdateVenueDto
     {
-        [Key]
-        public int VenueId { get; set; }
-
         [Required]
         [StringLength(100)]
         public string Name { get; set; } = string.Empty;
@@ -18,8 +14,5 @@ namespace EventParkingReservationSystem.API.Models
         [Required]
         [Range(1, int.MaxValue)]
         public int TotalCapacity { get; set; }
-
-        // Navigation Property
-        public ICollection<Event> Events { get; set; } = new List<Event>();
     }
 }

@@ -1,16 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace EventParkingReservationSystem.API.Models
+namespace EventParkingReservationSystem.API.DTOs.Events
 {
-    public class Event
+    public class UpdateEventDto
     {
-        [Key]
-        public int EventId { get; set; }
-
         [Required]
         [StringLength(150)]
         public string Name { get; set; } = string.Empty;
+
+        [Required]
+        public int VenueId { get; set; }
+
+        [Required]
+        public int CategoryId { get; set; }
 
         [Required]
         public DateOnly EventDate { get; set; }
@@ -22,7 +23,7 @@ namespace EventParkingReservationSystem.API.Models
         public TimeOnly EndTime { get; set; }
 
         [Required]
-        [Column(TypeName = "decimal(10,2)")]
+        [Range(0, double.MaxValue)]
         public decimal TicketPrice { get; set; }
 
         [Required]
@@ -31,19 +32,6 @@ namespace EventParkingReservationSystem.API.Models
 
         [StringLength(500)]
         public string? Description { get; set; }
-
-        // Foreign Key - Venue
-        [Required]
-        public int VenueId { get; set; }
-
-        [ForeignKey("VenueId")]
-        public Venue? Venue { get; set; }
-
-        // Foreign Key - Category
-        [Required]
-        public int CategoryId { get; set; }
-
-        [ForeignKey("CategoryId")]
-        public EventCategory? EventCategory { get; set; }
     }
 }
+

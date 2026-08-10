@@ -1,29 +1,33 @@
 ﻿using EventParkingReservationSystem.API.DTOs.Notifications;
+using EventParkingReservationSystem.API.Enums;
+using EventParkingReservationSystem.API.Services.Common;
 
-namespace EventParkingReservationSystem.API.Services.Interfaces
+namespace EventParkingReservationSystem.API.Services.Interfaces;
+
+public interface INotificationService
 {
-    public interface INotificationService
-    {
-        // Create a new notification
-        Task<NotificationResponseDto> CreateNotificationAsync(
-            CreateNotificationDto dto);
-
-        // Get all notifications for a customer
-        Task<List<NotificationResponseDto>>
-            GetCustomerNotificationsAsync(
-                int customerId);
-
-        // Get unread notification count
-        Task<int> GetUnreadCountAsync(
+    // Gets all notifications for the authenticated customer.
+    Task<ServiceResult<IReadOnlyList<NotificationResponseDto>>>
+        GetNotificationsAsync(
             int customerId);
 
-        // Mark one notification as read
-        Task<bool> MarkAsReadAsync(
-            int notificationId,
+    // Gets the unread notification count.
+    Task<ServiceResult<UnreadNotificationCountDto>>
+        GetUnreadCountAsync(
             int customerId);
 
-        // Mark all customer notifications as read
-        Task<int> MarkAllAsReadAsync(
+    // Marks one notification as read.
+    Task<ServiceResult<NotificationResponseDto>>
+        MarkAsReadAsync(
+            int customerId,
+            int notificationId);
+
+    // Marks all notifications as read.
+    Task<ServiceResult<bool>>
+        MarkAllAsReadAsync(
             int customerId);
-    }
+
+    // Creates a notification from another system module.
+    Task CreateNotificationAsync(
+        CreateNotificationDto dto);
 }

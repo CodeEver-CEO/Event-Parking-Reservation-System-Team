@@ -107,6 +107,58 @@ namespace EventParkingReservationSystem.API.Data
                         "[TicketPriceSnapshot] >= 0");
                 });
             });
+
+            // ============================================================
+            // MONEY COLUMN PRECISION
+            // Prevents silent truncation of decimal amounts (default has
+            // no store type). Ticket price is already decimal(10,2) via an
+            // annotation on Event; these mirror that for the money fields.
+            // ============================================================
+
+            modelBuilder.Entity<Booking>()
+                .Property(b => b.TotalAmount)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Booking>()
+                .Property(b => b.ParkingFee)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<ParkingReservation>()
+                .Property(pr => pr.FeeSnapshot)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<ParkingSlot>()
+                .Property(ps => ps.Fee)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Payment>()
+                .Property(p => p.Amount)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Seat>()
+                .Property(s => s.Price)
+                .HasPrecision(18, 2);
+
+            // ============================================================
+            // DELETE BEHAVIOR (avoid SQL Server multiple-cascade-path
+            // cycles). A ParkingReservation cascades from its Booking, but
+            // its ParkingSlot is Restrict (BRD: a slot with an active
+            // reservation cannot be deleted). A Payment cascades from its
+            // Booking, so its direct Customer link is Restrict to avoid a
+            // second cascade path Customer -> Booking -> Payment.
+            // ============================================================
+
+            modelBuilder.Entity<ParkingReservation>()
+                .HasOne(pr => pr.ParkingSlot)
+                .WithMany(ps => ps.ParkingReservations)
+                .HasForeignKey(pr => pr.ParkingSlotId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.Customer)
+                .WithMany(c => c.Payments)
+                .HasForeignKey(p => p.CustomerId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

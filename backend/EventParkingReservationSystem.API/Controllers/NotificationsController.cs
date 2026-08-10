@@ -1,184 +1,194 @@
-﻿using EventParkingReservationSystem.API.Services.Interfaces;
+﻿using System.Security.Claims;
+using EventParkingReservationSystem.API.DTOs.Notifications;
+using EventParkingReservationSystem.API.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
-namespace EventParkingReservationSystem.API.Controllers
+namespace EventParkingReservationSystem.API.Controllers;
+
+[ApiController]
+[Route("api/notifications")]
+[Authorize(Roles = "Customer")]
+public class NotificationsController : ControllerBase
 {
-    [ApiController]
-    [Route("api/notifications")]
-    [Authorize(Roles = "Customer")]
-    public class NotificationsController : ControllerBase
+    private readonly INotificationService _notificationService;
+
+    public NotificationsController(
+        INotificationService notificationService)
     {
-        private readonly INotificationService
-            _notificationService;
+        _notificationService = notificationService;
+    }
 
-        public NotificationsController(
-            INotificationService notificationService)
+    // ----------------------------------------------------
+    // GET: /api/notifications
+    // Returns all notifications for logged-in customer
+    // ----------------------------------------------------
+    [HttpGet]
+    [ProducesResponseType(
+        typeof(IReadOnlyList<NotificationResponseDto>),
+        StatusCodes.Status200OK)]
+    [ProducesResponseType(
+        StatusCodes.Status401Unauthorized)]
+    public async Task<
+        ActionResult<IReadOnlyList<NotificationResponseDto>>>
+        GetNotifications()
+    {
+        if (!TryGetCustomerId(out int customerId))
         {
-            _notificationService =
-                notificationService;
-        }
-
-        // ============================================================
-        // GET LOGGED-IN CUSTOMER NOTIFICATIONS
-        // GET /api/notifications
-        // ============================================================
-
-        [HttpGet]
-        public async Task<IActionResult>
-            GetMyNotifications()
-        {
-            var customerId =
-                GetCustomerId();
-
-            var notifications =
-                await _notificationService
-                    .GetCustomerNotificationsAsync(
-                        customerId);
-
-            return Ok(notifications);
-        }
-
-
-        // ============================================================
-        // GET CUSTOMER NOTIFICATIONS
-        // GET /api/notifications/customer/{customerId}
-        // ============================================================
-
-        [HttpGet("customer/{customerId:int}")]
-        public async Task<IActionResult>
-            GetCustomerNotifications(
-                int customerId)
-        {
-            var loggedInCustomerId =
-                GetCustomerId();
-
-            // Customer can access only own notifications
-            if (loggedInCustomerId != customerId)
+            return Unauthorized(new
             {
-                return Forbid();
-            }
-
-            var notifications =
-                await _notificationService
-                    .GetCustomerNotificationsAsync(
-                        customerId);
-
-            return Ok(notifications);
+                message =
+                    "The access token does not contain a valid customer ID."
+            });
         }
 
+        var result =
+            await _notificationService
+                .GetNotificationsAsync(customerId);
 
-        // ============================================================
-        // GET UNREAD COUNT
-        // GET /api/notifications/unread-count
-        // ============================================================
-
-        [HttpGet("unread-count")]
-        public async Task<IActionResult>
-            GetUnreadCount()
+        if (!result.Succeeded)
         {
-            var customerId =
-                GetCustomerId();
-
-            var count =
-                await _notificationService
-                    .GetUnreadCountAsync(
-                        customerId);
-
-            return Ok(
-                new
-                {
-                    unreadCount = count
-                });
-        }
-
-
-        // ============================================================
-        // MARK ONE NOTIFICATION AS READ
-        // PUT /api/notifications/{id}/read
-        // ============================================================
-
-        [HttpPut("{id:int}/read")]
-        public async Task<IActionResult>
-            MarkAsRead(
-                int id)
-        {
-            var customerId =
-                GetCustomerId();
-
-            var result =
-                await _notificationService
-                    .MarkAsReadAsync(
-                        id,
-                        customerId);
-
-            if (!result)
+            return BadRequest(new
             {
-                return NotFound(
-                    new
-                    {
-                        message =
-                            "Notification not found."
-                    });
-            }
-
-            return Ok(
-                new
-                {
-                    message =
-                        "Notification marked as read."
-                });
+                message = result.Error
+            });
         }
 
+        return Ok(result.Data);
+    }
 
-        // ============================================================
-        // MARK ALL AS READ
-        // PUT /api/notifications/read-all
-        // ============================================================
-
-        [HttpPut("read-all")]
-        public async Task<IActionResult>
-            MarkAllAsRead()
+    // ----------------------------------------------------
+    // GET: /api/notifications/unread-count
+    // Returns unread notification count
+    // ----------------------------------------------------
+    [HttpGet("unread-count")]
+    [ProducesResponseType(
+        typeof(UnreadNotificationCountDto),
+        StatusCodes.Status200OK)]
+    [ProducesResponseType(
+        StatusCodes.Status401Unauthorized)]
+    public async Task<
+        ActionResult<UnreadNotificationCountDto>>
+        GetUnreadCount()
+    {
+        if (!TryGetCustomerId(out int customerId))
         {
-            var customerId =
-                GetCustomerId();
-
-            var updatedCount =
-                await _notificationService
-                    .MarkAllAsReadAsync(
-                        customerId);
-
-            return Ok(
-                new
-                {
-                    message =
-                        "All notifications marked as read.",
-
-                    updatedCount
-                });
-        }
-
-
-        // ============================================================
-        // GET CUSTOMER ID FROM JWT
-        // ============================================================
-
-        private int GetCustomerId()
-        {
-            var customerIdValue =
-                User.FindFirstValue(
-                    ClaimTypes.NameIdentifier);
-
-            if (!int.TryParse(
-                customerIdValue,
-                out var customerId))
+            return Unauthorized(new
             {
-                throw new UnauthorizedAccessException(
-                    "Invalid customer ID in access token.");
-            }
-
-            return customerId;
+                message =
+                    "The access token does not contain a valid customer ID."
+            });
         }
+
+        var result =
+            await _notificationService
+                .GetUnreadCountAsync(customerId);
+
+        if (!result.Succeeded)
+        {
+            return BadRequest(new
+            {
+                message = result.Error
+            });
+        }
+
+        return Ok(result.Data);
+    }
+
+    // ----------------------------------------------------
+    // PUT: /api/notifications/{id}/read
+    // Marks one notification as read
+    // ----------------------------------------------------
+    [HttpPut("{notificationId:int}/read")]
+    [ProducesResponseType(
+        typeof(NotificationResponseDto),
+        StatusCodes.Status200OK)]
+    [ProducesResponseType(
+        StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(
+        StatusCodes.Status404NotFound)]
+    public async Task<
+        ActionResult<NotificationResponseDto>>
+        MarkAsRead(int notificationId)
+    {
+        if (!TryGetCustomerId(out int customerId))
+        {
+            return Unauthorized(new
+            {
+                message =
+                    "The access token does not contain a valid customer ID."
+            });
+        }
+
+        var result =
+            await _notificationService
+                .MarkAsReadAsync(
+                    customerId,
+                    notificationId);
+
+        if (!result.Succeeded)
+        {
+            return NotFound(new
+            {
+                message = result.Error
+            });
+        }
+
+        return Ok(result.Data);
+    }
+
+    // ----------------------------------------------------
+    // PUT: /api/notifications/read-all
+    // Marks all notifications as read
+    // ----------------------------------------------------
+    [HttpPut("read-all")]
+    [ProducesResponseType(
+        StatusCodes.Status200OK)]
+    [ProducesResponseType(
+        StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult>
+        MarkAllAsRead()
+    {
+        if (!TryGetCustomerId(out int customerId))
+        {
+            return Unauthorized(new
+            {
+                message =
+                    "The access token does not contain a valid customer ID."
+            });
+        }
+
+        var result =
+            await _notificationService
+                .MarkAllAsReadAsync(customerId);
+
+        if (!result.Succeeded)
+        {
+            return BadRequest(new
+            {
+                message = result.Error
+            });
+        }
+
+        return Ok(new
+        {
+            message =
+                "All notifications were marked as read."
+        });
+    }
+
+    // ----------------------------------------------------
+    // Reads customer ID from JWT token
+    // ----------------------------------------------------
+    private bool TryGetCustomerId(
+        out int customerId)
+    {
+        string? customerIdValue =
+            User.FindFirstValue(
+                ClaimTypes.NameIdentifier);
+
+        return int.TryParse(
+            customerIdValue,
+            out customerId);
     }
 }

@@ -1,195 +1,209 @@
 ﻿using EventParkingReservationSystem.API.DTOs.Notifications;
+using EventParkingReservationSystem.API.Enums;
 using EventParkingReservationSystem.API.Models;
 using EventParkingReservationSystem.API.Repositories.Interfaces;
+using EventParkingReservationSystem.API.Services.Common;
 using EventParkingReservationSystem.API.Services.Interfaces;
 
-namespace EventParkingReservationSystem.API.Services.Implementations
-{
-    public class NotificationService : INotificationService
-    {
-        private readonly INotificationRepository _notificationRepository;
+namespace EventParkingReservationSystem.API.Services.Implementations;
 
-        public NotificationService(
-            INotificationRepository notificationRepository)
+public class NotificationService : INotificationService
+{
+    private readonly INotificationRepository _notificationRepository;
+
+    public NotificationService(
+        INotificationRepository notificationRepository)
+    {
+        _notificationRepository = notificationRepository;
+    }
+
+    // ----------------------------------------------------
+    // Get all notifications for customer
+    // ----------------------------------------------------
+    public async Task<
+        ServiceResult<IReadOnlyList<NotificationResponseDto>>>
+        GetNotificationsAsync(int customerId)
+    {
+        if (customerId <= 0)
         {
-            _notificationRepository = notificationRepository;
+            return ServiceResult<
+                IReadOnlyList<NotificationResponseDto>>
+                .Failure("Invalid customer ID.");
         }
 
-        // ----------------------------------------------------
-        // Create notification
-        // ----------------------------------------------------
-        public async Task<NotificationResponseDto>
-            CreateNotificationAsync(
-                CreateNotificationDto dto)
+        var notifications =
+            await _notificationRepository
+                .GetByCustomerIdAsync(customerId);
+
+        IReadOnlyList<NotificationResponseDto> response =
+            notifications
+                .Select(MapToResponseDto)
+                .ToList();
+
+        return ServiceResult<
+            IReadOnlyList<NotificationResponseDto>>
+            .Success(response);
+    }
+
+    // ----------------------------------------------------
+    // Get unread notification count
+    // ----------------------------------------------------
+    public async Task<
+        ServiceResult<UnreadNotificationCountDto>>
+        GetUnreadCountAsync(int customerId)
+    {
+        if (customerId <= 0)
         {
-            var notification = new Notification
+            return ServiceResult<
+                UnreadNotificationCountDto>
+                .Failure("Invalid customer ID.");
+        }
+
+        int count =
+            await _notificationRepository
+                .GetUnreadCountAsync(customerId);
+
+        var response =
+            new UnreadNotificationCountDto
             {
-                CustomerId = dto.CustomerId,
-
-                BookingId = dto.BookingId,
-
-                EventId = dto.EventId,
-
-                Type = dto.Type,
-
-                Title = dto.Title,
-
-                Message = dto.Message,
-
-                IsRead = false,
-
-                ReadAtUtc = null,
-
-                CreatedAt = DateTime.UtcNow
+                Count = count
             };
 
+        return ServiceResult<
+            UnreadNotificationCountDto>
+            .Success(response);
+    }
+
+    // ----------------------------------------------------
+    // Mark one notification as read
+    // ----------------------------------------------------
+    public async Task<
+        ServiceResult<NotificationResponseDto>>
+        MarkAsReadAsync(
+            int customerId,
+            int notificationId)
+    {
+        if (customerId <= 0 ||
+            notificationId <= 0)
+        {
+            return ServiceResult<
+                NotificationResponseDto>
+                .Failure("Invalid notification request.");
+        }
+
+        var notification =
             await _notificationRepository
-                .AddAsync(notification);
+                .GetByIdAsync(
+                    notificationId,
+                    customerId);
 
-            await _notificationRepository
-                .SaveChangesAsync();
-
-            return MapToResponse(notification);
+        if (notification is null)
+        {
+            return ServiceResult<
+                NotificationResponseDto>
+                .Failure("Notification was not found.");
         }
 
-        // ----------------------------------------------------
-        // Get all customer notifications
-        // ----------------------------------------------------
-        public async Task<List<NotificationResponseDto>>
-            GetCustomerNotificationsAsync(
-                int customerId)
+        if (!notification.IsRead)
         {
-            var notifications =
-                await _notificationRepository
-                    .GetByCustomerIdAsync(customerId);
-
-            return notifications
-                .Select(MapToResponse)
-                .ToList();
-        }
-
-        // ----------------------------------------------------
-        // Get unread notification count
-        // ----------------------------------------------------
-        public async Task<int>
-            GetUnreadCountAsync(
-                int customerId)
-        {
-            return await _notificationRepository
-                .GetUnreadCountAsync(customerId);
-        }
-
-        // ----------------------------------------------------
-        // Mark one notification as read
-        // ----------------------------------------------------
-        public async Task<bool>
-            MarkAsReadAsync(
-                int notificationId,
-                int customerId)
-        {
-            var notification =
-                await _notificationRepository
-                    .GetByIdAsync(notificationId);
-
-            if (notification == null)
-            {
-                return false;
-            }
-
-            // Customer can only update own notification
-            if (notification.CustomerId != customerId)
-            {
-                return false;
-            }
-
-            // Already read
-            if (notification.IsRead)
-            {
-                return true;
-            }
-
             notification.IsRead = true;
-
-            notification.ReadAtUtc =
-                DateTime.UtcNow;
+            notification.ReadAtUtc = DateTime.UtcNow;
 
             await _notificationRepository
                 .UpdateAsync(notification);
 
             await _notificationRepository
                 .SaveChangesAsync();
-
-            return true;
         }
 
-        // ----------------------------------------------------
-        // Mark all notifications as read
-        // ----------------------------------------------------
-        public async Task<int>
-            MarkAllAsReadAsync(
-                int customerId)
+        return ServiceResult<
+            NotificationResponseDto>
+            .Success(
+                MapToResponseDto(notification));
+    }
+
+    // ----------------------------------------------------
+    // Mark all customer notifications as read
+    // ----------------------------------------------------
+    public async Task<ServiceResult<bool>>
+        MarkAllAsReadAsync(int customerId)
+    {
+        if (customerId <= 0)
         {
-            var notifications =
-                await _notificationRepository
-                    .GetByCustomerIdAsync(customerId);
+            return ServiceResult<bool>
+                .Failure("Invalid customer ID.");
+        }
 
-            var unreadNotifications =
-                notifications
-                    .Where(n => !n.IsRead)
-                    .ToList();
+        var notifications =
+            await _notificationRepository
+                .GetUnreadByCustomerIdAsync(
+                    customerId);
 
-            if (unreadNotifications.Count == 0)
-            {
-                return 0;
-            }
+        if (notifications.Count == 0)
+        {
+            return ServiceResult<bool>
+                .Success(true);
+        }
 
-            foreach (var notification
-                in unreadNotifications)
-            {
-                notification.IsRead = true;
+        DateTime readAtUtc = DateTime.UtcNow;
 
-                notification.ReadAtUtc =
-                    DateTime.UtcNow;
-
-                await _notificationRepository
-                    .UpdateAsync(notification);
-            }
+        foreach (var notification in notifications)
+        {
+            notification.IsRead = true;
+            notification.ReadAtUtc = readAtUtc;
 
             await _notificationRepository
-                .SaveChangesAsync();
-
-            return unreadNotifications.Count;
+                .UpdateAsync(notification);
         }
 
-        // ----------------------------------------------------
-        // Entity -> DTO mapping
-        // ----------------------------------------------------
-        private static NotificationResponseDto
-            MapToResponse(
-                Notification notification)
+        await _notificationRepository
+            .SaveChangesAsync();
+
+        return ServiceResult<bool>
+            .Success(true);
+    }
+
+    // ----------------------------------------------------
+    // Create a notification (called by other modules)
+    // ----------------------------------------------------
+    public async Task CreateNotificationAsync(
+        CreateNotificationDto dto)
+    {
+        var notification = new Notification
         {
-            return new NotificationResponseDto
-            {
-                Id = notification.Id,
+            CustomerId = dto.CustomerId,
+            Type = dto.Type,
+            Title = dto.Title,
+            Message = dto.Message,
+            BookingId = dto.BookingId,
+            EventId = dto.EventId,
+            IsRead = false,
+            CreatedAt = DateTime.UtcNow
+        };
 
-                Type =
-                    notification.Type.ToString(),
+        await _notificationRepository.AddAsync(notification);
+        await _notificationRepository.SaveChangesAsync();
+    }
 
-                Title =
-                    notification.Title,
-
-                Message =
-                    notification.Message,
-
-                IsRead =
-                    notification.IsRead,
-
-                ReadAt =
-                    notification.ReadAtUtc,
-
-                CreatedAt =
-                    notification.CreatedAt
-            };
-        }
+    // ----------------------------------------------------
+    // Entity -> DTO mapping
+    // ----------------------------------------------------
+    private static NotificationResponseDto MapToResponseDto(
+        Notification notification)
+    {
+        return new NotificationResponseDto
+        {
+            Id = notification.Id,
+            CustomerId = notification.CustomerId,
+            BookingId = notification.BookingId,
+            EventId = notification.EventId,
+            Type = notification.Type,
+            Title = notification.Title,
+            Message = notification.Message,
+            IsRead = notification.IsRead,
+            ReadAtUtc = notification.ReadAtUtc,
+            CreatedAt = notification.CreatedAt
+        };
     }
 }
+       

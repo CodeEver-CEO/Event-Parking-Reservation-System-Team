@@ -182,8 +182,8 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                         dto.ParkingSlotId,
 
                     ParkingFee =
-                        dto.ParkingSlotId.HasValue
-                            ? eventData.ParkingFee
+                        parkingSlot != null
+                            ? parkingSlot.Fee
                             : 0,
 
                     CreatedAt =

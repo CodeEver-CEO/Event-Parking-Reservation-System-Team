@@ -1,19 +1,26 @@
-﻿namespace EventParkingReservationSystem.API.DTOs.Notifications
+﻿using EventParkingReservationSystem.API.Enums;
+
+namespace EventParkingReservationSystem.API.DTOs.Notifications;
+
+public sealed class NotificationResponseDto
 {
-    public class NotificationResponseDto
-    {
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        public string Type { get; set; } = string.Empty;
+    public int CustomerId { get; set; }
 
-        public string Title { get; set; } = string.Empty;
+    public int? BookingId { get; set; }
 
-        public string Message { get; set; } = string.Empty;
+    public int? EventId { get; set; }
 
-        public bool IsRead { get; set; }
+    public NotificationType Type { get; set; }
 
-        public DateTime? ReadAt { get; set; }
+    public string Title { get; set; } = string.Empty;
 
-        public DateTime CreatedAt { get; set; }
-    }
+    public string Message { get; set; } = string.Empty;
+
+    public bool IsRead { get; set; }
+
+    public DateTime? ReadAtUtc { get; set; }
+
+    public DateTime CreatedAt { get; set; }
 }

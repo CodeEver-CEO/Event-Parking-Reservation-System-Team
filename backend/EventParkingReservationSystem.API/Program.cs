@@ -4,7 +4,6 @@ using EventParkingReservationSystem.API.Data;
 using EventParkingReservationSystem.API.Helpers;
 using EventParkingReservationSystem.API.Repositories.Implementations;
 using EventParkingReservationSystem.API.Repositories.Interfaces;
-using EventParkingReservationSystem.API.BackgroundServices;
 using EventParkingReservationSystem.API.Services.Implementations;
 using EventParkingReservationSystem.API.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -211,6 +210,26 @@ builder.Services.AddScoped<
     INotificationRepository,
     NotificationRepository>();
 
+// Admin
+builder.Services.AddScoped<
+    IAdminRepository,
+    AdminRepository>();
+
+// Seat
+builder.Services.AddScoped<
+    ISeatRepository,
+    SeatRepository>();
+
+// Parking Slot
+builder.Services.AddScoped<
+    IParkingSlotRepository,
+    ParkingSlotRepository>();
+
+// Parking Reservation
+builder.Services.AddScoped<
+    IParkingReservationRepository,
+    ParkingReservationRepository>();
+
 
 // ============================================================
 // SERVICE DEPENDENCY INJECTION
@@ -261,6 +280,31 @@ builder.Services.AddScoped<
     INotificationService,
     NotificationService>();
 
+// Admin Authentication
+builder.Services.AddScoped<
+    IAdminAuthService,
+    AdminAuthService>();
+
+// Customer
+builder.Services.AddScoped<
+    ICustomerService,
+    CustomerService>();
+
+// Seat
+builder.Services.AddScoped<
+    ISeatService,
+    SeatService>();
+
+// Parking Slot
+builder.Services.AddScoped<
+    IParkingSlotService,
+    ParkingSlotService>();
+
+// Parking Reservation
+builder.Services.AddScoped<
+    IParkingReservationService,
+    ParkingReservationService>();
+
 
 // ============================================================
 // AUTHENTICATION HELPERS
@@ -271,6 +315,11 @@ builder.Services.AddSingleton<
 
 builder.Services.AddSingleton<
     SecureTokenGenerator>();
+
+// Admin JWT token generator
+builder.Services.AddScoped<
+    IAdminJwtTokenGenerator,
+    AdminJwtTokenGenerator>();
 
 
 // ============================================================

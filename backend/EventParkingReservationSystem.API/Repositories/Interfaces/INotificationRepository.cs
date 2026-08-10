@@ -1,19 +1,34 @@
 ﻿using EventParkingReservationSystem.API.Models;
 
-namespace EventParkingReservationSystem.API.Repositories.Interfaces
+namespace EventParkingReservationSystem.API.Repositories.Interfaces;
+
+public interface INotificationRepository
 {
-    public interface INotificationRepository
-    {
-        Task<Notification> AddAsync(Notification notification);
+    // Adds a new notification.
+    Task<Notification> AddAsync(
+        Notification notification);
 
-        Task<List<Notification>> GetByCustomerIdAsync(int customerId);
+    // Gets all notifications belonging to a customer.
+    Task<List<Notification>> GetByCustomerIdAsync(
+        int customerId);
 
-        Task<Notification?> GetByIdAsync(int notificationId);
+    // Gets one notification belonging to a specific customer.
+    Task<Notification?> GetByIdAsync(
+        int notificationId,
+        int customerId);
 
-        Task<int> GetUnreadCountAsync(int customerId);
+    // Gets the number of unread notifications.
+    Task<int> GetUnreadCountAsync(
+        int customerId);
 
-        Task UpdateAsync(Notification notification);
+    // Gets all unread notifications belonging to a customer.
+    Task<List<Notification>> GetUnreadByCustomerIdAsync(
+        int customerId);
 
-        Task SaveChangesAsync();
-    }
+    // Updates an existing notification.
+    Task UpdateAsync(
+        Notification notification);
+
+    // Saves pending database changes.
+    Task SaveChangesAsync();
 }

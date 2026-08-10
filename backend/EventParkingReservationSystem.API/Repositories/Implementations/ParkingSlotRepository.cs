@@ -44,7 +44,7 @@ public class ParkingSlotRepository : IParkingSlotRepository
         return await _context.Events
             .AsNoTracking()
             .AnyAsync(
-                eventItem => eventItem.Id == eventId,
+                eventItem => eventItem.EventId == eventId,
                 cancellationToken);
     }
 

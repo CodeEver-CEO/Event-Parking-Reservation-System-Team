@@ -12,7 +12,6 @@ builder.Services.AddControllers();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 // Database Connection
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -39,6 +38,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("FrontendPolicy");
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

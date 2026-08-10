@@ -17,7 +17,7 @@
         public string Status { get; set; }
             = string.Empty;
 
-        public DateTime HoldExpiresAt { get; set; }
+        public DateTime? HoldExpiresAt { get; set; }
 
         public List<string> Seats { get; set; }
             = new();

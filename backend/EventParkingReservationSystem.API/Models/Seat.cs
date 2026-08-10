@@ -5,7 +5,6 @@ namespace EventParkingReservationSystem.API.Models;
 
 public class Seat
 {
-    internal readonly decimal TicketPrice;
     internal bool Available;
 
     public int Id { get; set; }

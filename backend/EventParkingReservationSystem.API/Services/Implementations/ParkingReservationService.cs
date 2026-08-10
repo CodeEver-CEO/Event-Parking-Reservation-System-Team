@@ -169,7 +169,7 @@ public class ParkingReservationService
                 new ParkingReservation
                 {
                     BookingId =
-                        booking.Id,
+                        booking.BookingId,
 
                     ParkingSlotId =
                         parkingSlot.Id,

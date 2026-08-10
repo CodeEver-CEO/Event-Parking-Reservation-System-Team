@@ -78,10 +78,8 @@ namespace EventParkingReservationSystem.API.Repositories.Implementations
             if (seats.Count != seatIds.Count)
                 return false;
 
-            // Assuming your existing Seat model
-            // has IsAvailable property.
             return seats.All(s =>
-                s.Available);
+                s.Status == SeatStatus.Available);
         }
 
         public async Task<Booking>

@@ -104,7 +104,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
             }
 
             if (seats.Any(s =>
-                !s.Available))
+                s.Status != SeatStatus.Available))
             {
                 throw new Exception(
                     "One or more selected seats are unavailable.");
@@ -133,7 +133,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                         "Parking slot not found.");
                 }
 
-                if (!parkingSlot.Available)
+                if (parkingSlot.Status != ParkingSlotStatus.Available)
                 {
                     throw new Exception(
                         "Parking slot is unavailable.");
@@ -204,9 +204,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
 
             foreach (var seat in seats)
             {
-                seat.Available = false;
-
-                seat.IsAvailable = false;
+                seat.Status = SeatStatus.Held;
 
                 var bookingSeat =
                     new BookingSeat
@@ -238,8 +236,8 @@ namespace EventParkingReservationSystem.API.Services.Implementations
 
             if (parkingSlot != null)
             {
-                parkingSlot.Available =
-                    false;
+                parkingSlot.Status =
+                    ParkingSlotStatus.Held;
             }
 
 
@@ -412,11 +410,8 @@ namespace EventParkingReservationSystem.API.Services.Implementations
             foreach (var bookingSeat
                 in booking.BookingSeats)
             {
-                bookingSeat.Seat.Available =
-                    true;
-
-                bookingSeat.Seat.IsAvailable =
-                    true;
+                bookingSeat.Seat.Status =
+                    SeatStatus.Available;
 
                 bookingSeat.IsActive =
                     false;
@@ -432,8 +427,8 @@ namespace EventParkingReservationSystem.API.Services.Implementations
 
             if (booking.ParkingSlot != null)
             {
-                booking.ParkingSlot.Available =
-                    true;
+                booking.ParkingSlot.Status =
+                    ParkingSlotStatus.Available;
             }
 
 
@@ -519,11 +514,8 @@ namespace EventParkingReservationSystem.API.Services.Implementations
 
                     if (seat != null)
                     {
-                        seat.Available =
-                            true;
-
-                        seat.IsAvailable =
-                            true;
+                        seat.Status =
+                            SeatStatus.Available;
                     }
 
                     bookingSeat.IsActive =
@@ -540,8 +532,8 @@ namespace EventParkingReservationSystem.API.Services.Implementations
 
                 if (booking.ParkingSlot != null)
                 {
-                    booking.ParkingSlot.Available =
-                        true;
+                    booking.ParkingSlot.Status =
+                        ParkingSlotStatus.Available;
                 }
 
 

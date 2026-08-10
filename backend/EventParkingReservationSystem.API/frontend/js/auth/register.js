@@ -113,7 +113,9 @@ async function handleRegistration(event) {
 
         phone: phone,
 
-        password: password
+        password: password,
+
+        confirmPassword: confirmPassword
     };
 
 
@@ -123,7 +125,7 @@ async function handleRegistration(event) {
     try {
 
         await apiPost(
-            "/customers/register",
+            "/auth/register",
             registrationData
         );
 

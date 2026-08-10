@@ -6,7 +6,9 @@
 const APP_CONFIG = {
 
     // Backend API Base URL
-    API_BASE_URL: "https://localhost:7001/api",
+    // Must match the backend's launch URL (Properties/launchSettings.json).
+    // Default https profile: https://localhost:7239  (http profile: http://localhost:5197)
+    API_BASE_URL: "https://localhost:7239/api",
 
     // Application Name
     APP_NAME: "Event & Parking Reservation System",

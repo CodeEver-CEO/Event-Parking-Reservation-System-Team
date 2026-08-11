@@ -1,1 +1,379 @@
-﻿
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Event Form | EventPark
+    </title>
+
+
+    <link rel="stylesheet"
+          href="../../css/style.css">
+
+    <link rel="stylesheet"
+          href="../../css/admin.css">
+
+    <link rel="stylesheet"
+          href="../../css/responsive.css">
+
+</head>
+
+
+<body class="admin-page">
+
+
+    <div class="admin-shell">
+
+
+        <!-- Sidebar -->
+        <div id="adminSidebarContainer"></div>
+
+
+
+        <main class="admin-main">
+
+            <div class="admin-content-container">
+
+
+                <!-- =================================================
+                     HEADER
+                     ================================================= -->
+
+                <header class="admin-page-header">
+
+                    <div>
+
+                        <span class="admin-page-label">
+                            EVENT MANAGEMENT
+                        </span>
+
+                        <h1 id="adminEventFormHeading">
+                            Event Details
+                        </h1>
+
+                        <p>
+                            Create or edit an event, including its
+                            venue, category, schedule, price and capacity.
+                        </p>
+
+                    </div>
+
+
+                    <a href="events.html"
+                       class="btn btn-outline">
+                        ← Back to Events
+                    </a>
+
+                </header>
+
+
+
+                <!-- Message -->
+
+                <div id="adminEventFormMessage"
+                     class="alert hidden">
+                </div>
+
+
+
+                <!-- =================================================
+                     LOADING
+                     ================================================= -->
+
+                <div id="adminEventFormLoading"
+                     class="admin-venues-loading hidden">
+
+                    <div class="spinner"></div>
+
+                    <p>
+                        Loading event...
+                    </p>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     FORM
+                     ================================================= -->
+
+                <section class="card admin-event-form-card">
+
+                    <form id="adminEventForm"
+                          novalidate>
+
+
+                        <!-- Name -->
+
+                        <div class="form-group">
+
+                            <label for="eventFormName">
+                                Event Name
+                            </label>
+
+                            <input type="text"
+                                   id="eventFormName"
+                                   class="form-control"
+                                   placeholder="Example: Summer Music Festival">
+
+                            <small id="eventFormNameError"
+                                   class="field-error">
+                            </small>
+
+                        </div>
+
+
+
+                        <div class="admin-event-form-row">
+
+
+                            <!-- Venue -->
+
+                            <div class="form-group">
+
+                                <label for="eventFormVenue">
+                                    Venue
+                                </label>
+
+                                <select id="eventFormVenue"
+                                        class="form-control">
+                                    <option value="">
+                                        Select a venue
+                                    </option>
+                                </select>
+
+                                <small id="eventFormVenueError"
+                                       class="field-error">
+                                </small>
+
+                            </div>
+
+
+                            <!-- Category -->
+
+                            <div class="form-group">
+
+                                <label for="eventFormCategory">
+                                    Category
+                                </label>
+
+                                <select id="eventFormCategory"
+                                        class="form-control">
+                                    <option value="">
+                                        Select a category
+                                    </option>
+                                </select>
+
+                                <small id="eventFormCategoryError"
+                                       class="field-error">
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="admin-event-form-row">
+
+
+                            <!-- Date -->
+
+                            <div class="form-group">
+
+                                <label for="eventFormDate">
+                                    Event Date
+                                </label>
+
+                                <input type="date"
+                                       id="eventFormDate"
+                                       class="form-control">
+
+                                <small id="eventFormDateError"
+                                       class="field-error">
+                                </small>
+
+                            </div>
+
+
+                            <!-- Start Time -->
+
+                            <div class="form-group">
+
+                                <label for="eventFormStartTime">
+                                    Start Time
+                                </label>
+
+                                <input type="time"
+                                       id="eventFormStartTime"
+                                       class="form-control">
+
+                                <small id="eventFormStartTimeError"
+                                       class="field-error">
+                                </small>
+
+                            </div>
+
+
+                            <!-- End Time -->
+
+                            <div class="form-group">
+
+                                <label for="eventFormEndTime">
+                                    End Time
+                                </label>
+
+                                <input type="time"
+                                       id="eventFormEndTime"
+                                       class="form-control">
+
+                                <small id="eventFormEndTimeError"
+                                       class="field-error">
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="admin-event-form-row">
+
+
+                            <!-- Ticket Price -->
+
+                            <div class="form-group">
+
+                                <label for="eventFormTicketPrice">
+                                    Ticket Price (LKR)
+                                </label>
+
+                                <input type="number"
+                                       id="eventFormTicketPrice"
+                                       class="form-control"
+                                       min="0"
+                                       step="0.01"
+                                       placeholder="Example: 1500.00">
+
+                                <small id="eventFormTicketPriceError"
+                                       class="field-error">
+                                </small>
+
+                            </div>
+
+
+                            <!-- Capacity -->
+
+                            <div class="form-group">
+
+                                <label for="eventFormCapacity">
+                                    Capacity
+                                </label>
+
+                                <input type="number"
+                                       id="eventFormCapacity"
+                                       class="form-control"
+                                       min="1"
+                                       step="1"
+                                       placeholder="Must not exceed the venue capacity">
+
+                                <small id="eventFormCapacityError"
+                                       class="field-error">
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- Description -->
+
+                        <div class="form-group">
+
+                            <label for="eventFormDescription">
+                                Description (optional)
+                            </label>
+
+                            <textarea id="eventFormDescription"
+                                      class="form-control"
+                                      rows="3"
+                                      placeholder="Short description of the event"></textarea>
+
+                        </div>
+
+
+
+                        <!-- =========================================
+                             VENUE AVAILABILITY CHECK
+                             ========================================= -->
+
+                        <div class="admin-event-availability">
+
+                            <button type="button"
+                                    id="checkVenueAvailabilityButton"
+                                    class="btn btn-outline">
+                                Check Venue Availability
+                            </button>
+
+                            <div id="eventAvailabilityStatus"
+                                 class="admin-event-availability-status">
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- Actions -->
+
+                        <div class="admin-form-actions">
+
+                            <button type="submit"
+                                    id="saveAdminEventButton"
+                                    class="btn btn-primary">
+                                Save Event
+                            </button>
+
+                        </div>
+
+
+                    </form>
+
+                </section>
+
+
+            </div>
+
+        </main>
+
+
+    </div>
+
+
+
+    <!-- Confirmation Modal -->
+
+    <div id="confirmationModalContainer"></div>
+
+
+
+    <!-- JS -->
+
+    <script src="../../js/config.js"></script>
+
+    <script src="../../js/api.js"></script>
+
+    <script src="../../js/common.js"></script>
+
+    <script src="../../js/admin/event-form.js"></script>
+
+
+</body>
+
+</html>

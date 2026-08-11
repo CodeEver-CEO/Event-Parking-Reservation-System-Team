@@ -41,7 +41,7 @@ function isPublicApiEndpoint(endpoint) {
 
         "/auth/reset-password",
 
-        "/customers/register"
+        "/auth/register"
 
     ];
 

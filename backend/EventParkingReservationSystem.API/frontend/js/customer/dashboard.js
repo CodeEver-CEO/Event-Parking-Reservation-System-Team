@@ -182,7 +182,7 @@ async function loadDashboardData() {
                 ),
 
                 apiGet(
-                    `/notifications/customer/${customerId}`
+                    "/notifications"
                 )
 
             ]);

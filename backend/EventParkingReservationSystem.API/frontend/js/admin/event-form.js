@@ -645,6 +645,14 @@ function fillAdminEventForm(event) {
             event
         )
     );
+
+
+    setEventFormValue(
+        "eventFormDescription",
+        event.description ??
+            event.Description ??
+            ""
+    );
 }
 
 
@@ -764,6 +772,20 @@ function configureEventViewMode() {
    VALUES
    ========================================================= */
 
+function normalizeTimeValue(value) {
+
+    const text =
+        String(value || "").trim();
+
+    // <input type="time"> yields "HH:MM"; the API's TimeOnly needs seconds.
+    if (/^\d{2}:\d{2}$/.test(text)) {
+        return text + ":00";
+    }
+
+    return text;
+}
+
+
 function getAdminEventFormValues() {
 
     return {
@@ -789,13 +811,17 @@ function getAdminEventFormValues() {
             ),
 
         startTime:
-            getEventFormValue(
-                "eventFormStartTime"
+            normalizeTimeValue(
+                getEventFormValue(
+                    "eventFormStartTime"
+                )
             ),
 
         endTime:
-            getEventFormValue(
-                "eventFormEndTime"
+            normalizeTimeValue(
+                getEventFormValue(
+                    "eventFormEndTime"
+                )
             ),
 
         ticketPrice:
@@ -806,6 +832,11 @@ function getAdminEventFormValues() {
         capacity:
             getEventFormValue(
                 "eventFormCapacity"
+            ),
+
+        description:
+            getEventFormValue(
+                "eventFormDescription"
             )
     };
 }
@@ -1450,7 +1481,12 @@ async function saveAdminEventForm(
         capacity:
             Number(
                 values.capacity
-            )
+            ),
+
+        description:
+            values.description
+                ? String(values.description).trim()
+                : null
     };
 
 

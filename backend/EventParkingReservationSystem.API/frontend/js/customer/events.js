@@ -333,6 +333,78 @@ async function loadCategoryFilter() {
 
 
 /* =========================================================
+   CLIENT-SIDE EVENT FILTER
+   Applies the BRD search (name / date / venue / category) to the
+   events returned by the API.
+   ========================================================= */
+
+function filterEventsClientSide(events, criteria) {
+
+    const search =
+        String(criteria.search || "")
+            .trim()
+            .toLowerCase();
+
+    const date =
+        String(criteria.date || "").trim();
+
+    const venueId =
+        String(criteria.venueId || "").trim();
+
+    const categoryId =
+        String(criteria.categoryId || "").trim();
+
+
+    return (events || []).filter(function (ev) {
+
+        // Name — case-insensitive substring match.
+        if (search) {
+            const name =
+                String(ev.name || ev.Name || "")
+                    .toLowerCase();
+
+            if (!name.includes(search)) {
+                return false;
+            }
+        }
+
+        // Date — exact yyyy-mm-dd match.
+        if (date) {
+            const eventDate =
+                String(ev.eventDate || ev.EventDate || "")
+                    .slice(0, 10);
+
+            if (eventDate !== date) {
+                return false;
+            }
+        }
+
+        // Venue.
+        if (venueId) {
+            const evVenue =
+                String(ev.venueId ?? ev.VenueId ?? "");
+
+            if (evVenue !== venueId) {
+                return false;
+            }
+        }
+
+        // Category.
+        if (categoryId) {
+            const evCategory =
+                String(ev.categoryId ?? ev.CategoryId ?? "");
+
+            if (evCategory !== categoryId) {
+                return false;
+            }
+        }
+
+        return true;
+    });
+}
+
+
+/* =========================================================
    LOAD EVENTS
    ========================================================= */
 
@@ -377,89 +449,37 @@ async function loadEvents() {
 
 
 
-    /*
-     * Build query parameters.
-     */
-
-    const query =
-        new URLSearchParams();
-
-
-    if (search) {
-
-        query.append(
-            "name",
-            search
-        );
-    }
-
-
-    if (date) {
-
-        query.append(
-            "date",
-            date
-        );
-    }
-
-
-    if (venueId) {
-
-        query.append(
-            "venueId",
-            venueId
-        );
-    }
-
-
-    if (categoryId) {
-
-        query.append(
-            "categoryId",
-            categoryId
-        );
-    }
-
-
-
-    let endpoint =
-        "/events";
-
-
-    const queryString =
-        query.toString();
-
-
-    if (queryString) {
-
-        endpoint +=
-            `?${queryString}`;
-    }
-
-
-
     try {
 
         /*
-         * BRD Endpoint:
-         * GET /api/events
+         * BRD Endpoint: GET /api/events
          *
-         * Searchable/filterable by:
-         * - name
-         * - date
-         * - venue
-         * - category
+         * The backend returns the full list and does not honour
+         * query-string filters, so the name/date/venue/category search
+         * is applied on the client to satisfy the BRD requirement.
          */
 
         const response =
             await apiGet(
-                endpoint
+                "/events"
+            );
+
+
+        const allEvents =
+            normalizeEventArray(
+                response
             );
 
 
         const events =
-            normalizeEventArray(
-                response
+            filterEventsClientSide(
+                allEvents,
+                {
+                    search: search,
+                    date: date,
+                    venueId: venueId,
+                    categoryId: categoryId
+                }
             );
 
 

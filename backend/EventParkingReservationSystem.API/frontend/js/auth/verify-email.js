@@ -80,13 +80,16 @@ async function verifyEmailToken(
     try {
 
         /*
-         * BRD Endpoint:
+         * Backend endpoint:
          *
-         * GET /api/auth/verify-email?token=
+         * POST /api/auth/verify-email  { token }
          */
 
-        await apiGet(
-            `/auth/verify-email?token=${encodeURIComponent(token)}`
+        await apiPost(
+            "/auth/verify-email",
+            {
+                token: token
+            }
         );
 
 

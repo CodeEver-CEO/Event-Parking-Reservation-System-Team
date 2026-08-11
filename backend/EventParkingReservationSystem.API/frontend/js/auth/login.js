@@ -110,18 +110,54 @@ async function handleLogin(event) {
     try {
 
         /*
-         * IMPORTANT:
-         * Backend endpoint must match your API.
-         *
-         * Expected:
-         * POST /api/auth/login
+         * Customers authenticate via POST /api/auth/login.
+         * Administrators use a separate endpoint
+         * (POST /api/AdminAuth/login) with a different
+         * response shape. If the customer login is rejected
+         * with a credential error, transparently retry as an
+         * admin so a single form serves both roles.
          */
 
-        const response =
-            await apiPost(
-                "/auth/login",
-                loginData
-            );
+        let response;
+
+        try {
+
+            response =
+                await apiPost(
+                    "/auth/login",
+                    loginData
+                );
+
+        } catch (customerError) {
+
+            const canTryAdmin =
+                customerError.status === 401 ||
+                customerError.status === 400;
+
+            if (!canTryAdmin) {
+
+                throw customerError;
+            }
+
+            try {
+
+                response =
+                    await apiPost(
+                        "/AdminAuth/login",
+                        loginData
+                    );
+
+            } catch (adminError) {
+
+                /*
+                 * Neither login succeeded. Surface the original
+                 * customer error so verification / bad-credential
+                 * messages stay accurate.
+                 */
+
+                throw customerError;
+            }
+        }
 
 
         processSuccessfulLogin(
@@ -253,6 +289,7 @@ function processSuccessfulLogin(
     const role =
         response?.role ||
         response?.userRole ||
+        response?.admin?.role ||
         response?.data?.role ||
         response?.data?.userRole;
 
@@ -260,6 +297,7 @@ function processSuccessfulLogin(
     const customerId =
         response?.customerId ||
         response?.userId ||
+        response?.admin?.id ||
         response?.data?.customerId ||
         response?.data?.userId ||
         null;
@@ -268,6 +306,7 @@ function processSuccessfulLogin(
     const name =
         response?.name ||
         response?.fullName ||
+        response?.admin?.name ||
         response?.data?.name ||
         response?.data?.fullName ||
         "User";
@@ -275,6 +314,7 @@ function processSuccessfulLogin(
 
     const email =
         response?.email ||
+        response?.admin?.email ||
         response?.data?.email ||
         document
             .getElementById("email")

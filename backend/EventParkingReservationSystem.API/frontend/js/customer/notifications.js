@@ -235,9 +235,7 @@ async function loadCustomerNotifications() {
 
         const response =
             await apiGet(
-                `/notifications/customer/${encodeURIComponent(
-                    customerId
-                )}`
+                "/notifications"
             );
 
 

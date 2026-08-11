@@ -156,19 +156,6 @@ namespace EventParkingReservationSystem.API.Services.Implementations
 
 
             // ========================================================
-            // AMOUNTS
-            // ========================================================
-
-            var seatTotal =
-                seats.Sum(s => s.Price);
-
-            var parkingFee =
-                parkingSlot != null
-                    ? parkingSlot.Fee
-                    : 0m;
-
-
-            // ========================================================
             // CREATE BOOKING ENTITY
             // ========================================================
 
@@ -195,10 +182,9 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                         dto.ParkingSlotId,
 
                     ParkingFee =
-                        parkingFee,
-
-                    TotalAmount =
-                        seatTotal + parkingFee,
+                        parkingSlot != null
+                            ? parkingSlot.Fee
+                            : 0,
 
                     CreatedAt =
                         DateTime.UtcNow
@@ -252,28 +238,6 @@ namespace EventParkingReservationSystem.API.Services.Implementations
             {
                 parkingSlot.Status =
                     ParkingSlotStatus.Held;
-
-                // Persist the normalized parking allocation so the
-                // ParkingReservations table stays populated (BRD Module 5)
-                // and the expiry/cancel release paths can find it.
-                _context.ParkingReservations.Add(
-                    new ParkingReservation
-                    {
-                        BookingId =
-                            booking.BookingId,
-
-                        ParkingSlotId =
-                            parkingSlot.Id,
-
-                        FeeSnapshot =
-                            parkingSlot.Fee,
-
-                        IsActive =
-                            true,
-
-                        ReservedAtUtc =
-                            DateTime.UtcNow
-                    });
             }
 
 
@@ -392,39 +356,6 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                 return null;
             }
 
-            // HoldExpiresAtUtc is stored as a UTC wall-clock value
-            // (Kind may read back as Unspecified from the DB); subtract
-            // against UtcNow, which compares ticks and ignores Kind.
-            var now =
-                DateTime.UtcNow;
-
-            var remainingSeconds = 0;
-
-            var isExpired = false;
-
-            if (booking.Status == BookingStatus.Pending &&
-                booking.HoldExpiresAtUtc.HasValue)
-            {
-                var remaining =
-                    (booking.HoldExpiresAtUtc.Value - now)
-                        .TotalSeconds;
-
-                if (remaining <= 0)
-                {
-                    // Hold window has passed; the background expiry
-                    // service will flip the status to Expired shortly.
-                    isExpired = true;
-                }
-                else
-                {
-                    remainingSeconds = (int)Math.Floor(remaining);
-                }
-            }
-            else if (booking.Status == BookingStatus.Expired)
-            {
-                isExpired = true;
-            }
-
             return new HoldStatusDto
             {
                 BookingId =
@@ -434,13 +365,7 @@ namespace EventParkingReservationSystem.API.Services.Implementations
                     booking.Status.ToString(),
 
                 HoldExpiresAt =
-                    booking.HoldExpiresAtUtc,
-
-                RemainingSeconds =
-                    remainingSeconds,
-
-                IsExpired =
-                    isExpired
+                    booking.HoldExpiresAtUtc
             };
         }
 
@@ -504,24 +429,6 @@ namespace EventParkingReservationSystem.API.Services.Implementations
             {
                 booking.ParkingSlot.Status =
                     ParkingSlotStatus.Available;
-            }
-
-            // Deactivate the normalized parking allocation (BRD Module 5)
-            // so the ParkingReservations table reflects the cancellation.
-            var activeParkingReservation =
-                await _context.ParkingReservations
-                    .FirstOrDefaultAsync(reservation =>
-                        reservation.BookingId ==
-                            booking.BookingId &&
-                        reservation.IsActive);
-
-            if (activeParkingReservation != null)
-            {
-                activeParkingReservation.IsActive =
-                    false;
-
-                activeParkingReservation.ReleasedAtUtc =
-                    DateTime.UtcNow;
             }
 
 

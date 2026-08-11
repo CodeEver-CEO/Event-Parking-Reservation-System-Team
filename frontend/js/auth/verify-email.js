@@ -4,7 +4,7 @@
    ========================================================= */
 
 
-document.addEventListener(
+   document.addEventListener(
     "DOMContentLoaded",
     function () {
 
@@ -80,13 +80,21 @@ async function verifyEmailToken(
     try {
 
         /*
-         * BRD Endpoint:
+         * Backend Endpoint:
          *
-         * GET /api/auth/verify-email?token=
+         * POST /api/Auth/verify-email
+         *
+         * Request:
+         * {
+         *     token: "verification-token"
+         * }
          */
 
-        await apiGet(
-            `/auth/verify-email?token=${encodeURIComponent(token)}`
+        await apiPost(
+            "/auth/verify-email",
+            {
+                token: token
+            }
         );
 
 
@@ -122,7 +130,7 @@ function handleVerificationError(
 
 
     /*
-     * Common backend validation responses
+     * Invalid / expired token
      */
 
     if (error.status === 400) {
@@ -133,6 +141,10 @@ function handleVerificationError(
     }
 
 
+    /*
+     * Token/customer not found
+     */
+
     if (error.status === 404) {
 
         message =
@@ -141,11 +153,30 @@ function handleVerificationError(
     }
 
 
+    /*
+     * Already verified / conflict
+     */
+
     if (error.status === 409) {
 
         message =
             error.message ||
             "This verification link has already been used.";
+    }
+
+
+    /*
+     * Server / network error
+     */
+
+    if (
+        !error.status ||
+        error.status >= 500
+    ) {
+
+        message =
+            error.message ||
+            "Unable to verify your email. Please try again.";
     }
 
 
@@ -391,13 +422,19 @@ async function handleResendVerification(
     clearResendValidation();
 
 
+    const emailInput =
+        document.getElementById(
+            "resendEmail"
+        );
+
+
+    if (!emailInput) {
+        return;
+    }
+
+
     const email =
-        document
-            .getElementById(
-                "resendEmail"
-            )
-            .value
-            .trim();
+        emailInput.value.trim();
 
 
     if (!validateResendEmail(email)) {
@@ -411,9 +448,14 @@ async function handleResendVerification(
     try {
 
         /*
-         * BRD Endpoint:
+         * Backend Endpoint:
          *
-         * POST /api/auth/resend-verification
+         * POST /api/Auth/resend-verification
+         *
+         * Request:
+         * {
+         *     email: "customer@email.com"
+         * }
          */
 
         await apiPost(
@@ -425,7 +467,7 @@ async function handleResendVerification(
 
 
         showResendMessage(
-            "A new verification email has been sent. Please check your inbox.",
+            "A new verification request has been created. Please check the verification details provided by the system.",
             "success"
         );
 
@@ -439,9 +481,37 @@ async function handleResendVerification(
 
     } catch (error) {
 
-        showResendMessage(
+        let message =
             error.message ||
-            "Unable to send a new verification email. Please try again.",
+            "Unable to request a new verification link. Please try again.";
+
+
+        if (error.status === 400) {
+
+            message =
+                error.message ||
+                "Please check the email address and try again.";
+        }
+
+
+        if (error.status === 404) {
+
+            message =
+                error.message ||
+                "No account was found for this email address.";
+        }
+
+
+        if (error.status === 409) {
+
+            message =
+                error.message ||
+                "This account has already been verified.";
+        }
+
+
+        showResendMessage(
+            message,
             "error"
         );
 
@@ -471,6 +541,11 @@ function validateResendEmail(
         document.getElementById(
             "resendEmailError"
         );
+
+
+    if (!input || !errorElement) {
+        return false;
+    }
 
 
     if (!email) {

@@ -117,18 +117,60 @@ async function handleLogin(event) {
          * POST /api/auth/login
          */
 
-        const response =
-            await apiPost(
-                "/auth/login",
-                loginData
-            );
+        let response;
 
-
+        try {
+        
+            // First try Customer Login
+            response =
+                await apiPost(
+                    "/auth/login",
+                    loginData
+                );
+        
+        }
+        catch (customerError) {
+        
+            // If customer login fails with 401,
+            // try Admin Login
+            if (customerError.status === 401) {
+        
+                const adminResponse =
+                    await apiPost(
+                        "/AdminAuth/login",
+                        loginData
+                    );
+        
+                response = {
+        
+                    accessToken:
+                        adminResponse.accessToken,
+        
+                    role:
+                        adminResponse.admin?.role,
+        
+                    name:
+                        adminResponse.admin?.name,
+        
+                    email:
+                        adminResponse.admin?.email,
+        
+                    userId:
+                        adminResponse.admin?.id
+                };
+        
+            }
+            else {
+        
+                throw customerError;
+            }
+        }
+        
+        
         processSuccessfulLogin(
             response,
             rememberMe
         );
-
 
     } catch (error) {
 

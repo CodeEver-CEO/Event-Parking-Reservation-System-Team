@@ -17,20 +17,10 @@ namespace EventParkingReservationSystem.API.Controllers
         }
 
         // GET: api/events
-        // Optional filters (BRD Module 3): name, date, venueId, categoryId
         [HttpGet]
-        public async Task<IActionResult> GetAll(
-            [FromQuery] string? name,
-            [FromQuery] DateOnly? date,
-            [FromQuery] int? venueId,
-            [FromQuery] int? categoryId)
+        public async Task<IActionResult> GetAll()
         {
-            var events = await _eventService.GetAllAsync(
-                name,
-                date,
-                venueId,
-                categoryId);
-
+            var events = await _eventService.GetAllAsync();
             return Ok(events);
         }
 

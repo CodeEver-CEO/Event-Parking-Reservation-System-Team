@@ -4,11 +4,7 @@ namespace EventParkingReservationSystem.API.Services.Interfaces
 {
     public interface IEventService
     {
-        Task<IEnumerable<EventDto>> GetAllAsync(
-            string? name = null,
-            DateOnly? date = null,
-            int? venueId = null,
-            int? categoryId = null);
+        Task<IEnumerable<EventDto>> GetAllAsync();
 
         Task<EventDto?> GetByIdAsync(int id);
 

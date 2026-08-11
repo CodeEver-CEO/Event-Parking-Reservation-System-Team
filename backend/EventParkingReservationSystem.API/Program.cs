@@ -230,11 +230,6 @@ builder.Services.AddScoped<
     INotificationService,
     NotificationService>();
 
-// Dashboard Service
-builder.Services.AddScoped<
-    IDashboardService,
-    DashboardService>();
-
 // Module 4 - Booking Expiry Background Service
 builder.Services.AddHostedService<
     BookingExpiryService>();
@@ -410,42 +405,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-// =====================================================
-// SERVE FRONTEND (static files) FROM THE API
-// Makes the frontend available at the same origin as the
-// API (e.g. https://localhost:7239) so it works without a
-// separate static server, without CORS, and without the
-// file:// fetch problems you hit when opening HTML directly.
-// =====================================================
-var frontendPath =
-    Path.Combine(
-        app.Environment.ContentRootPath,
-        "frontend");
-
-if (Directory.Exists(frontendPath))
-{
-    var frontendFileProvider =
-        new Microsoft.Extensions.FileProviders
-            .PhysicalFileProvider(frontendPath);
-
-    // "/" serves frontend/index.html
-    app.UseDefaultFiles(new DefaultFilesOptions
-    {
-        FileProvider = frontendFileProvider,
-        RequestPath = ""
-    });
-
-    app.UseStaticFiles(new StaticFileOptions
-    {
-        FileProvider = frontendFileProvider,
-        RequestPath = ""
-    });
-
-    app.Logger.LogInformation(
-        "Serving frontend from {FrontendPath}",
-        frontendPath);
-}
 
 app.UseCors("FrontendPolicy");
 

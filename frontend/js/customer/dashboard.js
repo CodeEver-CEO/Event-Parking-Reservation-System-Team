@@ -4,7 +4,7 @@
    ========================================================= */
 
 
-document.addEventListener(
+   document.addEventListener(
     "DOMContentLoaded",
     function () {
 
@@ -19,16 +19,14 @@ document.addEventListener(
 
 async function initializeCustomerDashboard() {
 
-    /*
-     * Customer authentication check
-     */
-
     if (!validateCustomerAccess()) {
         return;
     }
 
 
     displayCustomerName();
+
+    clearDashboardError();
 
 
     await loadDashboardData();
@@ -62,11 +60,13 @@ function validateCustomerAccess() {
     }
 
 
-    if (
-        !role ||
-        role.toLowerCase() !==
-            "customer"
-    ) {
+    const normalizedRole =
+        String(role || "")
+            .trim()
+            .toLowerCase();
+
+
+    if (normalizedRole !== "customer") {
 
         window.location.href =
             "../auth/login.html";
@@ -103,6 +103,10 @@ function displayCustomerName() {
 
 
     if (!storedUser) {
+
+        nameElement.textContent =
+            "Customer";
+
         return;
     }
 
@@ -110,7 +114,9 @@ function displayCustomerName() {
     try {
 
         const user =
-            JSON.parse(storedUser);
+            JSON.parse(
+                storedUser
+            );
 
 
         nameElement.textContent =
@@ -125,6 +131,10 @@ function displayCustomerName() {
             "Unable to read customer data.",
             error
         );
+
+
+        nameElement.textContent =
+            "Customer";
     }
 }
 
@@ -134,6 +144,8 @@ function displayCustomerName() {
    ========================================================= */
 
 async function loadDashboardData() {
+
+    clearDashboardError();
 
     showDashboardLoading();
 
@@ -151,6 +163,7 @@ async function loadDashboardData() {
             "Customer information could not be found. Please login again."
         );
 
+
         return;
     }
 
@@ -158,16 +171,16 @@ async function loadDashboardData() {
     try {
 
         /*
-         * BRD provides these endpoints:
+         * Actual Backend Endpoints:
          *
-         * Bookings:
          * GET /api/bookings/customer/{customerId}
          *
-         * Payments:
          * GET /api/payments/customer/{customerId}
          *
-         * Notifications:
-         * GET /api/notifications/customer/{customerId}
+         * GET /api/notifications
+         *
+         * Notifications uses the logged-in
+         * Customer ID from the JWT token.
          */
 
         const results =
@@ -182,7 +195,7 @@ async function loadDashboardData() {
                 ),
 
                 apiGet(
-                    `/notifications/customer/${customerId}`
+                    "/notifications"
                 )
 
             ]);
@@ -215,6 +228,7 @@ async function loadDashboardData() {
 
         hideDashboardLoading();
 
+        clearDashboardError();
 
         showDashboardContent();
 
@@ -222,12 +236,42 @@ async function loadDashboardData() {
     } catch (error) {
 
         console.error(
-            "Dashboard Error:",
+            "Customer Dashboard Error:",
             error
         );
 
 
         hideDashboardLoading();
+
+
+        if (error.status === 401) {
+
+            showDashboardError(
+                "Your session has expired. Please login again."
+            );
+
+            return;
+        }
+
+
+        if (error.status === 403) {
+
+            showDashboardError(
+                "You do not have permission to access this dashboard."
+            );
+
+            return;
+        }
+
+
+        if (error.status === 404) {
+
+            showDashboardError(
+                "One of the dashboard API endpoints could not be found."
+            );
+
+            return;
+        }
 
 
         showDashboardError(
@@ -251,14 +295,10 @@ function getCustomerId() {
 
 
     if (storedCustomerId) {
+
         return storedCustomerId;
     }
 
-
-    /*
-     * Fallback:
-     * try user object
-     */
 
     const storedUser =
         localStorage.getItem(
@@ -267,6 +307,7 @@ function getCustomerId() {
 
 
     if (!storedUser) {
+
         return null;
     }
 
@@ -274,7 +315,9 @@ function getCustomerId() {
     try {
 
         const user =
-            JSON.parse(storedUser);
+            JSON.parse(
+                storedUser
+            );
 
 
         return (
@@ -287,18 +330,25 @@ function getCustomerId() {
 
     } catch (error) {
 
+        console.error(
+            "Unable to read customer ID.",
+            error
+        );
+
+
         return null;
     }
 }
 
 
 /* =========================================================
-   NORMALIZE API ARRAY RESPONSE
+   NORMALIZE API ARRAY
    ========================================================= */
 
 function normalizeArray(response) {
 
     if (Array.isArray(response)) {
+
         return response;
     }
 
@@ -307,6 +357,7 @@ function normalizeArray(response) {
         response &&
         Array.isArray(response.data)
     ) {
+
         return response.data;
     }
 
@@ -315,6 +366,7 @@ function normalizeArray(response) {
         response &&
         Array.isArray(response.items)
     ) {
+
         return response.items;
     }
 
@@ -323,6 +375,7 @@ function normalizeArray(response) {
         response &&
         Array.isArray(response.results)
     ) {
+
         return response.results;
     }
 
@@ -359,8 +412,14 @@ function renderDashboard(
         );
 
 
+    const sortedNotifications =
+        getRecentNotifications(
+            notifications
+        );
+
+
     const unreadNotifications =
-        notifications.filter(
+        sortedNotifications.filter(
             function (notification) {
 
                 return !getNotificationReadStatus(
@@ -370,7 +429,7 @@ function renderDashboard(
         );
 
 
-    /* Summary */
+    /* Summary Cards */
 
     setText(
         "upcomingBookingsCount",
@@ -396,10 +455,6 @@ function renderDashboard(
     );
 
 
-    /*
-     * Navbar notification badge
-     */
-
     updateNotificationBadge(
         unreadNotifications.length
     );
@@ -408,22 +463,34 @@ function renderDashboard(
     /* Lists */
 
     renderUpcomingBookings(
-        upcomingBookings.slice(0, 4)
+        upcomingBookings.slice(
+            0,
+            4
+        )
     );
 
 
     renderParkingReservations(
-        parkingBookings.slice(0, 4)
+        parkingBookings.slice(
+            0,
+            4
+        )
     );
 
 
     renderRecentPayments(
-        recentPayments.slice(0, 4)
+        recentPayments.slice(
+            0,
+            4
+        )
     );
 
 
     renderRecentNotifications(
-        notifications.slice(0, 4)
+        sortedNotifications.slice(
+            0,
+            4
+        )
     );
 }
 
@@ -432,9 +499,7 @@ function renderDashboard(
    UPCOMING BOOKINGS
    ========================================================= */
 
-function getUpcomingBookings(
-    bookings
-) {
+function getUpcomingBookings(bookings) {
 
     const now =
         new Date();
@@ -454,9 +519,18 @@ function getUpcomingBookings(
                     status === "cancelled" ||
                     status === "expired"
                 ) {
+
                     return false;
                 }
 
+
+                /*
+                 * Current backend BookingResponseDto
+                 * does not always contain event date.
+                 *
+                 * If event date is unavailable,
+                 * keep active booking visible.
+                 */
 
                 const eventDate =
                     getBookingEventDate(
@@ -464,19 +538,16 @@ function getUpcomingBookings(
                     );
 
 
-                /*
-                 * If API doesn't provide
-                 * event date in booking DTO,
-                 * keep active booking visible.
-                 */
-
                 if (!eventDate) {
+
                     return true;
                 }
 
 
                 const date =
-                    new Date(eventDate);
+                    new Date(
+                        eventDate
+                    );
 
 
                 if (
@@ -484,6 +555,7 @@ function getUpcomingBookings(
                         date.getTime()
                     )
                 ) {
+
                     return true;
                 }
 
@@ -494,19 +566,43 @@ function getUpcomingBookings(
         .sort(
             function (a, b) {
 
-                const first =
-                    new Date(
-                        getBookingEventDate(a) || 0
+                const firstDate =
+                    getBookingEventDate(
+                        a
                     );
 
 
-                const second =
-                    new Date(
-                        getBookingEventDate(b) || 0
+                const secondDate =
+                    getBookingEventDate(
+                        b
                     );
 
 
-                return first - second;
+                if (
+                    !firstDate &&
+                    !secondDate
+                ) {
+
+                    return 0;
+                }
+
+
+                if (!firstDate) {
+
+                    return 1;
+                }
+
+
+                if (!secondDate) {
+
+                    return -1;
+                }
+
+
+                return (
+                    new Date(firstDate) -
+                    new Date(secondDate)
+                );
             }
         );
 }
@@ -546,13 +642,46 @@ function getRecentPayments(
 
             const first =
                 new Date(
-                    getPaymentDate(a) || 0
+                    getPaymentDate(a) ||
+                    0
                 );
 
 
             const second =
                 new Date(
-                    getPaymentDate(b) || 0
+                    getPaymentDate(b) ||
+                    0
+                );
+
+
+            return second - first;
+        }
+    );
+}
+
+
+/* =========================================================
+   RECENT NOTIFICATIONS
+   ========================================================= */
+
+function getRecentNotifications(
+    notifications
+) {
+
+    return [...notifications].sort(
+        function (a, b) {
+
+            const first =
+                new Date(
+                    getNotificationDate(a) ||
+                    0
+                );
+
+
+            const second =
+                new Date(
+                    getNotificationDate(b) ||
+                    0
                 );
 
 
@@ -586,6 +715,7 @@ function renderUpcomingBookings(
         !container ||
         !emptyState
     ) {
+
         return;
     }
 
@@ -599,6 +729,7 @@ function renderUpcomingBookings(
         emptyState.classList.remove(
             "hidden"
         );
+
 
         return;
     }
@@ -691,7 +822,9 @@ function renderUpcomingBookings(
                 <div class="dashboard-booking-action">
 
                     <span class="${getBookingBadgeClass(status)}">
+
                         ${escapeHtml(status)}
+
                     </span>
 
                     <br>
@@ -699,7 +832,9 @@ function renderUpcomingBookings(
                     ${
                         bookingId
                             ? `
-                                <a href="booking-details.html?id=${encodeURIComponent(bookingId)}">
+                                <a
+                                    href="booking-details.html?id=${encodeURIComponent(bookingId)}"
+                                >
                                     View Details
                                 </a>
                               `
@@ -719,7 +854,7 @@ function renderUpcomingBookings(
 
 
 /* =========================================================
-   PARKING
+   RENDER PARKING RESERVATIONS
    ========================================================= */
 
 function renderParkingReservations(
@@ -742,6 +877,7 @@ function renderParkingReservations(
         !container ||
         !emptyState
     ) {
+
         return;
     }
 
@@ -755,6 +891,7 @@ function renderParkingReservations(
         emptyState.classList.remove(
             "hidden"
         );
+
 
         return;
     }
@@ -804,8 +941,11 @@ function renderParkingReservations(
 
                 </div>
 
+
                 <span class="dashboard-simple-value">
+
                     ${escapeHtml(parkingSlot)}
+
                 </span>
             `;
 
@@ -819,7 +959,7 @@ function renderParkingReservations(
 
 
 /* =========================================================
-   PAYMENTS
+   RENDER RECENT PAYMENTS
    ========================================================= */
 
 function renderRecentPayments(
@@ -842,6 +982,7 @@ function renderRecentPayments(
         !container ||
         !emptyState
     ) {
+
         return;
     }
 
@@ -855,6 +996,7 @@ function renderRecentPayments(
         emptyState.classList.remove(
             "hidden"
         );
+
 
         return;
     }
@@ -914,8 +1056,11 @@ function renderRecentPayments(
 
                 </div>
 
+
                 <span class="dashboard-simple-value">
+
                     ${escapeHtml(amount)}
+
                 </span>
             `;
 
@@ -929,7 +1074,7 @@ function renderRecentPayments(
 
 
 /* =========================================================
-   NOTIFICATIONS
+   RENDER RECENT NOTIFICATIONS
    ========================================================= */
 
 function renderRecentNotifications(
@@ -952,6 +1097,7 @@ function renderRecentNotifications(
         !container ||
         !emptyState
     ) {
+
         return;
     }
 
@@ -965,6 +1111,7 @@ function renderRecentNotifications(
         emptyState.classList.remove(
             "hidden"
         );
+
 
         return;
     }
@@ -1016,6 +1163,7 @@ function renderRecentNotifications(
                     >
                     </span>
 
+
                     <div>
 
                         <h4>
@@ -1044,18 +1192,22 @@ function renderRecentNotifications(
    BOOKING HELPERS
    ========================================================= */
 
-function getBookingId(booking) {
+function getBookingId(
+    booking
+) {
 
     return (
-        booking.id ||
         booking.bookingId ||
         booking.BookingId ||
+        booking.id ||
         null
     );
 }
 
 
-function getBookingNumber(booking) {
+function getBookingNumber(
+    booking
+) {
 
     return (
         booking.bookingNumber ||
@@ -1065,7 +1217,9 @@ function getBookingNumber(booking) {
 }
 
 
-function getBookingStatus(booking) {
+function getBookingStatus(
+    booking
+) {
 
     return String(
         booking.status ||
@@ -1088,6 +1242,7 @@ function getBookingStatusDisplay(
 
 
     if (!status) {
+
         return "Pending";
     }
 
@@ -1099,7 +1254,9 @@ function getBookingStatusDisplay(
 }
 
 
-function getEventName(booking) {
+function getEventName(
+    booking
+) {
 
     return (
         booking.eventName ||
@@ -1111,20 +1268,27 @@ function getEventName(booking) {
 }
 
 
-function getBookingEventDate(booking) {
+function getBookingEventDate(
+    booking
+) {
 
     return (
         booking.eventDate ||
         booking.EventDate ||
-        booking.date ||
+        booking.eventStartDateTime ||
+        booking.EventStartDateTime ||
+        booking.startDateTime ||
+        booking.StartDateTime ||
+        booking.event?.startDateTime ||
         booking.event?.date ||
-        booking.event?.eventDate ||
         null
     );
 }
 
 
-function getSeatText(booking) {
+function getSeatText(
+    booking
+) {
 
     const seats =
         booking.seats ||
@@ -1144,6 +1308,7 @@ function getSeatText(booking) {
 
 
     if (seats.length === 0) {
+
         return "-";
     }
 
@@ -1156,6 +1321,7 @@ function getSeatText(booking) {
                     typeof seat ===
                     "string"
                 ) {
+
                     return seat;
                 }
 
@@ -1172,7 +1338,13 @@ function getSeatText(booking) {
 }
 
 
-function getParkingSlot(booking) {
+/* =========================================================
+   PARKING HELPER
+   ========================================================= */
+
+function getParkingSlot(
+    booking
+) {
 
     const parking =
         booking.parkingReservation ||
@@ -1195,12 +1367,38 @@ function getParkingSlot(booking) {
     }
 
 
-    return (
+    const slotNumber =
         booking.parkingSlotNumber ||
         booking.ParkingSlotNumber ||
         booking.slotNumber ||
-        null
-    );
+        booking.SlotNumber ||
+        null;
+
+
+    if (slotNumber) {
+
+        return slotNumber;
+    }
+
+
+    /*
+     * Current backend BookingResponseDto
+     * contains ParkingSlotId.
+     */
+
+    const parkingSlotId =
+        booking.parkingSlotId ??
+        booking.ParkingSlotId ??
+        null;
+
+
+    if (parkingSlotId) {
+
+        return `Slot #${parkingSlotId}`;
+    }
+
+
+    return null;
 }
 
 
@@ -1221,19 +1419,23 @@ function getPaymentBookingNumber(
 }
 
 
-function getPaymentAmount(payment) {
+function getPaymentAmount(
+    payment
+) {
 
     return (
-        payment.amount ||
-        payment.Amount ||
-        payment.totalAmount ||
-        payment.TotalAmount ||
+        payment.totalAmount ??
+        payment.TotalAmount ??
+        payment.amount ??
+        payment.Amount ??
         0
     );
 }
 
 
-function getPaymentDate(payment) {
+function getPaymentDate(
+    payment
+) {
 
     return (
         payment.paymentDate ||
@@ -1290,38 +1492,43 @@ function getNotificationReadStatus(
 }
 
 
+function getNotificationDate(
+    notification
+) {
+
+    return (
+        notification.createdAt ||
+        notification.CreatedAt ||
+        notification.readAtUtc ||
+        notification.ReadAtUtc ||
+        null
+    );
+}
+
+
 /* =========================================================
-   BADGES
+   BOOKING BADGE
    ========================================================= */
 
-function getBookingBadgeClass(status) {
+function getBookingBadgeClass(
+    status
+) {
 
     const normalized =
         String(status)
+            .trim()
             .toLowerCase();
 
 
-    if (
-        normalized ===
-        "confirmed"
-    ) {
+    if (normalized === "confirmed") {
 
         return "badge badge-success";
     }
 
 
     if (
-        normalized ===
-        "cancelled"
-    ) {
-
-        return "badge badge-danger";
-    }
-
-
-    if (
-        normalized ===
-        "expired"
+        normalized === "cancelled" ||
+        normalized === "expired"
     ) {
 
         return "badge badge-danger";
@@ -1347,15 +1554,20 @@ function updateNotificationBadge(
 
 
     if (!badge) {
+
         return;
     }
 
 
     if (count <= 0) {
 
+        badge.textContent =
+            "";
+
         badge.classList.add(
             "hidden"
         );
+
 
         return;
     }
@@ -1377,15 +1589,20 @@ function updateNotificationBadge(
    DATE FORMAT
    ========================================================= */
 
-function formatDate(value) {
+function formatDate(
+    value
+) {
 
     if (!value) {
+
         return "Date not available";
     }
 
 
     const date =
-        new Date(value);
+        new Date(
+            value
+        );
 
 
     if (
@@ -1394,16 +1611,23 @@ function formatDate(value) {
         )
     ) {
 
-        return String(value);
+        return String(
+            value
+        );
     }
 
 
     return date.toLocaleDateString(
         "en-LK",
         {
-            year: "numeric",
-            month: "short",
-            day: "numeric"
+            year:
+                "numeric",
+
+            month:
+                "short",
+
+            day:
+                "numeric"
         }
     );
 }
@@ -1413,14 +1637,20 @@ function formatDate(value) {
    CURRENCY
    ========================================================= */
 
-function formatCurrency(value) {
+function formatCurrency(
+    value
+) {
 
     const amount =
-        Number(value);
+        Number(
+            value
+        );
 
 
     if (
-        Number.isNaN(amount)
+        Number.isNaN(
+            amount
+        )
     ) {
 
         return "LKR 0.00";
@@ -1430,11 +1660,21 @@ function formatCurrency(value) {
     return new Intl.NumberFormat(
         "en-LK",
         {
-            style: "currency",
-            currency: "LKR",
-            minimumFractionDigits: 2
+            style:
+                "currency",
+
+            currency:
+                "LKR",
+
+            minimumFractionDigits:
+                2,
+
+            maximumFractionDigits:
+                2
         }
-    ).format(amount);
+    ).format(
+        amount
+    );
 }
 
 
@@ -1453,11 +1693,14 @@ function setText(
         );
 
 
-    if (element) {
+    if (!element) {
 
-        element.textContent =
-            value;
+        return;
     }
+
+
+    element.textContent =
+        value ?? "";
 }
 
 
@@ -1465,7 +1708,9 @@ function setText(
    HTML ESCAPE
    ========================================================= */
 
-function escapeHtml(value) {
+function escapeHtml(
+    value
+) {
 
     const div =
         document.createElement(
@@ -1482,7 +1727,7 @@ function escapeHtml(value) {
 
 
 /* =========================================================
-   LOADING
+   SHOW LOADING
    ========================================================= */
 
 function showDashboardLoading() {
@@ -1516,6 +1761,10 @@ function showDashboardLoading() {
 }
 
 
+/* =========================================================
+   HIDE LOADING
+   ========================================================= */
+
 function hideDashboardLoading() {
 
     const loading =
@@ -1532,6 +1781,10 @@ function hideDashboardLoading() {
     }
 }
 
+
+/* =========================================================
+   SHOW DASHBOARD CONTENT
+   ========================================================= */
 
 function showDashboardContent() {
 
@@ -1551,10 +1804,12 @@ function showDashboardContent() {
 
 
 /* =========================================================
-   ERROR
+   DASHBOARD ERROR
    ========================================================= */
 
-function showDashboardError(message) {
+function showDashboardError(
+    message
+) {
 
     const messageElement =
         document.getElementById(
@@ -1563,6 +1818,7 @@ function showDashboardError(message) {
 
 
     if (!messageElement) {
+
         return;
     }
 
@@ -1573,4 +1829,31 @@ function showDashboardError(message) {
 
     messageElement.className =
         "alert alert-error";
+}
+
+
+/* =========================================================
+   CLEAR DASHBOARD ERROR
+   ========================================================= */
+
+function clearDashboardError() {
+
+    const messageElement =
+        document.getElementById(
+            "dashboardMessage"
+        );
+
+
+    if (!messageElement) {
+
+        return;
+    }
+
+
+    messageElement.textContent =
+        "";
+
+
+    messageElement.className =
+        "alert hidden";
 }

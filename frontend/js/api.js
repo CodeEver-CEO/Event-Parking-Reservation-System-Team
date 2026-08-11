@@ -33,6 +33,8 @@ function isPublicApiEndpoint(endpoint) {
 
         "/auth/login",
 
+        "/adminauth/login",
+
         "/auth/verify-email",
 
         "/auth/resend-verification",

@@ -4,7 +4,7 @@
    ========================================================= */
 
 
-document.addEventListener(
+   document.addEventListener(
     "DOMContentLoaded",
     function () {
 
@@ -103,7 +103,21 @@ async function handleRegistration(event) {
 
 
 
-    /* Data sent to Backend */
+    /* =====================================================
+       DATA SENT TO BACKEND
+
+       Backend Endpoint:
+       POST /api/Auth/register
+
+       Expected Request:
+       {
+           name,
+           email,
+           phone,
+           password,
+           confirmPassword
+       }
+       ===================================================== */
 
     const registrationData = {
 
@@ -113,7 +127,9 @@ async function handleRegistration(event) {
 
         phone: phone,
 
-        password: password
+        password: password,
+
+        confirmPassword: confirmPassword
     };
 
 
@@ -123,7 +139,7 @@ async function handleRegistration(event) {
     try {
 
         await apiPost(
-            "/customers/register",
+            "/auth/register",
             registrationData
         );
 
@@ -143,7 +159,8 @@ async function handleRegistration(event) {
 
         /*
          * Give the customer time to read
-         * the success message.
+         * the success message before
+         * redirecting to login.
          */
 
         setTimeout(
@@ -561,8 +578,8 @@ function handleRegistrationError(
 
 
     /*
-       409 Conflict could be returned
-       when email already exists.
+       409 Conflict:
+       Email may already exist.
     */
 
     if (error.status === 409) {
@@ -573,11 +590,31 @@ function handleRegistrationError(
     }
 
 
+    /*
+       400 Bad Request:
+       Validation error from backend.
+    */
+
     if (error.status === 400) {
 
         message =
             error.message ||
             "Please check your details and try again.";
+    }
+
+
+    /*
+       Server / connection error.
+    */
+
+    if (
+        !error.status ||
+        error.status >= 500
+    ) {
+
+        message =
+            error.message ||
+            "Unable to connect to the server. Please try again.";
     }
 
 

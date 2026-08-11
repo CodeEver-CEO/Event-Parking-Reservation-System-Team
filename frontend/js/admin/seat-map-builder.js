@@ -836,11 +836,10 @@ function renderSeatMapSummary() {
    GENERATOR STATE
    ========================================================= */
 
-function configureSeatMapGenerator() {
+   function configureSeatMapGenerator() {
 
     const existing =
-        adminSeatMapSeats.length >
-        0;
+        adminSeatMapSeats.length > 0;
 
 
     const warning =
@@ -867,6 +866,14 @@ function configureSeatMapGenerator() {
         );
 
 
+    const capacityStatus =
+        document.getElementById(
+            "seatCapacityMatchStatus"
+        );
+
+
+    /* Existing seat map warning */
+
     if (warning) {
 
         warning.classList.toggle(
@@ -875,6 +882,8 @@ function configureSeatMapGenerator() {
         );
     }
 
+
+    /* Disable generator controls when map already exists */
 
     if (generateButton) {
 
@@ -897,16 +906,99 @@ function configureSeatMapGenerator() {
     }
 
 
+    /* =====================================================
+       NEW EVENT - NO SEAT MAP YET
+       ===================================================== */
+
     if (!existing) {
 
         createSuggestedSeatRows();
 
+        return;
+    }
+
+
+    /* =====================================================
+       EXISTING SEAT MAP
+       ===================================================== */
+
+    clearSeatConfigurationRows();
+
+
+    const existingSeatCount =
+        adminSeatMapSeats.length;
+
+
+    const eventCapacity =
+        getSeatMapEventCapacity(
+            selectedSeatMapEvent
+        );
+
+
+    /*
+     * FIX:
+     * Existing map இருந்தால் Configured Seats
+     * 0 ஆக காட்டக்கூடாது.
+     */
+
+    setSeatMapText(
+        "seatConfiguredCount",
+        existingSeatCount
+    );
+
+
+    if (!capacityStatus) {
+        return;
+    }
+
+
+    capacityStatus.className =
+        "admin-seat-capacity-status";
+
+
+    if (
+        existingSeatCount ===
+        eventCapacity
+    ) {
+
+        capacityStatus.textContent =
+            "Existing Map ✓";
+
+
+        capacityStatus.classList.add(
+            "match"
+        );
+
+
+        return;
+    }
+
+
+    const difference =
+        eventCapacity -
+        existingSeatCount;
+
+
+    if (difference > 0) {
+
+        capacityStatus.textContent =
+            `${difference} seats missing`;
+
+    } else if (difference < 0) {
+
+        capacityStatus.textContent =
+            `${Math.abs(difference)} seats over capacity`;
+
     } else {
 
-        clearSeatConfigurationRows();
-
-        updateSeatConfigurationTotal();
+        capacityStatus.textContent =
+            "Existing Map";
     }
+
+
+    capacityStatus.classList.add(
+        "invalid"
+    );
 }
 
 
@@ -916,9 +1008,13 @@ function configureSeatMapGenerator() {
 
 function createSuggestedSeatRows() {
 
+    /*
+     * Existing map இருந்தால் புதிய rows
+     * automatically create பண்ண வேண்டாம்.
+     */
+
     if (
-        adminSeatMapSeats.length >
-        0
+        adminSeatMapSeats.length > 0
     ) {
 
         return;
@@ -943,11 +1039,11 @@ function createSuggestedSeatRows() {
 
 
     /*
-     * Simple readable layout:
-     * maximum 20 seats per row.
+     * Maximum 20 seats per row.
      *
      * Example:
-     * Capacity 50
+     * Capacity = 50
+     *
      * A = 20
      * B = 20
      * C = 10
@@ -1111,6 +1207,9 @@ function addSeatConfigurationRow(
 }
 
 
+/* =========================================================
+   ROW LABELS
+   ========================================================= */
 /* =========================================================
    ROW LABELS
    ========================================================= */
@@ -1590,25 +1689,9 @@ async function generateAdminSeatMap() {
    GENERATE REQUEST ADAPTER
    ========================================================= */
 
-function buildSeatMapGenerateRequest(
+   function buildSeatMapGenerateRequest(
     rows
 ) {
-
-    /*
-     * Row-based DTO:
-     *
-     * {
-     *   rows: [
-     *     {
-     *       seatCount: 20,
-     *       rowPrice: 2500
-     *     }
-     *   ]
-     * }
-     *
-     * If Swagger uses a different DTO,
-     * change ONLY this function.
-     */
 
     return {
 
@@ -1622,7 +1705,10 @@ function buildSeatMapGenerateRequest(
                             row.seatCount,
 
                         rowPrice:
-                            row.rowPrice
+                            row.rowPrice,
+
+                        seatType:
+                            "Regular"
                     };
                 }
             )

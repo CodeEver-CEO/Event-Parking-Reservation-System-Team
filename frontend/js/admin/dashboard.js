@@ -3,22 +3,14 @@
    Administrator Dashboard
    ========================================================= */
 
-
-/* =========================================================
-   START
-   ========================================================= */
-
-document.addEventListener(
+   document.addEventListener(
     "DOMContentLoaded",
-    function () {
-
-        initializeAdminDashboard();
-    }
+    initializeAdminDashboard
 );
 
 
 /* =========================================================
-   INITIALIZE
+   INITIALIZE DASHBOARD
    ========================================================= */
 
 async function initializeAdminDashboard() {
@@ -27,14 +19,25 @@ async function initializeAdminDashboard() {
         return;
     }
 
+    try {
 
-    await loadAdminSidebar();
+        await loadAdminSidebar();
 
+        displayAdminInformation();
 
-    displayAdminInformation();
+        await loadAdminDashboardStatistics();
 
+    } catch (error) {
 
-    await loadAdminDashboardStatistics();
+        console.error(
+            "Admin dashboard initialization error:",
+            error
+        );
+
+        showAdminDashboardMessage(
+            "Unable to initialize the admin dashboard."
+        );
+    }
 }
 
 
@@ -48,7 +51,6 @@ function validateAdminDashboardAccess() {
         localStorage.getItem(
             APP_CONFIG.STORAGE_KEYS.TOKEN
         );
-
 
     const role =
         localStorage.getItem(
@@ -71,10 +73,12 @@ function validateAdminDashboardAccess() {
             .toLowerCase();
 
 
-    if (
-        normalizedRole !== "admin" &&
-        normalizedRole !== "administrator"
-    ) {
+    const isAdmin =
+        normalizedRole === "admin" ||
+        normalizedRole === "administrator";
+
+
+    if (!isAdmin) {
 
         window.location.href =
             "../auth/login.html";
@@ -88,26 +92,36 @@ function validateAdminDashboardAccess() {
 
 
 /* =========================================================
-   LOAD SIDEBAR
+   LOAD ADMIN SIDEBAR
    ========================================================= */
 
 async function loadAdminSidebar() {
 
-    await loadComponent(
-        "adminSidebarContainer",
-        "components/admin-sidebar.html"
-    );
+    try {
+
+        await loadComponent(
+            "adminSidebarContainer",
+            "components/admin-sidebar.html"
+        );
 
 
-    setActiveAdminSidebarPage(
-        "dashboard"
-    );
+        setActiveAdminSidebarPage(
+            "dashboard"
+        );
 
 
-    initializeAdminSidebarLogout();
+        initializeAdminSidebarLogout();
 
 
-    displayAdminInformation();
+        displayAdminInformation();
+
+    } catch (error) {
+
+        console.error(
+            "Unable to load admin sidebar:",
+            error
+        );
+    }
 }
 
 
@@ -115,9 +129,7 @@ async function loadAdminSidebar() {
    ACTIVE SIDEBAR PAGE
    ========================================================= */
 
-function setActiveAdminSidebarPage(
-    page
-) {
+function setActiveAdminSidebarPage(page) {
 
     const links =
         document.querySelectorAll(
@@ -148,7 +160,7 @@ function setActiveAdminSidebarPage(
 
 
 /* =========================================================
-   SIDEBAR LOGOUT
+   ADMIN SIDEBAR LOGOUT
    ========================================================= */
 
 function initializeAdminSidebarLogout() {
@@ -172,16 +184,13 @@ function initializeAdminSidebarLogout() {
                 APP_CONFIG.STORAGE_KEYS.TOKEN
             );
 
-
             localStorage.removeItem(
                 APP_CONFIG.STORAGE_KEYS.USER
             );
 
-
             localStorage.removeItem(
                 APP_CONFIG.STORAGE_KEYS.ROLE
             );
-
 
             localStorage.removeItem(
                 APP_CONFIG.STORAGE_KEYS.CUSTOMER_ID
@@ -199,7 +208,7 @@ function initializeAdminSidebarLogout() {
 
 
 /* =========================================================
-   ADMIN INFORMATION
+   DISPLAY ADMIN INFORMATION
    ========================================================= */
 
 function displayAdminInformation() {
@@ -219,24 +228,21 @@ function displayAdminInformation() {
         try {
 
             const user =
-                JSON.parse(storedUser);
+                JSON.parse(
+                    storedUser
+                );
 
 
             name =
-
                 user.name ||
-
                 user.fullName ||
-
                 user.username ||
-
                 "Administrator";
-
 
         } catch (error) {
 
             console.error(
-                "Invalid admin user data.",
+                "Invalid admin user data:",
                 error
             );
         }
@@ -257,7 +263,7 @@ function displayAdminInformation() {
 
 
 /* =========================================================
-   LOAD DASHBOARD
+   LOAD DASHBOARD STATISTICS
    ========================================================= */
 
 async function loadAdminDashboardStatistics() {
@@ -270,19 +276,12 @@ async function loadAdminDashboardStatistics() {
     try {
 
         /*
-         * IMPORTANT:
+         * Backend Endpoint:
          *
-         * The BRD defines the required
-         * dashboard statistics, but it does
-         * not define a specific REST endpoint
-         * for the dashboard.
+         * GET /api/Dashboard/admin
          *
-         * For this frontend we use:
-         *
-         * GET /api/dashboard/admin
-         *
-         * Match this route with the actual
-         * backend Swagger implementation.
+         * apiGet() automatically uses API_BASE_URL,
+         * therefore only /dashboard/admin is required here.
          */
 
         const response =
@@ -310,29 +309,41 @@ async function loadAdminDashboardStatistics() {
     } catch (error) {
 
         console.error(
-            "Admin Dashboard Error:",
+            "Admin Dashboard API Error:",
             error
         );
 
 
         hideAdminDashboardLoading();
 
-
-        /*
-         * Do not invent fake statistics
-         * when backend dashboard data is
-         * unavailable.
-         */
-
         showAdminDashboardContent();
+
+
+        if (error.status === 401) {
+
+            showAdminDashboardMessage(
+                "Your session has expired. Please login again."
+            );
+
+            return;
+        }
+
+
+        if (error.status === 403) {
+
+            showAdminDashboardMessage(
+                "You are not authorized to access the admin dashboard."
+            );
+
+            return;
+        }
 
 
         if (error.status === 404) {
 
             showAdminDashboardMessage(
-                "The admin dashboard API endpoint was not found. Check your Swagger route for the dashboard statistics endpoint."
+                "The admin dashboard API endpoint was not found."
             );
-
 
             return;
         }
@@ -347,7 +358,7 @@ async function loadAdminDashboardStatistics() {
 
 
 /* =========================================================
-   NORMALIZE RESPONSE
+   NORMALIZE API RESPONSE
    ========================================================= */
 
 function normalizeAdminDashboardResponse(
@@ -355,26 +366,21 @@ function normalizeAdminDashboardResponse(
 ) {
 
     if (!response) {
-
         return {};
     }
 
 
     return (
-
         response.data ||
-
         response.dashboard ||
-
         response.statistics ||
-
         response
     );
 }
 
 
 /* =========================================================
-   RENDER DASHBOARD
+   RENDER DASHBOARD STATISTICS
    ========================================================= */
 
 function renderAdminDashboardStatistics(
@@ -383,45 +389,57 @@ function renderAdminDashboardStatistics(
 
     setAdminDashboardText(
         "adminTotalEvents",
-        getAdminTotalEvents(data)
+        getAdminTotalEvents(
+            data
+        )
     );
 
 
     setAdminDashboardText(
         "adminTotalBookings",
-        getAdminTotalBookings(data)
+        getAdminTotalBookings(
+            data
+        )
     );
 
 
     setAdminDashboardText(
         "adminAvailableSeats",
-        getAdminAvailableSeats(data)
+        getAdminAvailableSeats(
+            data
+        )
     );
 
 
     setAdminDashboardText(
         "adminOccupiedParking",
-        getAdminOccupiedParking(data)
+        getAdminOccupiedParking(
+            data
+        )
     );
 
 
     setAdminDashboardText(
         "adminTotalRevenue",
         formatAdminCurrency(
-            getAdminTotalRevenue(data)
+            getAdminTotalRevenue(
+                data
+            )
         )
     );
 
 
     setAdminDashboardText(
         "adminTotalCustomers",
-        getAdminTotalCustomers(data)
+        getAdminTotalCustomers(
+            data
+        )
     );
 }
 
 
 /* =========================================================
-   METRIC HELPERS
+   TOTAL EVENTS
    ========================================================= */
 
 function getAdminTotalEvents(data) {
@@ -441,6 +459,10 @@ function getAdminTotalEvents(data) {
 }
 
 
+/* =========================================================
+   TOTAL BOOKINGS
+   ========================================================= */
+
 function getAdminTotalBookings(data) {
 
     return normalizeAdminNumber(
@@ -458,6 +480,10 @@ function getAdminTotalBookings(data) {
 }
 
 
+/* =========================================================
+   AVAILABLE SEATS
+   ========================================================= */
+
 function getAdminAvailableSeats(data) {
 
     return normalizeAdminNumber(
@@ -474,6 +500,10 @@ function getAdminAvailableSeats(data) {
     );
 }
 
+
+/* =========================================================
+   OCCUPIED PARKING
+   ========================================================= */
 
 function getAdminOccupiedParking(data) {
 
@@ -496,6 +526,10 @@ function getAdminOccupiedParking(data) {
 }
 
 
+/* =========================================================
+   TOTAL REVENUE
+   ========================================================= */
+
 function getAdminTotalRevenue(data) {
 
     return normalizeAdminNumber(
@@ -517,6 +551,10 @@ function getAdminTotalRevenue(data) {
 }
 
 
+/* =========================================================
+   TOTAL CUSTOMERS
+   ========================================================= */
+
 function getAdminTotalCustomers(data) {
 
     return normalizeAdminNumber(
@@ -535,32 +573,48 @@ function getAdminTotalCustomers(data) {
 
 
 /* =========================================================
-   NUMBER
+   NORMALIZE NUMBER
    ========================================================= */
 
 function normalizeAdminNumber(value) {
 
     const number =
-        Number(value);
+        Number(
+            value
+        );
 
 
-    return Number.isNaN(number)
-        ? 0
-        : number;
+    if (
+        Number.isNaN(
+            number
+        )
+    ) {
+
+        return 0;
+    }
+
+
+    return number;
 }
 
 
 /* =========================================================
-   CURRENCY
+   FORMAT CURRENCY
    ========================================================= */
 
 function formatAdminCurrency(value) {
 
     const amount =
-        Number(value);
+        Number(
+            value
+        );
 
 
-    if (Number.isNaN(amount)) {
+    if (
+        Number.isNaN(
+            amount
+        )
+    ) {
 
         return "LKR 0.00";
     }
@@ -576,14 +630,19 @@ function formatAdminCurrency(value) {
                 "LKR",
 
             minimumFractionDigits:
+                2,
+
+            maximumFractionDigits:
                 2
         }
-    ).format(amount);
+    ).format(
+        amount
+    );
 }
 
 
 /* =========================================================
-   TEXT
+   SET TEXT
    ========================================================= */
 
 function setAdminDashboardText(
@@ -597,16 +656,18 @@ function setAdminDashboardText(
         );
 
 
-    if (element) {
-
-        element.textContent =
-            value ?? "";
+    if (!element) {
+        return;
     }
+
+
+    element.textContent =
+        value ?? "";
 }
 
 
 /* =========================================================
-   LOADING
+   SHOW LOADING
    ========================================================= */
 
 function showAdminDashboardLoading() {
@@ -640,6 +701,10 @@ function showAdminDashboardLoading() {
 }
 
 
+/* =========================================================
+   HIDE LOADING
+   ========================================================= */
+
 function hideAdminDashboardLoading() {
 
     const loading =
@@ -656,6 +721,10 @@ function hideAdminDashboardLoading() {
     }
 }
 
+
+/* =========================================================
+   SHOW CONTENT
+   ========================================================= */
 
 function showAdminDashboardContent() {
 
@@ -675,7 +744,7 @@ function showAdminDashboardContent() {
 
 
 /* =========================================================
-   MESSAGE
+   SHOW ERROR MESSAGE
    ========================================================= */
 
 function showAdminDashboardMessage(
@@ -689,7 +758,6 @@ function showAdminDashboardMessage(
 
 
     if (!element) {
-
         return;
     }
 
@@ -703,6 +771,10 @@ function showAdminDashboardMessage(
 }
 
 
+/* =========================================================
+   CLEAR MESSAGE
+   ========================================================= */
+
 function clearAdminDashboardMessage() {
 
     const element =
@@ -712,7 +784,6 @@ function clearAdminDashboardMessage() {
 
 
     if (!element) {
-
         return;
     }
 

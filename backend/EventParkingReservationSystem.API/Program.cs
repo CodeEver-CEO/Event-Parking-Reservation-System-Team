@@ -230,11 +230,6 @@ builder.Services.AddScoped<
     INotificationService,
     NotificationService>();
 
-// Dashboard Service
-builder.Services.AddScoped<
-    IDashboardService,
-    DashboardService>();
-
 // Module 4 - Booking Expiry Background Service
 builder.Services.AddHostedService<
     BookingExpiryService>();

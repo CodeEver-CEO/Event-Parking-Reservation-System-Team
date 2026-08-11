@@ -35,12 +35,53 @@ namespace EventParkingReservationSystem.API.Services.Implementations
         // GET ALL EVENTS
         // ============================================================
 
-        public async Task<IEnumerable<EventDto>> GetAllAsync()
+        public async Task<IEnumerable<EventDto>> GetAllAsync(
+            string? name = null,
+            DateOnly? date = null,
+            int? venueId = null,
+            int? categoryId = null)
         {
             var events =
                 await _eventRepository.GetAllAsync();
 
-            return events.Select(MapToDto);
+            var query = events.AsEnumerable();
+
+            // ========================================================
+            // OPTIONAL FILTERS (BRD Module 3)
+            // ========================================================
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                var trimmedName = name.Trim();
+
+                query = query.Where(e =>
+                    !string.IsNullOrEmpty(e.Name) &&
+                    e.Name.Contains(
+                        trimmedName,
+                        StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (date.HasValue)
+            {
+                query = query.Where(e =>
+                    e.EventDate == date.Value);
+            }
+
+            if (venueId.HasValue)
+            {
+                query = query.Where(e =>
+                    e.VenueId == venueId.Value);
+            }
+
+            if (categoryId.HasValue)
+            {
+                query = query.Where(e =>
+                    e.CategoryId == categoryId.Value);
+            }
+
+            return query
+                .Select(MapToDto)
+                .ToList();
         }
 
         // ============================================================
